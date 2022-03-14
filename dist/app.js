@@ -1,59 +1,26 @@
-let playerContainerElement = document.querySelector(".player");
-let moveUnit = 100;
+import Brick from "./classes/brick.js";
 let keyLeftPressed = false;
 let keyRightPressed = false;
-window.addEventListener('load', () => {
-    //playerContainerElement.style.position = 'absolute';
-    playerContainerElement.style.marginLeft = 'auto';
-    playerContainerElement.style.marginRight = 'auto';
-    playerContainerElement.style.left = '0';
-    playerContainerElement.style.right = '0';
-    playerContainerElement.style.top = '0';
-});
 // FFR - for future refactor
 window.addEventListener('keydown', (e) => {
-    // let width: number = window.innerWidth;
-    // let leftOfPlayer: number = parseInt(playerContainerElement.style.left);
-    // let playerWidth: number = 150; // value taken from css file 
-    // let playerCenter: number = playerWidth / 2 + leftOfPlayer;
-    // if (playerCenter > width / 2) {
-    //     playerContainerElement.style.left = parseInt(playerContainerElement.style.left) - moveUnit + "px";
-    // } else if (playerCenter < -(width / 2)) {
-    //     playerContainerElement.style.left = parseInt(playerContainerElement.style.left) + moveUnit + "px";
-    // } else {
     switch (e.key) {
         case 'ArrowLeft':
-            playerContainerElement.style.left = parseInt(playerContainerElement.style.left) - moveUnit + "px";
             keyLeftPressed = true;
             break;
         case "ArrowRight":
-            playerContainerElement.style.left = parseInt(playerContainerElement.style.left) + moveUnit + "px";
             keyRightPressed = true;
             break;
     }
-    // }
 });
 window.addEventListener('keyup', (e) => {
-    // let width: number = window.innerWidth;
-    // let leftOfPlayer: number = parseInt(playerContainerElement.style.left);
-    // let playerWidth: number = 150; // value taken from css file 
-    // let playerCenter: number = playerWidth / 2 + leftOfPlayer;
-    // if (playerCenter > width / 2) {
-    //     playerContainerElement.style.left = parseInt(playerContainerElement.style.left) - moveUnit + "px";
-    // } else if (playerCenter < -(width / 2)) {
-    //     playerContainerElement.style.left = parseInt(playerContainerElement.style.left) + moveUnit + "px";
-    // } else {
     switch (e.key) {
         case 'ArrowLeft':
-            playerContainerElement.style.left = parseInt(playerContainerElement.style.left) - moveUnit + "px";
             keyLeftPressed = false;
             break;
         case "ArrowRight":
-            playerContainerElement.style.left = parseInt(playerContainerElement.style.left) + moveUnit + "px";
             keyRightPressed = false;
             break;
     }
-    // }
 });
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
@@ -75,13 +42,25 @@ function drawBall() {
 const drawPlayer = () => {
     ctx.beginPath();
     ctx.rect(playerX, canvas.height - playerHeight, playerWidth, playerHeight);
+    ctx.fillStyle = "pink";
+    ctx.fill();
     ctx.stroke();
     ctx.closePath();
 };
+// const brick = new Brick(ctx);
+const allXCoordinates = [];
+const allYCoordinates = [];
+const bricks = [];
+for (let i = 0; i < 30; i++) {
+    bricks[i] = new Brick(ctx, allXCoordinates, allYCoordinates);
+}
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPlayer();
     drawBall();
+    for (let i = 0; i < 30; i++) {
+        bricks[i].drawBrick();
+    }
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
         dx = -dx;
     }
@@ -90,8 +69,6 @@ function draw() {
     }
     if (keyRightPressed) {
         playerX += 5;
-        console.log(playerX + playerWidth);
-        console.log(canvas.width);
         if (playerX + playerWidth > canvas.width) {
             playerX = canvas.width - playerWidth;
         }
@@ -107,6 +84,7 @@ function draw() {
 }
 setInterval(draw, 10);
 //notes for future development
-//create game class or sth like that that will handle core logic of the game - drawing everyting creating objects and calling methods from objects
+//create game class or sth like that that will handle core logic of the game
+//drawing everyting creating objects and calling methods from objects
 //create player class with methods to move
 //create brick class: if collision happen brick is being removed
