@@ -1,5 +1,9 @@
 .player {
     width: 150px;
     color: transparent;
+    background-color: transparent;
+}
+
+#myCanvas {
     background-color: yellow;
 }
