@@ -2,28 +2,20 @@ export default class Brick {
     public ctx: CanvasRenderingContext2D;
     public width: number;
     public height: number;
-    public xCoordinate: number;
-    public yCoordinate: number;
+    public x: number;
+    public y: number;
+    public status: number;
 
     protected color: string;
 
-    constructor(
-        ctx: CanvasRenderingContext2D,
-        allXCoordinates: Array<number>,
-        allYCoordinates: Array<number>        
-        ) {
+    constructor(ctx: CanvasRenderingContext2D, x: number, y:number, status: number) {
         this.ctx = ctx;
         this.width = 50;
         this.height = 10;
-        this.color = this.randColor();
-        this.xCoordinate = this.getCoordinates(
-            allXCoordinates,
-            allYCoordinates          
-        ).x;
-        this.yCoordinate = this.getCoordinates(
-            allXCoordinates,
-            allYCoordinates          
-        ).y;     
+        this.x = x;
+        this.y = y;
+        this.status = status;
+        this.color = this.randColor(); 
     }
 
     //two helpful methods
@@ -31,11 +23,12 @@ export default class Brick {
     //2.rand coordinates in the upside area
     //considerating currently drawn bricks
     drawBrick() {
+        //console.log(this.x)
         this.ctx.beginPath();
         this.ctx.fillStyle = this.color;
         this.ctx.rect(
-            this.xCoordinate,
-            this.yCoordinate,
+            this.x,
+            this.y,
             this.width,
             this.height    
         );

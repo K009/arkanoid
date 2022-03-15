@@ -1,20 +1,22 @@
 export default class Brick {
-    constructor(ctx, allXCoordinates, allYCoordinates) {
+    constructor(ctx, x, y, status) {
         this.ctx = ctx;
         this.width = 50;
         this.height = 10;
+        this.x = x;
+        this.y = y;
+        this.status = status;
         this.color = this.randColor();
-        this.xCoordinate = this.getCoordinates(allXCoordinates, allYCoordinates).x;
-        this.yCoordinate = this.getCoordinates(allXCoordinates, allYCoordinates).y;
     }
     //two helpful methods
     //1.rand colors
     //2.rand coordinates in the upside area
     //considerating currently drawn bricks
     drawBrick() {
+        //console.log(this.x)
         this.ctx.beginPath();
         this.ctx.fillStyle = this.color;
-        this.ctx.rect(this.xCoordinate, this.yCoordinate, this.width, this.height);
+        this.ctx.rect(this.x, this.y, this.width, this.height);
         this.ctx.fill();
         this.ctx.stroke();
         this.ctx.closePath();
