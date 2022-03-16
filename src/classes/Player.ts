@@ -1,6 +1,6 @@
 export default class Player {
     public ctx: CanvasRenderingContext2D;
-    public xPosition: number;;
+    public xPosition: number;
     public canvas: HTMLCanvasElement;
 
     protected playerWidth: number = 70;

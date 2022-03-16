@@ -6,7 +6,6 @@ export default class Player {
         this.canvas = canvas;
         this.xPosition = (canvas.width - this.playerWidth) / 2;
     }
-    ;
     draw() {
         this.ctx.beginPath();
         this.ctx.rect(this.xPosition, this.canvas.height - this.playerHeight, this.playerWidth, this.playerHeight);
