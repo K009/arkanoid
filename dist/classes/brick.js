@@ -1,10 +1,8 @@
 export default class Brick {
-    constructor(ctx, x, y, status) {
+    constructor(ctx, status) {
         this.ctx = ctx;
         this.width = 50;
         this.height = 10;
-        this.x = x;
-        this.y = y;
         this.status = status;
         this.color = this.randColor();
     }
@@ -12,11 +10,13 @@ export default class Brick {
     //1.rand colors
     //2.rand coordinates in the upside area
     //considerating currently drawn bricks
-    drawBrick() {
+    drawBrick(xPosition, yPosition) {
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
         //console.log(this.x)
         this.ctx.beginPath();
         this.ctx.fillStyle = this.color;
-        this.ctx.rect(this.x, this.y, this.width, this.height);
+        this.ctx.rect(xPosition, yPosition, this.width, this.height);
         this.ctx.fill();
         this.ctx.stroke();
         this.ctx.closePath();

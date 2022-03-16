@@ -2,18 +2,16 @@ export default class Brick {
     public ctx: CanvasRenderingContext2D;
     public width: number;
     public height: number;
-    public x: number;
-    public y: number;
+    public xPosition: number;
+    public yPosition: number;
     public status: number;
 
     protected color: string;
 
-    constructor(ctx: CanvasRenderingContext2D, x: number, y:number, status: number) {
+    constructor(ctx: CanvasRenderingContext2D, status: number) {
         this.ctx = ctx;
         this.width = 50;
         this.height = 10;
-        this.x = x;
-        this.y = y;
         this.status = status;
         this.color = this.randColor(); 
     }
@@ -22,13 +20,15 @@ export default class Brick {
     //1.rand colors
     //2.rand coordinates in the upside area
     //considerating currently drawn bricks
-    drawBrick() {
+    drawBrick(xPosition: number, yPosition: number) {
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
         //console.log(this.x)
         this.ctx.beginPath();
         this.ctx.fillStyle = this.color;
         this.ctx.rect(
-            this.x,
-            this.y,
+            xPosition,
+            yPosition,
             this.width,
             this.height    
         );

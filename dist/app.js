@@ -1,4 +1,5 @@
-import Brick from "./classes/brick.js";
+import Level from "./classes/Level.js";
+import collisionDetection from "./modules/physics.js";
 let keyLeftPressed = false;
 let keyRightPressed = false;
 // FFR - for future refactor
@@ -47,40 +48,11 @@ const drawPlayer = () => {
     ctx.stroke();
     ctx.closePath();
 };
-// const brick = new Brick(ctx);
-const allXCoordinates = [];
-const allYCoordinates = [];
-const bricks = [];
-for (let i = 0; i < 10; i++) {
-    const minX = 10;
-    const maxX = 420;
-    const minY = 10;
-    const maxY = 150;
-    //x from 10 to 420
-    //y from 10 to 150
-    const x = Math.floor(Math.random() * (maxX - minX + 1) + minX);
-    const y = Math.floor(Math.random() * (maxY - minY + 1) + minY);
-    bricks[i] = new Brick(ctx, x, y, 1);
-}
-function collisionDetection(bricks) {
-    for (var r = 0; r < 10; r++) {
-        var b = bricks[r];
-        if (b.status == 1) {
-            if (x > b.x && x < b.x + b.width && y > b.y && y < b.y + b.height) {
-                dy = -dy;
-                b.status = 0;
-            }
-        }
-    }
-}
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPlayer();
     drawBall();
-    for (let i = 0; i < 10; i++) {
-        bricks[i].drawBrick();
-    }
-    collisionDetection(bricks);
+    collisionDetection(bricks, x, y, dy);
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
         dx = -dx;
     }
@@ -109,6 +81,8 @@ function draw() {
     x += dx;
     y += dy;
 }
+const levelOne = new Level(1, ctx);
+levelOne.drawScene();
 setInterval(draw, 10);
 //notes for future development
 //create game class or sth like that that will handle core logic of the game
