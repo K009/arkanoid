@@ -1,14 +1,14 @@
 export default class Player {
     constructor(ctx, canvas) {
-        this.playerWidth = 70;
-        this.playerHeight = 10;
+        this.width = 70;
+        this.height = 10;
         this.ctx = ctx;
         this.canvas = canvas;
-        this.xPosition = (canvas.width - this.playerWidth) / 2;
+        this.xPosition = (canvas.width - this.width) / 2;
     }
     draw() {
         this.ctx.beginPath();
-        this.ctx.rect(this.xPosition, this.canvas.height - this.playerHeight, this.playerWidth, this.playerHeight);
+        this.ctx.rect(this.xPosition, this.canvas.height - this.height, this.width, this.height);
         this.ctx.fillStyle = "pink";
         this.ctx.fill();
         this.ctx.stroke();

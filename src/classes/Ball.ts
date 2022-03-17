@@ -1,10 +1,9 @@
 export default class Ball {
     public ctx: CanvasRenderingContext2D;
     public canvas: HTMLCanvasElement;
-
-    protected ballRadius: number = 10;
-    protected xPosition: number;
-    protected yPosition: number;
+    public ballRadius: number = 10;
+    public xPosition: number;
+    public yPosition: number;
 
 
     constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {

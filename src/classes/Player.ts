@@ -3,23 +3,23 @@ export default class Player {
     public xPosition: number;
     public canvas: HTMLCanvasElement;
 
-    protected playerWidth: number = 70;
-    protected playerHeight: number = 10;
+    public width: number = 70;
+    public height: number = 10;
 
 
     constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
         this.ctx = ctx;
         this.canvas = canvas;
-        this.xPosition = (canvas.width - this.playerWidth) / 2;
+        this.xPosition = (canvas.width - this.width) / 2;
     }
 
     draw() {
         this.ctx.beginPath();
         this.ctx.rect(
             this.xPosition,
-            this.canvas.height - this.playerHeight,
-            this.playerWidth,
-            this.playerHeight
+            this.canvas.height - this.height,
+            this.width,
+            this.height
         );
         this.ctx.fillStyle = "pink";
         this.ctx.fill();
