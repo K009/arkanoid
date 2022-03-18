@@ -1,71 +1,24 @@
 export default class Brick {
-    constructor(ctx, status) {
+    constructor(ctx, status, xPosition, yPosition) {
         this.ctx = ctx;
         this.width = 50;
         this.height = 10;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
         this.status = status;
         this.color = this.randColor();
     }
     //two helpful methods
-    //1.rand colors
-    //2.rand coordinates in the upside area
-    //considerating currently drawn bricks
-    drawBrick(xPosition, yPosition) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-        //console.log(this.x)
+    //1.set colors that we get from level class (predefined for each level)
+    //2.set coordinates that we get from level class (predefined for each level)
+    //maybe save the coordinates in some json file
+    drawBrick() {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.color;
-        this.ctx.rect(xPosition, yPosition, this.width, this.height);
+        this.ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
         this.ctx.fill();
         this.ctx.stroke();
         this.ctx.closePath();
-    }
-    getCoordinates(allXCoordinates, allYCoordinates) {
-        const minX = 10;
-        const maxX = 420;
-        const minY = 10;
-        const maxY = 150;
-        //x from 10 to 420
-        //y from 10 to 150
-        const x = Math.floor(Math.random() * (maxX - minX + 1) + minX);
-        const y = Math.floor(Math.random() * (maxY - minY + 1) + minY);
-        //if doesn't overlap with other bricks
-        if (allXCoordinates.length > 0) {
-            for (let i = 0; i < allXCoordinates.length; i++) {
-                const diffX = Math.abs(allXCoordinates[i] - x);
-                console.log("ALLX: " + allXCoordinates[i]);
-                console.log("SingleX: " + x);
-                console.log(diffX);
-                // console.log(this.width)
-                if (diffX > this.width) {
-                    //git
-                    const diffY = allYCoordinates[i] - y;
-                    if (diffY < this.width) {
-                        //git
-                        allXCoordinates.push(x);
-                        allYCoordinates.push(y);
-                        return {
-                            x: x,
-                            y: y
-                        };
-                    }
-                }
-            }
-        }
-        // return {
-        //     x: 0,
-        //     y: 0
-        // }
-        if (true) {
-            //console.log(allXCoordinates)
-            allXCoordinates.push(x);
-            allYCoordinates.push(y);
-        }
-        return {
-            x: x,
-            y: y
-        };
     }
     randColor() {
         const colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
@@ -81,5 +34,3 @@ export default class Brick {
         return colorArray[Math.floor(Math.random() * colorArray.length)];
     }
 }
-//Work on function with rand positions
-//add else ifs

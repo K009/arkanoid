@@ -11,6 +11,7 @@ export function brickCollisionDetection(bricks: Brick[], x, y, dy) {
         }
     }
 
+    return dy;
 }
 
 export function borderCollisionDetection(
@@ -37,4 +38,7 @@ export function borderCollisionDetection(
             }
         }
     }
+
+    //change the way how variables are returned
+    return [dx, dy]
 }

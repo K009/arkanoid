@@ -8,6 +8,7 @@ export function brickCollisionDetection(bricks, x, y, dy) {
             }
         }
     }
+    return dy;
 }
 export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playerX, playerWidth, playerHeight, dx, dy) {
     if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
@@ -23,4 +24,6 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
             }
         }
     }
+    //change the way how variables are returned
+    return [dx, dy];
 }
