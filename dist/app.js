@@ -1,12 +1,12 @@
 import Level from "./classes/Level.js";
-const canvas = document.getElementById("myCanvas");
+const canvas = (document.getElementById("myCanvas"));
 const ctx = canvas.getContext("2d");
 let keyLeftPressed = false;
 let keyRightPressed = false;
 // FFR - for future refactor
-window.addEventListener('keydown', (e) => {
+window.addEventListener("keydown", (e) => {
     switch (e.key) {
-        case 'ArrowLeft':
+        case "ArrowLeft":
             keyLeftPressed = true;
             break;
         case "ArrowRight":
@@ -14,9 +14,9 @@ window.addEventListener('keydown', (e) => {
             break;
     }
 });
-window.addEventListener('keyup', (e) => {
+window.addEventListener("keyup", (e) => {
     switch (e.key) {
-        case 'ArrowLeft':
+        case "ArrowLeft":
             keyLeftPressed = false;
             break;
         case "ArrowRight":

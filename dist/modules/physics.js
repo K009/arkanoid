@@ -2,7 +2,10 @@ export function brickCollisionDetection(bricks, x, y, dy) {
     for (let r = 0; r < 10; r++) {
         const b = bricks[r];
         if (b.status == 1) {
-            if (x > b.xPosition && x < b.xPosition + b.width && y > b.yPosition && y < b.yPosition + b.height) {
+            if (x > b.xPosition &&
+                x < b.xPosition + b.width &&
+                y > b.yPosition &&
+                y < b.yPosition + b.height) {
                 dy = -dy;
                 b.status = 0;
             }
@@ -19,7 +22,7 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
     }
     else if (ballY + dy > canvas.height - ballRadius) {
         if (ballX > playerX && ballX < playerX + playerWidth) {
-            if (ballY = ballY - playerHeight) {
+            if ((ballY = ballY - playerHeight)) {
                 dy = -dy;
             }
         }

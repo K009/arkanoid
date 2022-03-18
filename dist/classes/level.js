@@ -1,4 +1,4 @@
-import { brickCollisionDetection, borderCollisionDetection } from "../modules/physics.js";
+import { brickCollisionDetection, borderCollisionDetection, } from "../modules/physics.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
