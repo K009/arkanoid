@@ -27,4 +27,4 @@ window.addEventListener("keyup", (e) => {
 const levelOne = new Level(1, ctx);
 //replace any with a type
 const objects = levelOne.initialDraw(canvas);
-setInterval(() => levelOne.drawScene(canvas, keyLeftPressed, keyRightPressed, objects[0], objects[1], objects[2]), 10);
+setInterval(() => levelOne.drawScene(canvas, keyLeftPressed, keyRightPressed, objects[0], objects[1], objects[2], objects[3]), 10);

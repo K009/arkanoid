@@ -44,7 +44,8 @@ setInterval(
       keyRightPressed,
       objects[0],
       objects[1],
-      objects[2]
+      objects[2],
+      objects[3]
     ),
   10
 );

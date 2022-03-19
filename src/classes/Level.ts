@@ -26,6 +26,7 @@ export default class Level {
     const player: Player = new Player(this.ctx, canvas);
     const ball: Ball = new Ball(this.ctx, canvas);
     const bricks: Brick[] = [];
+    const removedBricks: Brick[] = [];
     const objectContext = this;
 
     //replace it with a predefined position of bricks for each level
@@ -39,7 +40,7 @@ export default class Level {
     }
 
     //change the way how variables are returned
-    return [player, ball, bricks];
+    return [player, ball, bricks, removedBricks];
   }
 
   drawScene(
@@ -48,17 +49,31 @@ export default class Level {
     keyRightPressed: boolean,
     player: Player,
     ball: Ball,
-    bricks: Brick[]
+    bricks: Brick[],
+    removedBricks: Brick[]
   ) {
     //clearing the scene
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     player.draw();
     ball.draw();
+    //console.log(bricks);
+    // if all bricks's status is 0 then alert the player
     bricks.forEach(function (brick) {
-      if(brick.status === 1)
+      if(brick.status === 1){
         brick.drawBrick();
-    });
+      } else {
+        //check if the brick is not currently in the array
+        //make sure that all elements are unique
+        if(removedBricks.indexOf(brick) === -1) {
+          removedBricks.push(brick);
+        }        
+      }
+    }); 
+    if(removedBricks.length === bricks.length) {
+        alert('Game over!');
+        removedBricks = [];
+    }
 
     this.dy = brickCollisionDetection(
       bricks,
