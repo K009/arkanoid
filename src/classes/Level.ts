@@ -56,7 +56,8 @@ export default class Level {
     player.draw();
     ball.draw();
     bricks.forEach(function (brick) {
-      brick.drawBrick();
+      if(brick.status === 1)
+        brick.drawBrick();
     });
 
     this.dy = brickCollisionDetection(
