@@ -1,7 +1,7 @@
 export default class Ball {
   public ctx: CanvasRenderingContext2D;
   public canvas: HTMLCanvasElement;
-  public ballRadius: number = 10;
+  public ballRadius: number = 5;
   public xPosition: number;
   public yPosition: number;
 

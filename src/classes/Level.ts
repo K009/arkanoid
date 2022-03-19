@@ -2,6 +2,7 @@ import {
   brickCollisionDetection,
   borderCollisionDetection,
 } from "../modules/physics.js";
+import { positions } from "../data/bricksPosition.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
@@ -25,18 +26,16 @@ export default class Level {
     const player: Player = new Player(this.ctx, canvas);
     const ball: Ball = new Ball(this.ctx, canvas);
     const bricks: Brick[] = [];
+    const objectContext = this;
 
     //replace it with a predefined position of bricks for each level
-    for (let i = 0; i < 10; i++) {
-      const minX: number = 10;
-      const maxX: number = 420;
-      const minY: number = 10;
-      const maxY: number = 150;
-      //x from 10 to 420
-      //y from 10 to 150
-      const x: number = Math.floor(Math.random() * (maxX - minX + 1) + minX);
-      const y: number = Math.floor(Math.random() * (maxY - minY + 1) + minY);
-      bricks[i] = new Brick(this.ctx, 1, x, y);
+    if (this.index === 1) {
+      positions.levelOne.forEach(function (
+        brick: { x: number; y: number },
+        i: number
+      ) {
+        bricks[i] = new Brick(objectContext.ctx, 1, brick.x, brick.y);
+      });
     }
 
     //change the way how variables are returned

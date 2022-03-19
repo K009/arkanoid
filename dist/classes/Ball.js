@@ -1,6 +1,6 @@
 export default class Ball {
     constructor(ctx, canvas) {
-        this.ballRadius = 10;
+        this.ballRadius = 5;
         this.ctx = ctx;
         this.canvas = canvas;
         this.xPosition = canvas.width / 2;

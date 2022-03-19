@@ -1,7 +1,7 @@
 import Brick from "../classes/Brick.js";
 
 export function brickCollisionDetection(bricks: Brick[], x, y, dy) {
-  for (let r = 0; r < 10; r++) {
+  for (let r = 0; r < bricks.length; r++) {
     const b = bricks[r];
     if (b.status == 1) {
       if (
