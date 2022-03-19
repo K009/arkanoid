@@ -8,33 +8,27 @@ const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 let keyLeftPressed: boolean = false;
 let keyRightPressed: boolean = false;
 
-// FFR - for future refactor
-window.addEventListener("keydown", (e: KeyboardEvent) => {
-  switch (e.key) {
-    case "ArrowLeft":
-      keyLeftPressed = true;
-      break;
-    case "ArrowRight":
-      keyRightPressed = true;
-      break;
-  }
-});
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
 
-window.addEventListener("keyup", (e: KeyboardEvent) => {
-  switch (e.key) {
-    case "ArrowLeft":
-      keyLeftPressed = false;
-      break;
-    case "ArrowRight":
-      keyRightPressed = false;
-      break;
+function keyDownHandler(e: KeyboardEvent) {
+  if(e.key === "Right" || e.key === "ArrowRight") {
+    keyRightPressed = true;
+  } else if (e.key === "Left" || e.key === "ArrowLeft") {
+    keyLeftPressed = true;
   }
-});
+}
+
+function keyUpHandler(e: KeyboardEvent) {
+  if(e.key === "Right" || e.key === "ArrowRight") {
+    keyRightPressed = false;
+  } else if (e.key === "Left" || e.key === "ArrowLeft") {
+    keyLeftPressed = false;
+  }
+}
 
 const levelOne: Level = new Level(1, ctx);
-
-//replace any with a type
-const objects: any = levelOne.initialDraw(canvas);
+const { player, ball, bricks, removedBricks } = levelOne.initialDraw(canvas);
 
 setInterval(
   () =>
@@ -42,10 +36,10 @@ setInterval(
       canvas,
       keyLeftPressed,
       keyRightPressed,
-      objects[0],
-      objects[1],
-      objects[2],
-      objects[3]
+      player,
+      ball,
+      bricks,
+      removedBricks
     ),
   10
 );

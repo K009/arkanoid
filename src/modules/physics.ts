@@ -1,6 +1,11 @@
 import Brick from "../classes/Brick.js";
 
-export function brickCollisionDetection(bricks: Brick[], x, y, dy) {
+export function brickCollisionDetection(
+  bricks: Brick[],
+  x: number,
+  y: number,
+  dy: number
+) {
   for (let r = 0; r < bricks.length; r++) {
     const b = bricks[r];
     if (b.status == 1) {
@@ -20,15 +25,15 @@ export function brickCollisionDetection(bricks: Brick[], x, y, dy) {
 }
 
 export function borderCollisionDetection(
-  canvas,
-  ballRadius,
-  ballX,
-  ballY,
-  playerX,
-  playerWidth,
-  playerHeight,
-  dx,
-  dy
+  canvas: HTMLCanvasElement,
+  ballRadius: number,
+  ballX: number,
+  ballY: number,
+  playerX: number,
+  playerWidth: number,
+  playerHeight: number,
+  dx: number,
+  dy: number
 ) {
   if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
     dx = -dx;
@@ -43,6 +48,5 @@ export function borderCollisionDetection(
     }
   }
 
-  //change the way how variables are returned
   return [dx, dy];
 }

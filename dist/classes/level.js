@@ -16,22 +16,19 @@ export default class Level {
         const ball = new Ball(this.ctx, canvas);
         const bricks = [];
         const removedBricks = [];
-        const objectContext = this;
-        //replace it with a predefined position of bricks for each level
+        const classContext = this;
         if (this.index === 1) {
             positions.levelOne.forEach(function (brick, i) {
-                bricks[i] = new Brick(objectContext.ctx, 1, brick.x, brick.y);
+                bricks[i] = new Brick(classContext.ctx, 1, brick.x, brick.y);
             });
         }
-        //change the way how variables are returned
-        return [player, ball, bricks, removedBricks];
+        return { player, ball, bricks, removedBricks };
     }
     drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks) {
         //clearing the scene
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         player.draw();
         ball.draw();
-        //console.log(bricks);
         // if all bricks's status is 0 then alert the player
         bricks.forEach(function (brick) {
             if (brick.status === 1) {
@@ -46,13 +43,14 @@ export default class Level {
             }
         });
         if (removedBricks.length === bricks.length) {
-            alert('Game over!');
+            alert("Game over!");
             removedBricks = [];
         }
+        //update y vector on bricksCollision
         this.dy = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, this.dy);
-        const array = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player.xPosition, player.width, player.height, this.dx, this.dy);
-        this.dx = array[0];
-        this.dy = array[1];
+        //update x and y vectors on bordersCollision
+        [this.dx, this.dy] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player.xPosition, player.width, player.height, this.dx, this.dy);
+        //move the player when keys are pressed
         if (keyRightPressed) {
             player.xPosition += 5;
             if (player.xPosition + player.width > canvas.width) {
@@ -65,9 +63,8 @@ export default class Level {
                 player.xPosition = 0;
             }
         }
+        //move the ball with the given vectors each 10ms
         ball.xPosition += this.dx;
         ball.yPosition += this.dy;
     }
 }
-//To do: code refactor, think about the logic of app and placing important
-//variables and attributes that are responsible for movement

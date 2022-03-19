@@ -23,10 +23,8 @@ export default class Brick {
     this.color = this.randColor();
   }
 
-  //two helpful methods
-  //1.set colors that we get from level class (predefined for each level)
-  //2.set coordinates that we get from level class (predefined for each level)
-  //maybe save the coordinates in some json file
+  //idea
+  //set colors that we get from level class (predefined for each level)
   drawBrick() {
     this.ctx.beginPath();
     this.ctx.fillStyle = this.color;

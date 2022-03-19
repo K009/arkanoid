@@ -27,6 +27,5 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
             }
         }
     }
-    //change the way how variables are returned
     return [dx, dy];
 }
