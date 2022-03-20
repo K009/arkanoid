@@ -1,13 +1,13 @@
-export function brickCollisionDetection(bricks, x, y, dy) {
+export function brickCollisionDetection(bricks, ballX, ballY, dy) {
     for (let r = 0; r < bricks.length; r++) {
-        const b = bricks[r];
-        if (b.status == 1) {
-            if (x > b.xPosition &&
-                x < b.xPosition + b.width &&
-                y > b.yPosition &&
-                y < b.yPosition + b.height) {
+        const brick = bricks[r];
+        if (brick.status == 1) {
+            if (ballX + 2 > brick.xPosition &&
+                ballX + 2 < brick.xPosition + brick.width &&
+                ballY + 2 > brick.yPosition &&
+                ballY + 2 < brick.yPosition + brick.height) {
                 dy = -dy;
-                b.status = 0;
+                brick.status = 0;
             }
         }
     }

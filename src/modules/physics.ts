@@ -2,21 +2,21 @@ import Brick from "../classes/Brick.js";
 
 export function brickCollisionDetection(
   bricks: Brick[],
-  x: number,
-  y: number,
+  ballX: number,
+  ballY: number,
   dy: number
 ) {
   for (let r = 0; r < bricks.length; r++) {
-    const b = bricks[r];
-    if (b.status == 1) {
+    const brick = bricks[r];
+    if (brick.status == 1) {
       if (
-        x > b.xPosition &&
-        x < b.xPosition + b.width &&
-        y > b.yPosition &&
-        y < b.yPosition + b.height
+        ballX + 2 > brick.xPosition &&
+        ballX + 2 < brick.xPosition + brick.width &&
+        ballY + 2 > brick.yPosition &&
+        ballY + 2 < brick.yPosition + brick.height
       ) {
         dy = -dy;
-        b.status = 0;
+        brick.status = 0;
       }
     }
   }
