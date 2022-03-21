@@ -1,7 +1,7 @@
 export default class Ball {
   public ctx: CanvasRenderingContext2D;
   public canvas: HTMLCanvasElement;
-  public ballRadius: number = 5;
+  public ballRadius: number;
   public xPosition: number;
   public yPosition: number;
 
@@ -10,6 +10,7 @@ export default class Ball {
     this.canvas = canvas;
     this.xPosition = canvas.width / 2;
     this.yPosition = canvas.height - 30;
+    this.ballRadius = canvas.width / 120;
   }
 
   draw() {
@@ -21,7 +22,7 @@ export default class Ball {
       0,
       Math.PI * 2
     );
-    this.ctx.fillStyle = "#0095DD";
+    this.ctx.fillStyle = "red";
     this.ctx.fill();
     this.ctx.closePath();
   }

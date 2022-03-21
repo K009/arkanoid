@@ -1,9 +1,17 @@
-.player {
-    width: 150px;
-    color: transparent;
-    background-color: transparent;
+body {
+  height: 100%;
+  margin: 0;
 }
 
 #myCanvas {
-    background-color: yellow;
+  background-color: lightblue;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-25%);
+  -webkit-transform: translateX(-50%) translateY(-25%);
+  transform: translateX(-50%) translateY(-25%);
+  /* display: block;
+  margin-top: 5%;
+  display: block; */
 }

@@ -3,12 +3,14 @@ export default class Player {
   public xPosition: number;
   public canvas: HTMLCanvasElement;
 
-  public width: number = 70;
-  public height: number = 10;
+  public width: number; //35
+  public height: number; //5
 
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     this.ctx = ctx;
     this.canvas = canvas;
+    this.width = canvas.width / 8.5;
+    this.height = canvas.width / 60;
     this.xPosition = (canvas.width - this.width) / 2;
   }
 
@@ -20,8 +22,9 @@ export default class Player {
       this.width,
       this.height
     );
-    this.ctx.fillStyle = "pink";
+    this.ctx.fillStyle = "#E53935";
     this.ctx.fill();
+    this.ctx.strokeStyle = "black";
     this.ctx.stroke();
     this.ctx.closePath();
   }

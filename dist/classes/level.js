@@ -1,5 +1,5 @@
 import { brickCollisionDetection, borderCollisionDetection, } from "../modules/physics.js";
-import { positions } from "../data/bricksPosition.js";
+import { getPositions } from "../data/bricksPosition.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
@@ -17,9 +17,11 @@ export default class Level {
         const bricks = [];
         const removedBricks = [];
         const classContext = this;
+        const probeBrick = new Brick(this.ctx, canvas, 1, 0, 0);
         if (this.index === 1) {
-            positions.levelOne.forEach(function (brick, i) {
-                bricks[i] = new Brick(classContext.ctx, 1, brick.x, brick.y);
+            const positions = getPositions(canvas, probeBrick);
+            positions.forEach(function (brick, i) {
+                bricks[i] = new Brick(classContext.ctx, canvas, 1, brick.x, brick.y);
             });
         }
         return { player, ball, bricks, removedBricks };
