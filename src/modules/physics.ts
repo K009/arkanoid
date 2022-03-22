@@ -51,6 +51,9 @@ export function borderCollisionDetection(
           dx = -Math.sign(dx) * 2;
         }
       }
+    } else if (ballY > canvas.height + ballRadius + 2) {
+      alert("Ball is out!");
+      //here code to reset the level or draw some kind of menu
     }
   }
 

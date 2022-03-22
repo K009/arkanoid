@@ -31,6 +31,10 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
                 }
             }
         }
+        else if (ballY > canvas.height + ballRadius + 2) {
+            alert("Ball is out!");
+            //here code to reset the level or draw some kind of menu
+        }
     }
     return [dx, dy];
 }
