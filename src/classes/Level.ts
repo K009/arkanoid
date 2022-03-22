@@ -84,21 +84,33 @@ export default class Level {
       ball.ballRadius,
       ball.xPosition,
       ball.yPosition,
-      player.xPosition,
-      player.width,
-      player.height,
+      player,
       this.dx,
       this.dy
     );
 
     //move the player when keys are pressed
     if (keyRightPressed) {
-      player.xPosition += 5;
+      player.xPosition += player.velocity;
+      player.direction = "right";
+
+      //after 0.5s when player stopped moving change the direction value
+      setTimeout(() => {
+        player.direction = "none";
+      }, 500);
+
       if (player.xPosition + player.width > canvas.width) {
         player.xPosition = canvas.width - player.width;
       }
     } else if (keyLeftPressed) {
-      player.xPosition -= 5;
+      player.xPosition -= player.velocity;
+      player.direction = "left";
+
+      //after 0.5s when player stopped moving change the direction value
+      setTimeout(() => {
+        player.direction = "none";
+      }, 500);
+
       if (player.xPosition < 0) {
         player.xPosition = 0;
       }

@@ -1,5 +1,6 @@
 export default class Player {
     constructor(ctx, canvas) {
+        this.velocity = 5;
         this.ctx = ctx;
         this.canvas = canvas;
         this.width = canvas.width / 8.5;

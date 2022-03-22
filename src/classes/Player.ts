@@ -3,8 +3,10 @@ export default class Player {
   public xPosition: number;
   public canvas: HTMLCanvasElement;
 
+  public velocity: number = 5;
   public width: number; //35
   public height: number; //5
+  public direction: string;
 
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     this.ctx = ctx;

@@ -1,4 +1,5 @@
 import Brick from "../classes/Brick.js";
+import Player from "../classes/Player.js";
 
 export function brickCollisionDetection(
   bricks: Brick[],
@@ -29,9 +30,7 @@ export function borderCollisionDetection(
   ballRadius: number,
   ballX: number,
   ballY: number,
-  playerX: number,
-  playerWidth: number,
-  playerHeight: number,
+  player: Player,
   dx: number,
   dy: number
 ) {
@@ -41,9 +40,16 @@ export function borderCollisionDetection(
   if (ballY + dy < ballRadius) {
     dy = -dy;
   } else if (ballY + dy > canvas.height - ballRadius) {
-    if (ballX > playerX && ballX < playerX + playerWidth) {
-      if ((ballY = ballY - playerHeight)) {
+    if (ballX > player.xPosition && ballX < player.xPosition + player.width) {
+      if ((ballY = ballY - player.height)) {
         dy = -dy;
+        //reverse ball x vector if player is moving in the opposite way than the ball
+        if (
+          (player.direction === "left" && dx > 0) ||
+          (player.direction === "right" && dx < 0)
+        ) {
+          dx = -dx;
+        }
       }
     }
   }
