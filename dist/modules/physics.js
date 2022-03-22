@@ -15,7 +15,7 @@ export function brickCollisionDetection(bricks, ballX, ballY, dy) {
 }
 export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy) {
     if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
-        dx = -dx;
+        dx = -1.05 * dx;
     }
     if (ballY + dy < ballRadius) {
         dy = -dy;
@@ -27,7 +27,7 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
                 //reverse ball x vector if player is moving in the opposite way than the ball
                 if ((player.direction === "left" && dx > 0) ||
                     (player.direction === "right" && dx < 0)) {
-                    dx = -dx;
+                    dx = -Math.sign(dx) * 2;
                 }
             }
         }

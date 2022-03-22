@@ -35,7 +35,7 @@ export function borderCollisionDetection(
   dy: number
 ) {
   if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
-    dx = -dx;
+    dx = -1.05 * dx;
   }
   if (ballY + dy < ballRadius) {
     dy = -dy;
@@ -48,7 +48,7 @@ export function borderCollisionDetection(
           (player.direction === "left" && dx > 0) ||
           (player.direction === "right" && dx < 0)
         ) {
-          dx = -dx;
+          dx = -Math.sign(dx) * 2;
         }
       }
     }
