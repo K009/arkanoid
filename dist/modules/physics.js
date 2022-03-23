@@ -13,7 +13,7 @@ export function brickCollisionDetection(bricks, ballX, ballY, dy) {
     }
     return dy;
 }
-export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy) {
+export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy, isOver) {
     if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
         dx = -1.05 * dx;
     }
@@ -32,9 +32,8 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
             }
         }
         else if (ballY > canvas.height + ballRadius + 2) {
-            alert("Ball is out!");
-            //here code to reset the level or draw some kind of menu
+            isOver = 1;
         }
     }
-    return [dx, dy];
+    return [dx, dy, isOver];
 }

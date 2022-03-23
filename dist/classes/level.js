@@ -7,6 +7,7 @@ export default class Level {
     constructor(index, ctx) {
         this.dx = 2; //x vector of ball movement
         this.dy = -2; //y vector of ball movement
+        this.isOver = 0; //change it to boolean in the future
         this.index = index;
         this.ctx = ctx;
     }
@@ -18,13 +19,14 @@ export default class Level {
         const removedBricks = [];
         const classContext = this;
         const probeBrick = new Brick(this.ctx, canvas, 1, 0, 0);
+        let isOver = 0;
         if (this.index === 1) {
             const positions = getPositions(canvas, probeBrick);
             positions.forEach(function (brick, i) {
                 bricks[i] = new Brick(classContext.ctx, canvas, 1, brick.x, brick.y);
             });
         }
-        return { player, ball, bricks, removedBricks };
+        return { player, ball, bricks, removedBricks, isOver };
     }
     drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks) {
         //clearing the scene
@@ -44,14 +46,15 @@ export default class Level {
                 }
             }
         });
-        if (removedBricks.length === bricks.length) {
+        if (removedBricks.length === bricks.length || this.isOver === 1) {
             alert("Game over!");
             removedBricks = [];
+            //here code to reset the level or draw some kind of menu
         }
         //update y vector on bricksCollision
         this.dy = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, this.dy);
         //update x and y vectors on bordersCollision
-        [this.dx, this.dy] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, this.dx, this.dy);
+        [this.dx, this.dy, this.isOver] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, this.dx, this.dy, this.isOver);
         //move the player when keys are pressed
         if (keyRightPressed) {
             player.xPosition += player.velocity;
