@@ -34,16 +34,14 @@ canvas.height = canvas.width / 2;
 const levelOne: Level = new Level(1, ctx);
 const { player, ball, bricks, removedBricks } = levelOne.initialDraw(canvas);
 
-setInterval(
-  () =>
-    levelOne.drawScene(
-      canvas,
-      keyLeftPressed,
-      keyRightPressed,
-      player,
-      ball,
-      bricks,
-      removedBricks
-    ),
-  10
-);
+setInterval(() => {
+  levelOne.drawScene(
+    canvas,
+    keyLeftPressed,
+    keyRightPressed,
+    player,
+    ball,
+    bricks,
+    removedBricks
+  );
+}, 10);

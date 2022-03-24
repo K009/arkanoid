@@ -5,12 +5,17 @@ export default class Ball {
   public xPosition: number;
   public yPosition: number;
 
+  public startPositionX: number;
+  public startPositionY: number;
+
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     this.ctx = ctx;
     this.canvas = canvas;
     this.xPosition = canvas.width / 2;
     this.yPosition = canvas.height - 30;
     this.ballRadius = canvas.width / 120;
+    this.startPositionX = this.xPosition;
+    this.startPositionY = this.yPosition;
   }
 
   draw() {

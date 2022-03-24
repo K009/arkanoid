@@ -29,8 +29,6 @@ export default class Level {
     const removedBricks: Brick[] = [];
     const classContext = this;
     const probeBrick: Brick = new Brick(this.ctx, canvas, 1, 0, 0);
-    
-    let isOver: number = 0;
 
     if (this.index === 1) {
       const positions = getPositions(canvas, probeBrick);
@@ -39,7 +37,7 @@ export default class Level {
       });
     }
 
-    return { player, ball, bricks, removedBricks, isOver };
+    return { player, ball, bricks, removedBricks };
   }
 
   drawScene(
@@ -51,7 +49,6 @@ export default class Level {
     bricks: Brick[],
     removedBricks: Brick[]
   ) {
-
     //clearing the scene
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -70,9 +67,23 @@ export default class Level {
       }
     });
     if (removedBricks.length === bricks.length || this.isOver === 1) {
-      alert("Game over!");
+      //reset ending game variables
+      this.isOver = 0;
       removedBricks = [];
-      //here code to reset the level or draw some kind of menu
+
+      alert("Give it another shot.");
+
+      //reset bricks' status and ball & player positions and velocity vectors
+      bricks.forEach(function (brick) {
+        brick.status = 1;
+      });
+      ball.xPosition = ball.startPositionX;
+      ball.yPosition = ball.startPositionY;
+
+      player.xPosition = player.startPositionX;
+
+      this.dx = 2;
+      this.dy = -2;
     }
 
     //update y vector on bricksCollision
@@ -103,7 +114,7 @@ export default class Level {
       //after 0.5s when player stopped moving change the direction value
       setTimeout(() => {
         player.direction = "none";
-      }, 500);
+      }, 1000);
 
       if (player.xPosition + player.width > canvas.width) {
         player.xPosition = canvas.width - player.width;
@@ -115,7 +126,7 @@ export default class Level {
       //after 0.5s when player stopped moving change the direction value
       setTimeout(() => {
         player.direction = "none";
-      }, 500);
+      }, 1000);
 
       if (player.xPosition < 0) {
         player.xPosition = 0;

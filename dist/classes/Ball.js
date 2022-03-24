@@ -5,6 +5,8 @@ export default class Ball {
         this.xPosition = canvas.width / 2;
         this.yPosition = canvas.height - 30;
         this.ballRadius = canvas.width / 120;
+        this.startPositionX = this.xPosition;
+        this.startPositionY = this.yPosition;
     }
     draw() {
         this.ctx.beginPath();
