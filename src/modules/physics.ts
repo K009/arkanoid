@@ -1,3 +1,4 @@
+import AudioController from "../classes/AudioController.js";
 import Brick from "../classes/Brick.js";
 import Player from "../classes/Player.js";
 
@@ -5,7 +6,8 @@ export function brickCollisionDetection(
   bricks: Brick[],
   ballX: number,
   ballY: number,
-  dy: number
+  dy: number,
+  audioPlayer: AudioController
 ) {
   for (let r = 0; r < bricks.length; r++) {
     const brick = bricks[r];
@@ -16,6 +18,7 @@ export function brickCollisionDetection(
         ballY + 2 > brick.yPosition &&
         ballY + 2 < brick.yPosition + brick.height
       ) {
+        audioPlayer.bounce()
         dy = -dy;
         brick.status = 0;
       }
@@ -33,7 +36,8 @@ export function borderCollisionDetection(
   player: Player,
   dx: number,
   dy: number,
-  isOver: number
+  isOver: number,
+  audioPlayer: AudioController
 ) {
   if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
     dx = -1.05 * dx;
@@ -44,6 +48,7 @@ export function borderCollisionDetection(
     if (ballX > player.xPosition && ballX < player.xPosition + player.width) {
       if ((ballY = ballY - player.height)) {
         dy = -dy;
+        audioPlayer.bounce()
         //reverse ball x vector if player is moving in the opposite way than the ball
         if (
           (player.direction === "left" && dx > 0) ||

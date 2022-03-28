@@ -25,7 +25,9 @@ function keyUpHandler(e) {
 canvas.width = window.innerWidth / 1.5;
 canvas.height = canvas.width / 2;
 const levelOne = new Level(1, ctx);
-const { player, ball, bricks, removedBricks } = levelOne.initialDraw(canvas);
+const { player, ball, bricks, removedBricks, audioPlayer } = levelOne.initialDraw(canvas);
+//const audio: AudioController = new AudioController();
+//audio.startMusic();
 setInterval(() => {
-    levelOne.drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks);
+    levelOne.drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks, audioPlayer);
 }, 10);

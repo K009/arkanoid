@@ -6,6 +6,7 @@ import { getPositions } from "../data/bricksPosition.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
+import AudioController from "./AudioController.js";
 
 export default class Level {
   public ctx: CanvasRenderingContext2D;
@@ -29,6 +30,7 @@ export default class Level {
     const removedBricks: Brick[] = [];
     const classContext = this;
     const probeBrick: Brick = new Brick(this.ctx, canvas, 1, 0, 0);
+    const audioPlayer: AudioController = new AudioController();
 
     if (this.index === 1) {
       const positions = getPositions(canvas, probeBrick);
@@ -37,7 +39,7 @@ export default class Level {
       });
     }
 
-    return { player, ball, bricks, removedBricks };
+    return { player, ball, bricks, removedBricks, audioPlayer };
   }
 
   drawScene(
@@ -47,7 +49,8 @@ export default class Level {
     player: Player,
     ball: Ball,
     bricks: Brick[],
-    removedBricks: Brick[]
+    removedBricks: Brick[],
+    audioPlayer: AudioController
   ) {
     //clearing the scene
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -71,7 +74,7 @@ export default class Level {
       this.isOver = 0;
       removedBricks = [];
 
-      alert("Give it another shot.");
+      //alert("Give it another shot.");
 
       //reset bricks' status and ball & player positions and velocity vectors
       bricks.forEach(function (brick) {
@@ -91,7 +94,8 @@ export default class Level {
       bricks,
       ball.xPosition,
       ball.yPosition,
-      this.dy
+      this.dy,
+      audioPlayer
     );
 
     //update x and y vectors on bordersCollision
@@ -103,7 +107,8 @@ export default class Level {
       player,
       this.dx,
       this.dy,
-      this.isOver
+      this.isOver,
+      audioPlayer
     );
 
     //move the player when keys are pressed
