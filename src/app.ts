@@ -32,9 +32,8 @@ canvas.width = window.innerWidth / 1.5;
 canvas.height = canvas.width / 2;
 
 const levelOne: Level = new Level(1, ctx);
-const { player, ball, bricks, removedBricks, audioPlayer } = levelOne.initialDraw(canvas);
-//const audio: AudioController = new AudioController();
-//audio.startMusic();
+const { player, ball, bricks, removedBricks } = levelOne.initialDraw(canvas);
+
 setInterval(() => {
   levelOne.drawScene(
     canvas,
@@ -43,7 +42,6 @@ setInterval(() => {
     player,
     ball,
     bricks,
-    removedBricks,
-    audioPlayer
+    removedBricks
   );
 }, 10);

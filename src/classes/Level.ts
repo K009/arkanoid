@@ -30,7 +30,6 @@ export default class Level {
     const removedBricks: Brick[] = [];
     const classContext = this;
     const probeBrick: Brick = new Brick(this.ctx, canvas, 1, 0, 0);
-    const audioPlayer: AudioController = new AudioController();
 
     if (this.index === 1) {
       const positions = getPositions(canvas, probeBrick);
@@ -39,7 +38,7 @@ export default class Level {
       });
     }
 
-    return { player, ball, bricks, removedBricks, audioPlayer };
+    return { player, ball, bricks, removedBricks };
   }
 
   drawScene(
@@ -49,8 +48,7 @@ export default class Level {
     player: Player,
     ball: Ball,
     bricks: Brick[],
-    removedBricks: Brick[],
-    audioPlayer: AudioController
+    removedBricks: Brick[]
   ) {
     //clearing the scene
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -94,8 +92,7 @@ export default class Level {
       bricks,
       ball.xPosition,
       ball.yPosition,
-      this.dy,
-      audioPlayer
+      this.dy
     );
 
     //update x and y vectors on bordersCollision
@@ -107,8 +104,7 @@ export default class Level {
       player,
       this.dx,
       this.dy,
-      this.isOver,
-      audioPlayer
+      this.isOver
     );
 
     //move the player when keys are pressed
