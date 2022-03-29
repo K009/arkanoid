@@ -1,4 +1,4 @@
-import Level from "./classes/Level.js";
+import Supervisor from "./classes/Supervisor.js";
 const canvas = (document.getElementById("myCanvas"));
 const ctx = canvas.getContext("2d");
 let keyLeftPressed = false;
@@ -24,9 +24,18 @@ function keyUpHandler(e) {
 //positions' of all game elements are calculated based on below variables
 canvas.width = window.innerWidth / 1.5;
 canvas.height = canvas.width / 2;
-//supervisor.startGame();
-const levelOne = new Level(1, ctx);
-const { player, ball, bricks, removedBricks } = levelOne.initialDraw(canvas);
-setInterval(() => {
-    levelOne.drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks);
-}, 10);
+const superVisor = new Supervisor(canvas, ctx);
+superVisor.startGame(keyLeftPressed, keyRightPressed);
+// const levelOne: Level = new Level(1, ctx);
+// const { player, ball, bricks, removedBricks } = levelOne.initialDraw(canvas);
+// setInterval(() => {
+//   levelOne.drawScene(
+//     canvas,
+//     keyLeftPressed,
+//     keyRightPressed,
+//     player,
+//     ball,
+//     bricks,
+//     removedBricks
+//   );
+// }, 10);
