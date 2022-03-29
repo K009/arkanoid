@@ -31,6 +31,8 @@ function keyUpHandler(e: KeyboardEvent) {
 canvas.width = window.innerWidth / 1.5;
 canvas.height = canvas.width / 2;
 
+//supervisor.startGame();
+
 const levelOne: Level = new Level(1, ctx);
 const { player, ball, bricks, removedBricks } = levelOne.initialDraw(canvas);
 

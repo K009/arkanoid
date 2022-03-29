@@ -45,7 +45,10 @@ export default class Level {
                 }
             }
         });
+        //add if player wins condition with different bricks, vectors, background
         if (removedBricks.length === bricks.length || this.isOver === 1) {
+            //supervisor.resetTheLevel();
+            //supervisor.goToNextLevel();
             //reset ending game variables
             this.isOver = 0;
             removedBricks = [];
