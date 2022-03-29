@@ -6,7 +6,7 @@ import { getPositions } from "../data/bricksPosition.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
-import AudioController from "./AudioController.js";
+import Supervisor from "./Supervisor.js";
 
 export default class Level {
   public ctx: CanvasRenderingContext2D;
@@ -41,6 +41,29 @@ export default class Level {
     return { player, ball, bricks, removedBricks };
   }
 
+  resetTheLevel(
+    bricks: Brick[],
+    ball: Ball,
+    player: Player
+  ): [Brick[], Brick[], Ball, Player] {
+    const removedBricks: Brick[] = []; //empty the array
+    //think about deleting this line and replacing it with parameter from function or just return empty array
+
+    this.dx = 2; //to default value, which is 2
+    this.dy = -2; //to default value, which is -2
+    this.isOver = 0; // 0
+
+    ball.xPosition = ball.startPositionX;
+    ball.yPosition = ball.startPositionY;
+    player.xPosition = player.startPositionX;
+
+    bricks.forEach(function (brick) {
+      brick.status = 1;
+    });
+
+    return [bricks, removedBricks, ball, player];
+  }
+
   drawScene(
     canvas: HTMLCanvasElement,
     keyLeftPressed: boolean,
@@ -48,7 +71,8 @@ export default class Level {
     player: Player,
     ball: Ball,
     bricks: Brick[],
-    removedBricks: Brick[]
+    removedBricks: Brick[],
+    superVisor: Supervisor
   ) {
     //clearing the scene
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -67,27 +91,15 @@ export default class Level {
         }
       }
     });
+
     //add if player wins condition with different bricks, vectors, background
     if (removedBricks.length === bricks.length || this.isOver === 1) {
-      //supervisor.resetTheLevel();
+      [bricks, removedBricks, ball, player] = this.resetTheLevel(
+        bricks,
+        ball,
+        player
+      );
       //supervisor.goToNextLevel();
-      //reset ending game variables
-      this.isOver = 0;
-      removedBricks = [];
-
-      //alert("Give it another shot.");
-
-      //reset bricks' status and ball & player positions and velocity vectors
-      bricks.forEach(function (brick) {
-        brick.status = 1;
-      });
-      ball.xPosition = ball.startPositionX;
-      ball.yPosition = ball.startPositionY;
-
-      player.xPosition = player.startPositionX;
-
-      this.dx = 2;
-      this.dy = -2;
     }
 
     //update y vector on bricksCollision

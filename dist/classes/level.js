@@ -27,7 +27,21 @@ export default class Level {
         }
         return { player, ball, bricks, removedBricks };
     }
-    drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks) {
+    resetTheLevel(bricks, ball, player) {
+        const removedBricks = []; //empty the array
+        //think about deleting this line and replacing it with parameter from function or just return empty array
+        this.dx = 2; //to default value, which is 2
+        this.dy = -2; //to default value, which is -2
+        this.isOver = 0; // 0
+        ball.xPosition = ball.startPositionX;
+        ball.yPosition = ball.startPositionY;
+        player.xPosition = player.startPositionX;
+        bricks.forEach(function (brick) {
+            brick.status = 1;
+        });
+        return [bricks, removedBricks, ball, player];
+    }
+    drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks, superVisor) {
         //clearing the scene
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         player.draw();
@@ -47,21 +61,8 @@ export default class Level {
         });
         //add if player wins condition with different bricks, vectors, background
         if (removedBricks.length === bricks.length || this.isOver === 1) {
-            //supervisor.resetTheLevel();
+            [bricks, removedBricks, ball, player] = this.resetTheLevel(bricks, ball, player);
             //supervisor.goToNextLevel();
-            //reset ending game variables
-            this.isOver = 0;
-            removedBricks = [];
-            //alert("Give it another shot.");
-            //reset bricks' status and ball & player positions and velocity vectors
-            bricks.forEach(function (brick) {
-                brick.status = 1;
-            });
-            ball.xPosition = ball.startPositionX;
-            ball.yPosition = ball.startPositionY;
-            player.xPosition = player.startPositionX;
-            this.dx = 2;
-            this.dy = -2;
         }
         //update y vector on bricksCollision
         this.dy = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, this.dy);
