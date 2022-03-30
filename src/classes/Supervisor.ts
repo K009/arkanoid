@@ -13,9 +13,8 @@ export default class Supervisor {
   }
 
   startGame() {
-    const levelOne: Level = new Level(this.ctx);
+    const levelOne: Level = new Level(this.ctx, this.canvas);
     const { player, ball, bricks, removedBricks } = levelOne.initialDraw(
-      this.canvas,
       1
     );
 

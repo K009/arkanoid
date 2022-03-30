@@ -5,8 +5,8 @@ export default class Supervisor {
         this.ctx = ctx;
     }
     startGame() {
-        const levelOne = new Level(this.ctx);
-        const { player, ball, bricks, removedBricks } = levelOne.initialDraw(this.canvas, 1);
+        const levelOne = new Level(this.ctx, this.canvas);
+        const { player, ball, bricks, removedBricks } = levelOne.initialDraw(1);
         //consider moving keyControl to seperate function / file
         let keyLeftPressed = false;
         let keyRightPressed = false;
