@@ -5,8 +5,8 @@ export default class Supervisor {
         this.ctx = ctx;
     }
     startGame() {
-        const levelOne = new Level(1, this.ctx);
-        const { player, ball, bricks, removedBricks } = levelOne.initialDraw(this.canvas);
+        const levelOne = new Level(this.ctx);
+        const { player, ball, bricks, removedBricks } = levelOne.initialDraw(this.canvas, 1);
         //consider moving keyControl to seperate function / file
         let keyLeftPressed = false;
         let keyRightPressed = false;
@@ -29,7 +29,7 @@ export default class Supervisor {
             }
         }
         setInterval(() => {
-            levelOne.drawScene(this.canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks, this);
+            levelOne.drawScene(this.canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks, 1, this);
         }, 10);
     }
     goToNextLevel() { }

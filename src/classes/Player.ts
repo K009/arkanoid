@@ -6,6 +6,7 @@ export default class Player {
   public velocity: number = 5;
   public width: number; //35
   public height: number; //5
+  public color: string;
   public direction: string;
 
   public startPositionX: number;
@@ -15,6 +16,7 @@ export default class Player {
     this.canvas = canvas;
     this.width = canvas.width / 8.5;
     this.height = canvas.width / 60;
+    this.color = "#E53935";
     this.xPosition = (canvas.width - this.width) / 2;
     this.startPositionX = this.xPosition;
   }
@@ -27,7 +29,7 @@ export default class Player {
       this.width,
       this.height
     );
-    this.ctx.fillStyle = "#E53935";
+    this.ctx.fillStyle = this.color;
     this.ctx.fill();
     this.ctx.strokeStyle = "black";
     this.ctx.stroke();

@@ -4,10 +4,10 @@ function getPositions(canvas, brick) {
     const positions = [];
     const verticalHelper = canvas.width / 60;
     const horizontalHelper = canvas.height / 12;
-    //vertically
-    for (let i = 1; i < 7; i++) {
-        //horizontally
-        for (let j = 0; j < 11; j++) {
+    //vertically 7
+    for (let i = 1; i < 2; i++) {
+        //horizontally 11
+        for (let j = 0; j < 3; j++) {
             positions.push({
                 x: verticalHelper + j * brick.width,
                 y: horizontalHelper * i,
