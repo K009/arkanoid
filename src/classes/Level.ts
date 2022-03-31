@@ -2,7 +2,7 @@ import {
   brickCollisionDetection,
   borderCollisionDetection,
 } from "../modules/physics.js";
-import { getPositions } from "../data/bricksPosition.js";
+import { getLevelData } from "../data/bricksPosition.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
@@ -14,16 +14,22 @@ export default class Level {
   public dx: number = 2; //x vector of ball movement
   public dy: number = -2; //y vector of ball movement
   public isOver: number = 0; //change it to boolean in the future
+  public index: number; //which level
 
   protected color: string;
 
-  constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    index: number
+  ) {
     this.ctx = ctx;
     this.canvas = canvas;
+    this.index = index;
   }
 
   //here define objects
-  initialDraw(index: number) {
+  initialDraw() {
     const player: Player = new Player(this.ctx, this.canvas);
     const ball: Ball = new Ball(this.ctx, this.canvas);
     const bricks: Brick[] = [];
@@ -31,7 +37,7 @@ export default class Level {
     const classContext = this;
     const probeBrick: Brick = new Brick(this.ctx, this.canvas, 1, 0, 0);
 
-    if (index === 1) {
+    if (this.index === 1) {
       const positions = getPositions(this.canvas, probeBrick);
       positions.forEach(function (brick: { x: number; y: number }, i: number) {
         bricks[i] = new Brick(
@@ -44,7 +50,7 @@ export default class Level {
       });
     }
 
-    // if (index === 2) {
+    // if (this.index === 2) {
     //   const positions = getPositions(this.canvas, probeBrick);
     //   positions.forEach(function (brick: { x: number; y: number }, i: number) {
     //     bricks[i] = new Brick(
@@ -57,7 +63,7 @@ export default class Level {
     //   });
     // }
 
-    return { player, ball, bricks, removedBricks, index };
+    return { player, ball, bricks, removedBricks };
   }
 
   resetTheLevel(
@@ -90,25 +96,52 @@ export default class Level {
     ball: Ball,
     player: Player
   ): [Brick[], Brick[], Ball, Player] {
-    //here add several ifs with or some logic that will handle redrawing the scene with the correct level
+    let brickAttribs = [];
+
     removedBricks.length = 0;
+    if (this.index === 1) {
+      [
+        this.dx,
+        this.dy,
+        ball.xPosition,
+        ball.yPosition,
+        player.xPosition,
+        player.width,
+        player.color,
+        brickAttribs
+      ] = getLevelData(this.canvas, probeBrick, 2);
+    }
+    //here add several ifs with or some logic that will handle redrawing the scene with the correct level
 
-    this.dx = -3; //to default value, which is 2
-    this.dy = -2; //to default value, which is -2
-    this.isOver = 0; // 0
+    bricks.length = 0;
 
-    ball.xPosition = ball.startPositionX;
-    ball.yPosition = ball.startPositionY;
-    player.xPosition = player.startPositionX;
-    player.color = "yellow";
-
-    //the only problem with changing something is with bricks, because we set their position in initialDraw method
-    //i guess we can modify it exactly like the ball position here like:
-    bricks.forEach(function (brick) {
-      brick.xPosition += 10;
-      brick.yPosition += 10;
-      brick.status = 1;
+    brickAttribs.forEach(function (brick: { x: number; y: number, color: string }, i: number) {
+      bricks[i] = new Brick(
+        classContext.ctx,
+        classContext.canvas,
+        1,
+        brick.x,
+        brick.y,
+        brick.color
+      );
     });
+
+
+    // this.dx = -3; //to default value, which is 2
+    // this.dy = -2; //to default value, which is -2
+
+    // ball.xPosition = ball.startPositionX;
+    // ball.yPosition = ball.startPositionY;
+    // player.xPosition = player.startPositionX;
+    // player.color = "yellow";
+
+    // //the only problem with changing something is with bricks, because we set their position in initialDraw method
+    // //i guess we can modify it exactly like the ball position here like:
+    // bricks.forEach(function (brick) {
+    //   brick.xPosition += 10;
+    //   brick.yPosition += 10;
+    //   brick.status = 1;
+    // });
 
     return [bricks, removedBricks, ball, player];
   }
@@ -121,7 +154,6 @@ export default class Level {
     ball: Ball,
     bricks: Brick[],
     removedBricks: Brick[],
-    index: number,
     superVisor: Supervisor
   ) {
     //clearing the scene
