@@ -20,23 +20,24 @@ export default class Level {
         const removedBricks = [];
         const classContext = this;
         const probeBrick = new Brick(this.ctx, this.canvas, 1, 0, 0);
-        if (this.index === 1) {
-            const levelData = getLevelData(this.canvas, probeBrick, 1);
-            //TODO: fix any
-            levelData.brickAttribs.forEach(function (brick, i) {
-                bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
-            });
-        }
+        const levelData = getLevelData(this.canvas, probeBrick, this.index);
+        //TODO: fix any
+        levelData.brickAttribs.forEach(function (brick, i) {
+            bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
+        });
         return { player, ball, bricks, removedBricks };
     }
     resetTheLevel(bricks, removedBricks, ball, player) {
         const levelConfig = getLevelData(this.canvas, new Brick(this.ctx, this.canvas, 1, 0, 0), this.index);
+        //Vectors and win condition
         this.dx = levelConfig.dx;
         this.dy = levelConfig.dy;
         this.isOver = 0;
+        //Ball & Player positions
         ball.xPosition = ball.startPositionX;
         ball.yPosition = ball.startPositionY;
         player.xPosition = player.startPositionX;
+        //Bricks
         removedBricks.length = 0;
         bricks.forEach(function (brick) {
             brick.status = 1;
