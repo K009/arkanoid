@@ -165,6 +165,7 @@ export default class Level {
         ball,
         player
       );
+     // player.drawSuperMode();
     }
 
     //player won

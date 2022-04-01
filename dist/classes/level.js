@@ -82,6 +82,7 @@ export default class Level {
         //player lost
         if (this.isOver === 1) {
             [bricks, removedBricks, ball, player] = this.resetTheLevel(bricks, removedBricks, ball, player);
+            // player.drawSuperMode();
         }
         //player won
         if (removedBricks.length === bricks.length) {
