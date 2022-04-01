@@ -1,5 +1,5 @@
 export default class Brick {
-    constructor(ctx, canvas, status, xPosition, yPosition) {
+    constructor(ctx, canvas, status, xPosition, yPosition, color) {
         this.ctx = ctx;
         this.canvas = canvas;
         this.width = canvas.width / 12; //25
@@ -7,7 +7,7 @@ export default class Brick {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.status = status;
-        this.color = this.randColor();
+        this.color = color ? color : this.randColor();
     }
     //idea
     //set colors that we get from level class (predefined for each level)

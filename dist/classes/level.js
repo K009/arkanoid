@@ -1,5 +1,5 @@
 import { brickCollisionDetection, borderCollisionDetection, } from "../modules/physics.js";
-import { getLevelData } from "../data/bricksPosition.js";
+import { getLevelData } from "../data/levelData.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
@@ -21,73 +21,43 @@ export default class Level {
         const classContext = this;
         const probeBrick = new Brick(this.ctx, this.canvas, 1, 0, 0);
         if (this.index === 1) {
-            const positions = getPositions(this.canvas, probeBrick);
-            positions.forEach(function (brick, i) {
-                bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y);
+            const levelData = getLevelData(this.canvas, probeBrick, 1);
+            //TODO: fix any
+            levelData.brickAttribs.forEach(function (brick, i) {
+                bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
             });
         }
-        // if (this.index === 2) {
-        //   const positions = getPositions(this.canvas, probeBrick);
-        //   positions.forEach(function (brick: { x: number; y: number }, i: number) {
-        //     bricks[i] = new Brick(
-        //       classContext.ctx,
-        //       classContext.canvas,
-        //       1,
-        //       brick.x + 10,
-        //       brick.y + 10
-        //     );
-        //   });
-        // }
         return { player, ball, bricks, removedBricks };
     }
-    resetTheLevel(bricks, ball, player) {
-        const removedBricks = []; //empty the array
-        //think about deleting this line and replacing it with parameter from function or just return empty array
-        this.dx = 2; //to default value, which is 2
-        this.dy = -2; //to default value, which is -2
-        this.isOver = 0; // 0
+    resetTheLevel(bricks, removedBricks, ball, player) {
+        const levelConfig = getLevelData(this.canvas, new Brick(this.ctx, this.canvas, 1, 0, 0), this.index);
+        this.dx = levelConfig.dx;
+        this.dy = levelConfig.dy;
+        this.isOver = 0;
         ball.xPosition = ball.startPositionX;
         ball.yPosition = ball.startPositionY;
         player.xPosition = player.startPositionX;
-        //here we can modify already created bricks, change their position or maybe color
+        removedBricks.length = 0;
         bricks.forEach(function (brick) {
             brick.status = 1;
         });
         return [bricks, removedBricks, ball, player];
     }
     goToNextLevel(bricks, removedBricks, ball, player) {
+        const classContext = this;
         let brickAttribs = [];
+        const levelConfig = getLevelData(this.canvas, new Brick(this.ctx, this.canvas, 1, 0, 0), this.index + 1);
+        //Vectors
+        this.dx = levelConfig.dx;
+        this.dy = levelConfig.dy;
+        //Bricks
+        brickAttribs = levelConfig.brickAttribs;
         removedBricks.length = 0;
-        if (this.index === 1) {
-            [
-                this.dx,
-                this.dy,
-                ball.xPosition,
-                ball.yPosition,
-                player.xPosition,
-                player.width,
-                player.color,
-                brickAttribs
-            ] = getLevelData(this.canvas, probeBrick, 2);
-        }
-        //here add several ifs with or some logic that will handle redrawing the scene with the correct level
         bricks.length = 0;
+        //TODO: fix any
         brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
         });
-        // this.dx = -3; //to default value, which is 2
-        // this.dy = -2; //to default value, which is -2
-        // ball.xPosition = ball.startPositionX;
-        // ball.yPosition = ball.startPositionY;
-        // player.xPosition = player.startPositionX;
-        // player.color = "yellow";
-        // //the only problem with changing something is with bricks, because we set their position in initialDraw method
-        // //i guess we can modify it exactly like the ball position here like:
-        // bricks.forEach(function (brick) {
-        //   brick.xPosition += 10;
-        //   brick.yPosition += 10;
-        //   brick.status = 1;
-        // });
         return [bricks, removedBricks, ball, player];
     }
     drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks, superVisor) {
@@ -110,7 +80,7 @@ export default class Level {
         });
         //player lost
         if (this.isOver === 1) {
-            [bricks, removedBricks, ball, player] = this.resetTheLevel(bricks, ball, player);
+            [bricks, removedBricks, ball, player] = this.resetTheLevel(bricks, removedBricks, ball, player);
         }
         //player won
         if (removedBricks.length === bricks.length) {

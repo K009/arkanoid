@@ -7,14 +7,15 @@ export default class Brick {
   public yPosition: number;
   public status: number;
 
-  protected color: string;
+  public color: string;
 
   constructor(
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
     status: number,
     xPosition: number,
-    yPosition: number
+    yPosition: number,
+    color?: string
   ) {
     this.ctx = ctx;
     this.canvas = canvas;
@@ -23,7 +24,7 @@ export default class Brick {
     this.xPosition = xPosition;
     this.yPosition = yPosition;
     this.status = status;
-    this.color = this.randColor();
+    this.color = color ? color : this.randColor();
   }
 
   //idea

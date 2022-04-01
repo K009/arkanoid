@@ -52,6 +52,4 @@ export default class Supervisor {
       );
     }, 10);
   }
-
-  goToNextLevel() {}
 }

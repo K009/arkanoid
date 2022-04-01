@@ -32,5 +32,4 @@ export default class Supervisor {
             levelOne.drawScene(this.canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks, this);
         }, 10);
     }
-    goToNextLevel() { }
 }
