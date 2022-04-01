@@ -24,8 +24,8 @@ function getLevelData(canvas, brick, index) {
         brickAttribs1,
         brickAttribs1,
     ];
-    vectorX.forEach(function (i) {
-        if (index + 1 === i) {
+    vectorX.forEach(function (dx, i) {
+        if (index - 1 === i) {
             levelConfig = {
                 dx: vectorX[i],
                 dy: vectorY[i],
