@@ -20,12 +20,13 @@ export default class Level {
         const removedBricks = [];
         const classContext = this;
         const probeBrick = new Brick(this.ctx, this.canvas, 1, 0, 0);
+        const superPowers = [];
         const levelData = getLevelData(this.canvas, probeBrick, this.index);
         //TODO: fix any
         levelData.brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
         });
-        return { player, ball, bricks, removedBricks };
+        return { player, ball, bricks, removedBricks, superPowers };
     }
     resetTheLevel(bricks, removedBricks, ball, player) {
         const levelConfig = getLevelData(this.canvas, new Brick(this.ctx, this.canvas, 1, 0, 0), this.index);
@@ -61,11 +62,17 @@ export default class Level {
         });
         return [bricks, removedBricks, ball, player];
     }
-    drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks, superVisor) {
+    drawScene(canvas, keyLeftPressed, keyRightPressed, player, ball, bricks, removedBricks, superVisor, superPowers) {
         //clearing the scene
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         player.draw();
         ball.draw();
+        superPowers.forEach(function (superPower) {
+            if (superPower.status === 1) {
+                superPower.draw();
+                superPower.yPosition += 2;
+            }
+        });
         // if all bricks's status is 0 then alert the player
         bricks.forEach(function (brick) {
             if (brick.status === 1) {
@@ -90,9 +97,9 @@ export default class Level {
             [bricks, removedBricks, ball, player] = this.goToNextLevel(bricks, removedBricks, ball, player);
         }
         //update y vector on bricksCollision
-        this.dy = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, this.dy);
+        [this.dy, superPowers] = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, this.dy, this.ctx, superPowers);
         //update x and y vectors on bordersCollision
-        [this.dx, this.dy, this.isOver] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, this.dx, this.dy, this.isOver);
+        [this.dx, this.dy, this.isOver, superPowers] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, this.dx, this.dy, this.isOver, superPowers);
         //move the player when keys are pressed
         if (keyRightPressed) {
             player.xPosition += player.velocity;

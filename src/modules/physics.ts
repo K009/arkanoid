@@ -1,13 +1,16 @@
 import AudioController from "../classes/AudioController.js";
 import Brick from "../classes/Brick.js";
 import Player from "../classes/Player.js";
+import SuperPowers from "../classes/SuperPowers.js";
 
 export function brickCollisionDetection(
   bricks: Brick[],
   ballX: number,
   ballY: number,
-  dy: number
-) {
+  dy: number,
+  ctx: CanvasRenderingContext2D,
+  superPowers: SuperPowers[]
+): [number, SuperPowers[]] {
   for (let r = 0; r < bricks.length; r++) {
     const brick = bricks[r];
     if (brick.status == 1) {
@@ -19,13 +22,14 @@ export function brickCollisionDetection(
       ) {
         const play: AudioController = new AudioController();
         play.bounce();
+        superPowers.push(new SuperPowers(brick, ctx));
         dy = -dy;
         brick.status = 0;
       }
     }
   }
 
-  return dy;
+  return [dy, superPowers];
 }
 
 export function borderCollisionDetection(
@@ -36,8 +40,9 @@ export function borderCollisionDetection(
   player: Player,
   dx: number,
   dy: number,
-  isOver: number
-) {
+  isOver: number,
+  superPowers: SuperPowers[]
+): [number, number, number, SuperPowers[]] {
   if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
     dx = -1.05 * dx;
   }
@@ -63,5 +68,11 @@ export function borderCollisionDetection(
     }
   }
 
-  return [dx, dy, isOver];
+  //stop drawing superPowers if they touch the ground
+  superPowers.forEach(function (superPower) {
+    if (superPower.yPosition > canvas.height + superPower.height + 2) {
+      superPower.status = 0;
+    }
+  });
+  return [dx, dy, isOver, superPowers];
 }
