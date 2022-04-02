@@ -12,6 +12,7 @@ export default class SuperPowers {
   public color: string;
   public brick: Brick;
   public type: string;
+  public superPowersTypes: string[];
   constructor(
     brick: Brick,
     ctx: CanvasRenderingContext2D
@@ -31,16 +32,35 @@ export default class SuperPowers {
     this.color = this.randColor();
 
     this.type = this.randType();
+    this.superPowersTypes = ["widerPlayer", "higherPlayer"];
   }
 
   //TODO: add different superPower types (their look and functionality)
   draw() {
-    console.log(this.type);
+    const classContext = this;
+    const rays: number[] = [3, 4, 5];
+    const colors: string[] = ["red", "yellow", "orange"];
+    let ballRadius: number = 0;
+    let color: string = "";
+
+    this.superPowersTypes.forEach(function (type, i) {
+      if (type === classContext.type) {
+        ballRadius = rays[i];
+        color = colors[i];
+      }
+    });
     this.ctx.beginPath();
+    //rect
     this.ctx.fillStyle = this.color;
-    this.ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
+    this.ctx.rect(this.xPosition, this.yPosition, this.width / ballRadius, this.height / ballRadius);
     this.ctx.fill();
     this.ctx.stroke();
+
+    // cirlce
+    // this.ctx.arc(this.xPosition, this.yPosition, ballRadius, 0, Math.PI * 2);
+    // this.ctx.fillStyle = color;
+    // this.ctx.fill();
+
     this.ctx.closePath();
   }
 
