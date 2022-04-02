@@ -52,7 +52,6 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
     return [dx, dy, isOver, superPowers];
 }
 export function superPowerDetection(player, superPowers, canvas) {
-    //TODO: console log should appear only one time
     superPowers.forEach(function (superPower) {
         if (superPower.status === 1) {
             if ((superPower.xPosition > player.xPosition &&
@@ -60,7 +59,7 @@ export function superPowerDetection(player, superPowers, canvas) {
                 (superPower.xPosition + superPower.width > player.xPosition &&
                     superPower.xPosition + superPower.width <
                         player.xPosition + player.width)) {
-                if (superPower.yPosition > canvas.height - player.height &&
+                if (superPower.yPosition == canvas.height - player.height &&
                     superPower.yPosition < canvas.height) {
                     console.log("Collision!");
                 }

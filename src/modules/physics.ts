@@ -83,7 +83,6 @@ export function superPowerDetection(
   superPowers: SuperPowers[],
   canvas: HTMLCanvasElement
 ) {
-  //TODO: console log should appear only one time
   superPowers.forEach(function (superPower) {
     if (superPower.status === 1) {
       if (
@@ -94,7 +93,7 @@ export function superPowerDetection(
             player.xPosition + player.width)
       ) {
         if (
-          superPower.yPosition > canvas.height - player.height &&
+          superPower.yPosition == canvas.height - player.height &&
           superPower.yPosition < canvas.height
         ) {
           console.log("Collision!");
