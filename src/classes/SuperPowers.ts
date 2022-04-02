@@ -27,11 +27,10 @@ export default class SuperPowers {
     this.xPosition = brick.xPosition;
     this.yPosition = brick.yPosition;
     this.status = brick.status;
-    this.color = "black";
+    this.color = this.randColor();
   }
 
-  //idea
-  //set colors that we get from level class (predefined for each level)
+  //TODO: add different superPower types (their look and functionality)
   draw() {
     this.ctx.beginPath();
     this.ctx.fillStyle = this.color;

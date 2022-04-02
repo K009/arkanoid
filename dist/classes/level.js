@@ -1,4 +1,4 @@
-import { brickCollisionDetection, borderCollisionDetection, } from "../modules/physics.js";
+import { brickCollisionDetection, borderCollisionDetection, superPowerDetection, } from "../modules/physics.js";
 import { getLevelData } from "../data/levelData.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
@@ -28,6 +28,7 @@ export default class Level {
         });
         return { player, ball, bricks, removedBricks, superPowers };
     }
+    //TODO: add reseting superPowers here
     resetTheLevel(bricks, removedBricks, ball, player) {
         const levelConfig = getLevelData(this.canvas, new Brick(this.ctx, this.canvas, 1, 0, 0), this.index);
         //Vectors and win condition
@@ -45,6 +46,7 @@ export default class Level {
         });
         return [bricks, removedBricks, ball, player];
     }
+    //TODO: add reseting superPowers here
     goToNextLevel(bricks, removedBricks, ball, player) {
         const classContext = this;
         let brickAttribs = [];
@@ -100,6 +102,7 @@ export default class Level {
         [this.dy, superPowers] = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, this.dy, this.ctx, superPowers);
         //update x and y vectors on bordersCollision
         [this.dx, this.dy, this.isOver, superPowers] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, this.dx, this.dy, this.isOver, superPowers);
+        superPowerDetection(player, superPowers, canvas);
         //move the player when keys are pressed
         if (keyRightPressed) {
             player.xPosition += player.velocity;

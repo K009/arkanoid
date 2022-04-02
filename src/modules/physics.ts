@@ -22,6 +22,7 @@ export function brickCollisionDetection(
       ) {
         const play: AudioController = new AudioController();
         play.bounce();
+        //TODO: make it random - not every destroyed brick should generate superPower
         superPowers.push(new SuperPowers(brick, ctx));
         dy = -dy;
         brick.status = 0;
@@ -75,4 +76,33 @@ export function borderCollisionDetection(
     }
   });
   return [dx, dy, isOver, superPowers];
+}
+
+export function superPowerDetection(
+  player: Player,
+  superPowers: SuperPowers[],
+  canvas: HTMLCanvasElement
+) {
+  //TODO: console log should appear only one time
+  superPowers.forEach(function (superPower) {
+    if (superPower.status === 1) {
+      if (
+        (superPower.xPosition > player.xPosition &&
+          superPower.xPosition < player.xPosition + player.width) ||
+        (superPower.xPosition + superPower.width > player.xPosition &&
+          superPower.xPosition + superPower.width <
+            player.xPosition + player.width)
+      ) {
+        if (
+          superPower.yPosition > canvas.height - player.height &&
+          superPower.yPosition < canvas.height
+        ) {
+          console.log("Collision!");
+        }
+      }
+    }
+  });
+  // if(superPower hits player)
+  //   player gets superPower
+  //   superPowers gets destroyed
 }
