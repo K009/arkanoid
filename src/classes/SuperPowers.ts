@@ -11,6 +11,7 @@ export default class SuperPowers {
 
   public color: string;
   public brick: Brick;
+  public type: string;
   constructor(
     brick: Brick,
     ctx: CanvasRenderingContext2D
@@ -28,10 +29,13 @@ export default class SuperPowers {
     this.yPosition = brick.yPosition;
     this.status = brick.status;
     this.color = this.randColor();
+
+    this.type = this.randType();
   }
 
   //TODO: add different superPower types (their look and functionality)
   draw() {
+    console.log(this.type);
     this.ctx.beginPath();
     this.ctx.fillStyle = this.color;
     this.ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
@@ -40,8 +44,16 @@ export default class SuperPowers {
     this.ctx.closePath();
   }
 
+  randType() {
+    const superPowersTypes: string[] = ["widerPlayer", "higherPlayer"];
+
+    return superPowersTypes[
+      Math.floor(Math.random() * superPowersTypes.length)
+    ];
+  }
+
   randColor() {
-    const colorArray = [
+    const colorArray: string[] = [
       "#F44336",
       "#FFEBEE",
       "#FFCDD2",

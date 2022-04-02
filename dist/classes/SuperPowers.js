@@ -14,15 +14,21 @@ export default class SuperPowers {
         this.yPosition = brick.yPosition;
         this.status = brick.status;
         this.color = this.randColor();
+        this.type = this.randType();
     }
     //TODO: add different superPower types (their look and functionality)
     draw() {
+        console.log(this.type);
         this.ctx.beginPath();
         this.ctx.fillStyle = this.color;
         this.ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
         this.ctx.fill();
         this.ctx.stroke();
         this.ctx.closePath();
+    }
+    randType() {
+        const superPowersTypes = ["widerPlayer", "higherPlayer"];
+        return superPowersTypes[Math.floor(Math.random() * superPowersTypes.length)];
     }
     randColor() {
         const colorArray = [

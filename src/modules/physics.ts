@@ -21,9 +21,12 @@ export function brickCollisionDetection(
         ballY + 2 < brick.yPosition + brick.height
       ) {
         const play: AudioController = new AudioController();
+        const randomFactor = Math.floor(Math.random() * 10);
+
         play.bounce();
-        //TODO: make it random - not every destroyed brick should generate superPower
-        superPowers.push(new SuperPowers(brick, ctx));
+        if (randomFactor % 2 === 0)
+          superPowers.push(new SuperPowers(brick, ctx));
+
         dy = -dy;
         brick.status = 0;
       }
