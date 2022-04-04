@@ -12,7 +12,7 @@ export default class SuperPowers {
   public color: string;
   public brick: Brick;
   public type: string;
-  public superPowersTypes: string[];
+  public allPossibleTypes: string[];
   constructor(
     brick: Brick,
     ctx: CanvasRenderingContext2D
@@ -32,18 +32,18 @@ export default class SuperPowers {
     this.color = this.randColor();
 
     this.type = this.randType();
-    this.superPowersTypes = ["widerPlayer", "higherPlayer"];
+    this.allPossibleTypes = ["widerPlayer", "fasterPlayer"];
   }
 
   //TODO: add different superPower types (their look and functionality)
   draw() {
     const classContext = this;
-    const rays: number[] = [3, 4, 5];
+    const rays: number[] = [1, 2, 3];
     const colors: string[] = ["red", "yellow", "orange"];
     let ballRadius: number = 0;
     let color: string = "";
 
-    this.superPowersTypes.forEach(function (type, i) {
+    this.allPossibleTypes.forEach(function (type, i) {
       if (type === classContext.type) {
         ballRadius = rays[i];
         color = colors[i];
@@ -51,7 +51,7 @@ export default class SuperPowers {
     });
     this.ctx.beginPath();
     //rect
-    this.ctx.fillStyle = this.color;
+    this.ctx.fillStyle = color;
     this.ctx.rect(this.xPosition, this.yPosition, this.width / ballRadius, this.height / ballRadius);
     this.ctx.fill();
     this.ctx.stroke();
@@ -65,7 +65,7 @@ export default class SuperPowers {
   }
 
   randType() {
-    const superPowersTypes: string[] = ["widerPlayer", "higherPlayer"];
+    const superPowersTypes: string[] = ["widerPlayer", "fasterPlayer"];
 
     return superPowersTypes[
       Math.floor(Math.random() * superPowersTypes.length)

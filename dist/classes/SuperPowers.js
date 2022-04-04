@@ -15,16 +15,16 @@ export default class SuperPowers {
         this.status = brick.status;
         this.color = this.randColor();
         this.type = this.randType();
-        this.superPowersTypes = ["widerPlayer", "higherPlayer"];
+        this.allPossibleTypes = ["widerPlayer", "fasterPlayer"];
     }
     //TODO: add different superPower types (their look and functionality)
     draw() {
         const classContext = this;
-        const rays = [3, 4, 5];
+        const rays = [1, 2, 3];
         const colors = ["red", "yellow", "orange"];
         let ballRadius = 0;
         let color = "";
-        this.superPowersTypes.forEach(function (type, i) {
+        this.allPossibleTypes.forEach(function (type, i) {
             if (type === classContext.type) {
                 ballRadius = rays[i];
                 color = colors[i];
@@ -32,7 +32,7 @@ export default class SuperPowers {
         });
         this.ctx.beginPath();
         //rect
-        this.ctx.fillStyle = this.color;
+        this.ctx.fillStyle = color;
         this.ctx.rect(this.xPosition, this.yPosition, this.width / ballRadius, this.height / ballRadius);
         this.ctx.fill();
         this.ctx.stroke();
@@ -43,7 +43,7 @@ export default class SuperPowers {
         this.ctx.closePath();
     }
     randType() {
-        const superPowersTypes = ["widerPlayer", "higherPlayer"];
+        const superPowersTypes = ["widerPlayer", "fasterPlayer"];
         return superPowersTypes[Math.floor(Math.random() * superPowersTypes.length)];
     }
     randColor() {

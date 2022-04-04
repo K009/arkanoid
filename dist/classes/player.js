@@ -4,10 +4,13 @@ export default class Player {
         this.ctx = ctx;
         this.canvas = canvas;
         this.width = canvas.width / 8.5;
+        this.basicWidth = this.width;
         this.height = canvas.width / 60;
         this.color = "#E53935";
         this.xPosition = (canvas.width - this.width) / 2;
         this.startPositionX = this.xPosition;
+        this.normalMode = true;
+        this.basicVelocity = this.velocity;
     }
     draw() {
         this.ctx.beginPath();
@@ -17,6 +20,22 @@ export default class Player {
         this.ctx.strokeStyle = "black";
         this.ctx.stroke();
         this.ctx.closePath();
+    }
+    wideModeOn() {
+        const classContext = this;
+        this.width = this.width * 1.5;
+        setTimeout(function () {
+            classContext.width = classContext.basicWidth;
+            classContext.normalMode = true;
+        }, 3000);
+    }
+    fastModeOn() {
+        const classContext = this;
+        this.velocity = this.velocity * 1.5;
+        setTimeout(function () {
+            classContext.velocity = classContext.basicVelocity;
+            classContext.normalMode = true;
+        }, 3000);
     }
     drawSuperMode() {
         const xFactor = Math.floor(Math.random() * 30);

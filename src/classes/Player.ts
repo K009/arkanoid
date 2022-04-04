@@ -3,22 +3,30 @@ export default class Player {
   public xPosition: number;
   public canvas: HTMLCanvasElement;
 
+  public basicVelocity: number;
+  public basicWidth: number;
+  
   public velocity: number = 5;
   public width: number; //35
   public height: number; //5
   public color: string;
   public direction: string;
 
+  public normalMode: boolean;
   public startPositionX: number;
 
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     this.ctx = ctx;
     this.canvas = canvas;
     this.width = canvas.width / 8.5;
+    this.basicWidth = this.width;
     this.height = canvas.width / 60;
     this.color = "#E53935";
     this.xPosition = (canvas.width - this.width) / 2;
     this.startPositionX = this.xPosition;
+    this.normalMode = true;
+
+    this.basicVelocity = this.velocity;
   }
 
   draw() {
@@ -36,7 +44,27 @@ export default class Player {
     this.ctx.closePath();
   }
 
-  drawSuperMode(){
+  wideModeOn() {
+    const classContext = this;
+
+    this.width = this.width * 1.5;
+    setTimeout(function () {
+      classContext.width = classContext.basicWidth;
+      classContext.normalMode = true;
+    }, 3000);
+  }
+
+  fastModeOn () {
+    const classContext = this;
+
+    this.velocity = this.velocity * 1.5;
+    setTimeout(function () {
+      classContext.velocity = classContext.basicVelocity;
+      classContext.normalMode = true;
+    }, 3000);
+  }
+
+  drawSuperMode() {
     const xFactor: number = Math.floor(Math.random() * 30);
     const yFactor: number = Math.floor(Math.random() * 10);
 
