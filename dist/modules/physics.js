@@ -64,10 +64,23 @@ export function superPowerDetection(player, superPowers, canvas) {
                     superPower.yPosition < canvas.height) {
                     console.log("Collision!");
                     // const playerModes = [player.wideModeOn, player.fastModeOn];
-                    // superPower.allPossibleTypes.forEach(function(type, i){
-                    //   if (superPower.type === type) {
-                    //       playerModes[0]();
-                    //   }
+                    // superPower.allPossibleTypes.forEach(function (type, i) {
+                    //    if (superPower.allPossibleTypes.indexOf(superPower.type) === i) {
+                    //      //console.log(i)
+                    //     player.modeOn(i);
+                    //    }
+                    //   //   console.log("PLAYER MODE:");
+                    //   //   console.log(player.normalMode);
+                    //   //   if (player.normalMode) {
+                    //   //     console.log(playerModes[i]);
+                    //   //     player.normalMode = false;
+                    //   //     playerModes[i]();
+                    //   //     player.modeOn(i);
+                    //   //   }
+                    //   // }
+                    //   // if (superPower.type === type) {
+                    //   //     playerModes[0]();
+                    //   // }
                     // });
                     //IDEA: make an array of all superPower types here and iterate through that
                     //above code is a sketch

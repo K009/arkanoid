@@ -31,12 +31,31 @@ export default class Player {
     }
     fastModeOn() {
         const classContext = this;
-        this.velocity = this.velocity * 1.5;
+        this.velocity = this.velocity * 2;
         setTimeout(function () {
             classContext.velocity = classContext.basicVelocity;
             classContext.normalMode = true;
         }, 3000);
     }
+    // modeOn(whichMode: number){
+    //   const allModes = [this.wideModeOn, this.fastModeOn];//["widerPlayer", "fasterPlayer"];
+    //   const words =[this.width, this.velocity];
+    //   words.forEach(function(mode, index){
+    //     if(whichMode === index) {
+    //       // allModes[index]();
+    //       // const classContext = [this.velocity, this.basicVelocity];
+    //       console.log(index);
+    //       console.log(words)
+    //       console.log(words[index])
+    //       words[index] = words[index] * 2;
+    //           // this.velocity = this.velocity * 2;
+    //           // setTimeout(function () {
+    //           //   classContext.velocity = classContext.basicVelocity;
+    //           //   classContext.normalMode = true;
+    //           // }, 3000);
+    //     }
+    //   })
+    // }
     drawSuperMode() {
         const xFactor = Math.floor(Math.random() * 30);
         const yFactor = Math.floor(Math.random() * 10);
