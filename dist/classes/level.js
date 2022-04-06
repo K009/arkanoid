@@ -22,6 +22,7 @@ export default class Level {
         const levelData = getLevelData(this.canvas, probeBrick, this.index);
         this.dx = levelData.dx;
         this.dy = levelData.dy;
+        player.color = levelData.playerColor;
         //TODO: fix any
         levelData.brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
@@ -58,6 +59,8 @@ export default class Level {
         brickAttribs = levelConfig.brickAttribs;
         removedBricks.length = 0;
         bricks.length = 0;
+        //Player
+        player.color = levelConfig.playerColor;
         //TODO: fix any
         brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);

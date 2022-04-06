@@ -2,7 +2,7 @@ export default class Brick {
     constructor(ctx, canvas, status, xPosition, yPosition, color) {
         this.ctx = ctx;
         this.canvas = canvas;
-        this.width = canvas.width / 12; //25
+        this.width = canvas.width / 22; //25
         this.height = canvas.width / 60; //5
         this.xPosition = xPosition;
         this.yPosition = yPosition;

@@ -1,12 +1,12 @@
 export default class Player {
-    constructor(ctx, canvas) {
+    constructor(ctx, canvas, color) {
         this.velocity = 5;
         this.ctx = ctx;
         this.canvas = canvas;
         this.width = canvas.width / 8.5;
         this.basicWidth = this.width;
         this.height = canvas.width / 60;
-        this.color = "#E53935";
+        this.color = color ? color : "#E53935";
         this.xPosition = (canvas.width - this.width) / 2;
         this.startPositionX = this.xPosition;
         this.normalMode = true;

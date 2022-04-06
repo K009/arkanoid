@@ -8,4 +8,5 @@ export interface levelConfigInterface {
   dx: number;
   dy: number;
   brickAttribs: bricksInterface[];
+  playerColor: string;
 }

@@ -13,7 +13,7 @@ export default class Ball {
     this.canvas = canvas;
     this.xPosition = canvas.width / 2;
     this.yPosition = canvas.height - 30;
-    this.ballRadius = canvas.width / 120;
+    this.ballRadius = canvas.width / 160;
     this.startPositionX = this.xPosition;
     this.startPositionY = this.yPosition;
   }

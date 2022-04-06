@@ -3,25 +3,41 @@ function getLevelData(canvas, brick, index) {
     const brickAttribs2 = [];
     const verticalHelper = canvas.width / 60;
     const horizontalHelper = canvas.height / 12;
+    const colorArray = [
+        ["#A8E6CE", "#DCEDC2", "#FFD3B5", "#FFAAA6", "#FF8C94"],
+        ["#EDEBE6", "#D6E1C7", "#94C7B6", "#403B33", "#D3643B"],
+        ["#FDF1CC", "#C6D6B8", "#987F69", "#E3AD40", "#FCD036"],
+        ["#AAB3AB", "#C4CBB7", "#EBEFC9", "#EEE0B7", "#E8CAAF"],
+        ["#CC0C39", "#E6781E", "#C8CF02", "#F8FCC1", "#1693A7"],
+    ];
     //vertically 7
     for (let i = 1; i < 7; i++) {
         //horizontally 11
-        for (let j = 0; j < 11; j++) {
+        for (let j = 0; j < 21; j++) {
             brickAttribs1.push({
                 x: verticalHelper + j * brick.width,
                 y: horizontalHelper * i,
+                color: colorArray[0][Math.floor(Math.random() * colorArray.length)],
             });
         }
     }
+    let x = 1;
+    let specialCounter = 1;
     //vertically 7
-    for (let i = 1; i < 4; i++) {
+    for (let i = 1; i < 6; i++) {
         //horizontally 11
-        for (let j = 0; j < 11; j++) {
+        specialCounter = i * 4;
+        for (let j = 0; j < 21; j++) {
+            if (specialCounter === 0)
+                x = undefined;
             brickAttribs2.push({
-                x: verticalHelper + j * brick.width,
+                x: (verticalHelper + j * brick.width) * x,
                 y: horizontalHelper * i,
+                color: colorArray[1][Math.floor(Math.random() * colorArray.length)],
             });
+            specialCounter -= 1;
         }
+        x = 1;
     }
     //instead of ifs everywhere here, try to create an array and itarate through it like
     let levelConfig;
@@ -41,6 +57,7 @@ function getLevelData(canvas, brick, index) {
                 dx: vectorX[i],
                 dy: vectorY[i],
                 brickAttribs: brickAttribs[i],
+                playerColor: colorArray[i][Math.floor(Math.random() * colorArray.length)],
             };
             return levelConfig;
         }

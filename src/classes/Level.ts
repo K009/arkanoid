@@ -44,7 +44,8 @@ export default class Level {
 
     this.dx = levelData.dx;
     this.dy = levelData.dy;
-    
+    player.color = levelData.playerColor;
+
     //TODO: fix any
     (levelData.brickAttribs as any).forEach(function (
       brick: { x: number; y: number; color: string },
@@ -119,6 +120,9 @@ export default class Level {
     brickAttribs = levelConfig.brickAttribs;
     removedBricks.length = 0;
     bricks.length = 0;
+
+    //Player
+    player.color = levelConfig.playerColor;
 
     //TODO: fix any
     (brickAttribs as any).forEach(function (
