@@ -5,8 +5,6 @@ import Brick from "./Brick.js";
 import Player from "./Player.js";
 export default class Level {
     constructor(ctx, canvas, index) {
-        this.dx = 2; //x vector of ball movement
-        this.dy = -2; //y vector of ball movement
         this.isOver = 0; //change it to boolean in the future
         this.ctx = ctx;
         this.canvas = canvas;
@@ -22,6 +20,8 @@ export default class Level {
         const probeBrick = new Brick(this.ctx, this.canvas, 1, 0, 0);
         const superPowers = [];
         const levelData = getLevelData(this.canvas, probeBrick, this.index);
+        this.dx = levelData.dx;
+        this.dy = levelData.dy;
         //TODO: fix any
         levelData.brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);

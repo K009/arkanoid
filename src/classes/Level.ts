@@ -13,8 +13,8 @@ import SuperPowers from "./SuperPowers.js";
 export default class Level {
   public ctx: CanvasRenderingContext2D;
   public canvas: HTMLCanvasElement;
-  public dx: number = 2; //x vector of ball movement
-  public dy: number = -2; //y vector of ball movement
+  public dx: number; //x vector of ball movement
+  public dy: number; //y vector of ball movement
   public isOver: number = 0; //change it to boolean in the future
   public index: number; //which level
 
@@ -41,6 +41,10 @@ export default class Level {
     const superPowers: SuperPowers[] = [];
 
     const levelData = getLevelData(this.canvas, probeBrick, this.index);
+
+    this.dx = levelData.dx;
+    this.dy = levelData.dy;
+    
     //TODO: fix any
     (levelData.brickAttribs as any).forEach(function (
       brick: { x: number; y: number; color: string },
