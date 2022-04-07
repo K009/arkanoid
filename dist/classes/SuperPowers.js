@@ -10,7 +10,7 @@ export default class SuperPowers {
         this.ctx = ctx;
         this.width = brick.width; //25
         this.height = brick.height; //5
-        this.xPosition = brick.xPosition;
+        this.xPosition = brick.xPosition + brick.width / 2;
         this.yPosition = brick.yPosition;
         this.status = brick.status;
         this.color = this.randColor();
@@ -33,8 +33,10 @@ export default class SuperPowers {
         this.ctx.beginPath();
         //rect
         this.ctx.fillStyle = color;
-        this.ctx.rect(this.xPosition, this.yPosition, this.width / ballRadius, this.height / ballRadius);
+        this.ctx.rect(this.xPosition, this.yPosition, this.width / 2, this.height / 2);
         this.ctx.fill();
+        //funny because it changes stroke color of all drawn rects
+        this.ctx.strokeStyle = 'blue';
         this.ctx.stroke();
         // cirlce
         // this.ctx.arc(this.xPosition, this.yPosition, ballRadius, 0, Math.PI * 2);

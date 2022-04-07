@@ -4,7 +4,7 @@ body {
 }
 
 #myCanvas {
-  background-color: lightblue;
+  background-color: rgb(195, 241, 199);
   position: absolute;
   top: 25%;
   left: 50%;

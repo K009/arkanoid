@@ -1,6 +1,8 @@
 function getLevelData(canvas, brick, index) {
     const brickAttribs1 = [];
     const brickAttribs2 = [];
+    const brickAttribs3 = [];
+    const brickAttribs4 = [];
     const verticalHelper = canvas.width / 60;
     const horizontalHelper = canvas.height / 12;
     const colorArray = [
@@ -24,9 +26,9 @@ function getLevelData(canvas, brick, index) {
     let x = 1;
     let specialCounter = 1;
     //vertically 7
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i < 7; i++) {
         //horizontally 11
-        specialCounter = i * 4;
+        specialCounter = i * 3;
         for (let j = 0; j < 21; j++) {
             if (specialCounter === 0)
                 x = undefined;
@@ -39,6 +41,34 @@ function getLevelData(canvas, brick, index) {
         }
         x = 1;
     }
+    const horizontalHelper3 = canvas.height / 15;
+    //vertically 17
+    for (let i = 1; i < 17; i++) {
+        //horizontally 11
+        for (let j = 0; j < 21; j++) {
+            brickAttribs3.push({
+                x: (verticalHelper + j * brick.width) * 2,
+                y: (horizontalHelper3 * i) / 2,
+                color: colorArray[2][Math.floor(Math.random() * colorArray.length)],
+            });
+        }
+    }
+    let everySecond = 1;
+    //vertically 7
+    for (let i = 1; i < 12; i++) {
+        //horizontally 11
+        for (let j = 0; j < 21; j++) {
+            brickAttribs4.push({
+                x: (verticalHelper + j * brick.width) * everySecond,
+                y: ((horizontalHelper * i) / 2) * everySecond,
+                color: colorArray[3][Math.floor(Math.random() * colorArray.length)],
+            });
+            if (everySecond === 1)
+                everySecond = undefined;
+            else if (everySecond === undefined)
+                everySecond = 1;
+        }
+    }
     //instead of ifs everywhere here, try to create an array and itarate through it like
     let levelConfig;
     let vectorX = [2, 3, -2, 3, 3];
@@ -47,8 +77,8 @@ function getLevelData(canvas, brick, index) {
     let brickAttribs = [
         brickAttribs1,
         brickAttribs2,
-        brickAttribs1,
-        brickAttribs1,
+        brickAttribs3,
+        brickAttribs4,
         brickAttribs1,
     ];
     vectorX.forEach(function (dx, i) {
