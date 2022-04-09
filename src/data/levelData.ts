@@ -74,7 +74,7 @@ function getLevelData(
     for (let j = 0; j < 21; j++) {
       brickAttribs4.push({
         x: (verticalHelper + j * brick.width) * everySecond,
-        y: ((horizontalHelper * i) / 2) * everySecond,
+        y: ((horizontalHelper * i) / 2.1) * everySecond,
         color: colorArray[3][Math.floor(Math.random() * colorArray.length)],
       });
       if (everySecond === 1) everySecond = undefined;

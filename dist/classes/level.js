@@ -102,7 +102,7 @@ export default class Level {
             [bricks, removedBricks, ball, player] = this.goToNextLevel(bricks, removedBricks, ball, player);
         }
         //update y vector on bricksCollision
-        [this.dy, superPowers] = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, this.dy, this.ctx, superPowers);
+        [this.dx, this.dy, superPowers] = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, this.dx, this.dy, this.ctx, superPowers);
         //update x and y vectors on bordersCollision
         [this.dx, this.dy, this.isOver, superPowers] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, this.dx, this.dy, this.isOver, superPowers);
         superPowerDetection(player, superPowers, canvas);

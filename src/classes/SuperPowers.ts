@@ -60,7 +60,7 @@ export default class SuperPowers {
     );
     this.ctx.fill();
     //funny because it changes stroke color of all drawn rects
-    this.ctx.strokeStyle = 'blue';
+    //this.ctx.strokeStyle = 'blue';
     this.ctx.stroke();
 
     // cirlce

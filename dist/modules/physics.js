@@ -1,13 +1,14 @@
 import AudioController from "../classes/AudioController.js";
 import SuperPowers from "../classes/SuperPowers.js";
-export function brickCollisionDetection(bricks, ballX, ballY, dy, ctx, superPowers) {
+export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, superPowers) {
     for (let r = 0; r < bricks.length; r++) {
         const brick = bricks[r];
         if (brick.status == 1) {
-            if (ballX + 2 > brick.xPosition &&
-                ballX + 2 < brick.xPosition + brick.width &&
-                ballY + 2 > brick.yPosition &&
-                ballY + 2 < brick.yPosition + brick.height) {
+            // up&&down collision
+            if (ballX > brick.xPosition &&
+                ballX < brick.xPosition + brick.width &&
+                ballY > brick.yPosition &&
+                ballY < brick.yPosition + brick.height) {
                 const play = new AudioController();
                 const randomFactor = Math.floor(Math.random() * 10);
                 play.bounce();
@@ -16,9 +17,23 @@ export function brickCollisionDetection(bricks, ballX, ballY, dy, ctx, superPowe
                 dy = -dy;
                 brick.status = 0;
             }
+            // left&&right collision
+            else if (ballX > brick.xPosition - 3 &&
+                ballX < brick.xPosition + brick.width + 3 &&
+                ballY > brick.yPosition &&
+                ballY < brick.yPosition + brick.height) {
+                const play = new AudioController();
+                const randomFactor = Math.floor(Math.random() * 10);
+                play.bounce();
+                if (randomFactor % 2 === 0)
+                    superPowers.push(new SuperPowers(brick, ctx));
+                dy = dy;
+                dx = -dx;
+                brick.status = 0;
+            }
         }
     }
-    return [dy, superPowers];
+    return [dx, dy, superPowers];
 }
 export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy, isOver, superPowers) {
     if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {

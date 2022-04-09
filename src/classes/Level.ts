@@ -201,10 +201,11 @@ export default class Level {
     }
 
     //update y vector on bricksCollision
-    [this.dy, superPowers] = brickCollisionDetection(
+    [this.dx, this.dy, superPowers] = brickCollisionDetection(
       bricks,
       ball.xPosition,
       ball.yPosition,
+      this.dx,
       this.dy,
       this.ctx,
       superPowers

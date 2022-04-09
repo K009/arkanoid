@@ -7,18 +7,20 @@ export function brickCollisionDetection(
   bricks: Brick[],
   ballX: number,
   ballY: number,
+  dx: number,
   dy: number,
   ctx: CanvasRenderingContext2D,
   superPowers: SuperPowers[]
-): [number, SuperPowers[]] {
+): [number, number, SuperPowers[]] {
   for (let r = 0; r < bricks.length; r++) {
     const brick = bricks[r];
     if (brick.status == 1) {
+      // up&&down collision
       if (
-        ballX + 2 > brick.xPosition &&
-        ballX + 2 < brick.xPosition + brick.width &&
-        ballY + 2 > brick.yPosition &&
-        ballY + 2 < brick.yPosition + brick.height
+        ballX > brick.xPosition &&
+        ballX < brick.xPosition + brick.width &&
+        ballY > brick.yPosition &&
+        ballY < brick.yPosition + brick.height
       ) {
         const play: AudioController = new AudioController();
         const randomFactor = Math.floor(Math.random() * 10);
@@ -28,12 +30,31 @@ export function brickCollisionDetection(
           superPowers.push(new SuperPowers(brick, ctx));
 
         dy = -dy;
+
+        brick.status = 0;
+      } 
+      // left&&right collision
+      else if (
+        ballX > brick.xPosition - 3 &&
+        ballX < brick.xPosition + brick.width + 3 &&
+        ballY > brick.yPosition &&
+        ballY < brick.yPosition + brick.height
+      ) {
+        const play: AudioController = new AudioController();
+        const randomFactor = Math.floor(Math.random() * 10);
+
+        play.bounce();
+        if (randomFactor % 2 === 0)
+          superPowers.push(new SuperPowers(brick, ctx));
+
+        dy = dy;
+        dx = -dx;
         brick.status = 0;
       }
     }
   }
 
-  return [dy, superPowers];
+  return [dx, dy, superPowers];
 }
 
 export function borderCollisionDetection(

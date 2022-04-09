@@ -36,7 +36,7 @@ export default class SuperPowers {
         this.ctx.rect(this.xPosition, this.yPosition, this.width / 2, this.height / 2);
         this.ctx.fill();
         //funny because it changes stroke color of all drawn rects
-        this.ctx.strokeStyle = 'blue';
+        //this.ctx.strokeStyle = 'blue';
         this.ctx.stroke();
         // cirlce
         // this.ctx.arc(this.xPosition, this.yPosition, ballRadius, 0, Math.PI * 2);
