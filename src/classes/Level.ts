@@ -48,7 +48,7 @@ export default class Level {
 
     //TODO: fix any
     (levelData.brickAttribs as any).forEach(function (
-      brick: { x: number; y: number; color: string },
+      brick: { x: number; y: number; color: string; isBoss: boolean },
       i: number
     ) {
       bricks[i] = new Brick(
@@ -57,7 +57,8 @@ export default class Level {
         1,
         brick.x,
         brick.y,
-        brick.color
+        brick.color,
+        brick.isBoss
       );
     });
 
@@ -76,7 +77,7 @@ export default class Level {
       new Brick(this.ctx, this.canvas, 1, 0, 0),
       this.index
     );
-
+    const classContext = this;
     //Vectors and win condition
     this.dx = levelConfig.dx;
     this.dy = levelConfig.dy;
@@ -89,9 +90,27 @@ export default class Level {
 
     //Bricks
     removedBricks.length = 0;
-    bricks.forEach(function (brick) {
-      brick.status = 1;
+
+    //like that we're creating totally new objects of Bricks (so different color for example)
+    (levelConfig.brickAttribs as any).forEach(function (
+      brick: { x: number; y: number; color: string; isBoss: boolean },
+      i: number
+    ) {
+      bricks[i] = new Brick(
+        classContext.ctx,
+        classContext.canvas,
+        1,
+        brick.x,
+        brick.y,
+        brick.color,
+        brick.isBoss
+      );
     });
+
+    //like that we're just reseting their states, so the position will remain the same as when they were destroyed
+    // bricks.forEach(function (brick) {
+    //   brick.status = 1;
+    // });
 
     return [bricks, removedBricks, ball, player];
   }

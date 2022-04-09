@@ -8,6 +8,10 @@ export default class Brick {
   public status: number;
 
   public color: string;
+  public isBoss: boolean;
+  public vector: number;
+  public xFactor: number;
+  public yFactor: number;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -15,7 +19,8 @@ export default class Brick {
     status: number,
     xPosition: number,
     yPosition: number,
-    color?: string
+    color?: string,
+    isBoss?: boolean
   ) {
     this.ctx = ctx;
     this.canvas = canvas;
@@ -24,18 +29,41 @@ export default class Brick {
     this.xPosition = xPosition;
     this.yPosition = yPosition;
     this.status = status;
+
     this.color = color ? color : this.randColor();
+    this.isBoss = isBoss ? isBoss : false;
+    this.xFactor = 1;
+    this.yFactor = 1;
   }
 
   //idea
   //set colors that we get from level class (predefined for each level)
   drawBrick() {
-    this.ctx.beginPath();
-    this.ctx.fillStyle = this.color;
-    this.ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
-    this.ctx.fill();
-    this.ctx.stroke();
-    this.ctx.closePath();
+    if (!this.isBoss) {
+      this.ctx.beginPath();
+      this.ctx.fillStyle = this.color;
+      this.ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
+      this.ctx.fill();
+      this.ctx.stroke();
+      this.ctx.closePath();
+    } else {
+
+      if(this.xPosition > this.canvas.width - this.width || this.xPosition < this.width){
+        this.xFactor = -1 * this.xFactor;
+      } else if (this.yPosition > this.canvas.height - 300 || this.yPosition < 10) {
+        this.yFactor = -1 * this.yFactor;
+      }
+
+      this.xPosition += this.xFactor;
+      //this.yPosition += this.yFactor;
+
+      this.ctx.beginPath();
+      this.ctx.fillStyle = this.color;
+      this.ctx.rect(this.xPosition, this.yPosition, this.width, this.height);
+      this.ctx.fill();
+      this.ctx.stroke();
+      this.ctx.closePath();
+    }
   }
 
   randColor() {

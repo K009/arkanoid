@@ -32,7 +32,7 @@ export function brickCollisionDetection(
         dy = -dy;
 
         brick.status = 0;
-      } 
+      }
       // left&&right collision
       else if (
         ballX > brick.xPosition - 3 &&

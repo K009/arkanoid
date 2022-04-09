@@ -25,13 +25,14 @@ export default class Level {
         player.color = levelData.playerColor;
         //TODO: fix any
         levelData.brickAttribs.forEach(function (brick, i) {
-            bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
+            bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color, brick.isBoss);
         });
         return { player, ball, bricks, removedBricks, superPowers };
     }
     //TODO: add reseting superPowers here
     resetTheLevel(bricks, removedBricks, ball, player) {
         const levelConfig = getLevelData(this.canvas, new Brick(this.ctx, this.canvas, 1, 0, 0), this.index);
+        const classContext = this;
         //Vectors and win condition
         this.dx = levelConfig.dx;
         this.dy = levelConfig.dy;
@@ -42,9 +43,14 @@ export default class Level {
         player.xPosition = player.startPositionX;
         //Bricks
         removedBricks.length = 0;
-        bricks.forEach(function (brick) {
-            brick.status = 1;
+        //like that we're creating totally new objects of Bricks (so different color for example)
+        levelConfig.brickAttribs.forEach(function (brick, i) {
+            bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color, brick.isBoss);
         });
+        //like that we're just reseting their states, so the position will remain the same as when they were destroyed
+        // bricks.forEach(function (brick) {
+        //   brick.status = 1;
+        // });
         return [bricks, removedBricks, ball, player];
     }
     //TODO: add reseting superPowers here

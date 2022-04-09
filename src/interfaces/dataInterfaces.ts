@@ -2,6 +2,7 @@ export interface bricksInterface {
   x: number;
   y: number;
   color?: string;
+  isBoss?: boolean;
 }
 
 export interface levelConfigInterface {

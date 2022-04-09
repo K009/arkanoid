@@ -13,6 +13,7 @@ function getLevelData(
   const brickAttribs2: bricksInterface[] = [];
   const brickAttribs3: bricksInterface[] = [];
   const brickAttribs4: bricksInterface[] = [];
+  const brickAttribs5: bricksInterface[] = [];
   const verticalHelper = canvas.width / 60;
   const horizontalHelper = canvas.height / 12;
   const colorArray = [
@@ -82,6 +83,21 @@ function getLevelData(
     }
   }
 
+  const verticalHelper4 = canvas.width / 3;
+  const horizontalHelper4 = canvas.height / 12;
+  //vertically 7
+  for (let i = 1; i < 7; i++) {
+    //horizontally 11
+    for (let j = 0; j < 8; j++) {
+      brickAttribs5.push({
+        x: verticalHelper4 + j * brick.width,
+        y: horizontalHelper4 * i,
+        color: colorArray[4][Math.floor(Math.random() * colorArray.length)],
+        isBoss: true,
+      });
+    }
+  }
+
   //instead of ifs everywhere here, try to create an array and itarate through it like
   let levelConfig: levelConfigInterface;
   let vectorX = [2, 3, -2, 3, 3];
@@ -92,7 +108,7 @@ function getLevelData(
     brickAttribs2,
     brickAttribs3,
     brickAttribs4,
-    brickAttribs1,
+    brickAttribs5,
   ];
   vectorX.forEach(function (dx, i) {
     if (index - 1 === i) {
