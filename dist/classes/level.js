@@ -87,7 +87,7 @@ export default class Level {
         // if all bricks's status is 0 then alert the player
         bricks.forEach(function (brick) {
             if (brick.status === 1) {
-                brick.drawBrick();
+                brick.drawBrick(removedBricks.length, bricks.length);
             }
             else {
                 //check if the brick is not currently in the array

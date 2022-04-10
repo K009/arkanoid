@@ -12,6 +12,7 @@ export default class Brick {
   public vector: number;
   public xFactor: number;
   public yFactor: number;
+  public howManyLeft: number;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -34,11 +35,12 @@ export default class Brick {
     this.isBoss = isBoss ? isBoss : false;
     this.xFactor = 1;
     this.yFactor = 1;
+    this.howManyLeft = 0;
   }
 
   //idea
   //set colors that we get from level class (predefined for each level)
-  drawBrick() {
+  drawBrick(removedBricks: number, bricks: number) {
     if (!this.isBoss) {
       this.ctx.beginPath();
       this.ctx.fillStyle = this.color;
@@ -47,15 +49,24 @@ export default class Brick {
       this.ctx.stroke();
       this.ctx.closePath();
     } else {
-
-      if(this.xPosition > this.canvas.width - this.width || this.xPosition < this.width){
+      if (removedBricks > bricks / 2) {
+        this.xPosition += this.xFactor * 1.5;
+      } else if (removedBricks > bricks / 4) {
+        this.yPosition += this.yFactor;
+      } else {
+        this.xPosition += this.xFactor;
+      }
+      if (
+        this.xPosition > this.canvas.width - this.width ||
+        this.xPosition < this.width
+      ) {
         this.xFactor = -1 * this.xFactor;
-      } else if (this.yPosition > this.canvas.height - 300 || this.yPosition < 10) {
+      } else if (
+        this.yPosition > this.canvas.height - 150 ||
+        this.yPosition < 10
+      ) {
         this.yFactor = -1 * this.yFactor;
       }
-
-      this.xPosition += this.xFactor;
-      //this.yPosition += this.yFactor;
 
       this.ctx.beginPath();
       this.ctx.fillStyle = this.color;
