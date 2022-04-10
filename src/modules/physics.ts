@@ -1,4 +1,5 @@
 import AudioController from "../classes/AudioController.js";
+import Ball from "../classes/Ball.js";
 import Brick from "../classes/Brick.js";
 import Player from "../classes/Player.js";
 import SuperPowers from "../classes/SuperPowers.js";
@@ -26,8 +27,8 @@ export function brickCollisionDetection(
         const randomFactor = Math.floor(Math.random() * 10);
 
         play.bounce();
-        if (randomFactor % 2 === 0)
-          superPowers.push(new SuperPowers(brick, ctx));
+        //if (randomFactor % 2 === 0)
+        superPowers.push(new SuperPowers(brick, ctx));
 
         dy = -dy;
 
@@ -44,8 +45,8 @@ export function brickCollisionDetection(
         const randomFactor = Math.floor(Math.random() * 10);
 
         play.bounce();
-        if (randomFactor % 2 === 0)
-          superPowers.push(new SuperPowers(brick, ctx));
+        //if (randomFactor % 2 === 0)
+        superPowers.push(new SuperPowers(brick, ctx));
 
         dy = dy;
         dx = -dx;
@@ -104,9 +105,12 @@ export function borderCollisionDetection(
 
 export function superPowerDetection(
   player: Player,
+  ball: Ball[],
   superPowers: SuperPowers[],
-  canvas: HTMLCanvasElement
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D
 ) {
+  const classContext = this;
   superPowers.forEach(function (superPower) {
     if (superPower.status === 1) {
       if (
@@ -153,6 +157,10 @@ export function superPowerDetection(
               player.normalMode = false;
               player.fastModeOn();
             }
+          } else if (superPower.type === "moreBalls") {
+            //player.fastModeOn();
+            //ball.moreBalls();
+            ball.push(new Ball(ctx, canvas))
           }
         }
       }

@@ -1,4 +1,5 @@
 import AudioController from "../classes/AudioController.js";
+import Ball from "../classes/Ball.js";
 import SuperPowers from "../classes/SuperPowers.js";
 export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, superPowers) {
     for (let r = 0; r < bricks.length; r++) {
@@ -12,8 +13,8 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
                 const play = new AudioController();
                 const randomFactor = Math.floor(Math.random() * 10);
                 play.bounce();
-                if (randomFactor % 2 === 0)
-                    superPowers.push(new SuperPowers(brick, ctx));
+                //if (randomFactor % 2 === 0)
+                superPowers.push(new SuperPowers(brick, ctx));
                 dy = -dy;
                 brick.status = 0;
             }
@@ -25,8 +26,8 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
                 const play = new AudioController();
                 const randomFactor = Math.floor(Math.random() * 10);
                 play.bounce();
-                if (randomFactor % 2 === 0)
-                    superPowers.push(new SuperPowers(brick, ctx));
+                //if (randomFactor % 2 === 0)
+                superPowers.push(new SuperPowers(brick, ctx));
                 dy = dy;
                 dx = -dx;
                 brick.status = 0;
@@ -67,7 +68,8 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
     });
     return [dx, dy, isOver, superPowers];
 }
-export function superPowerDetection(player, superPowers, canvas) {
+export function superPowerDetection(player, ball, superPowers, canvas, ctx) {
+    const classContext = this;
     superPowers.forEach(function (superPower) {
         if (superPower.status === 1) {
             if ((superPower.xPosition > player.xPosition &&
@@ -110,6 +112,11 @@ export function superPowerDetection(player, superPowers, canvas) {
                             player.normalMode = false;
                             player.fastModeOn();
                         }
+                    }
+                    else if (superPower.type === "moreBalls") {
+                        //player.fastModeOn();
+                        //ball.moreBalls();
+                        ball.push(new Ball(ctx, canvas));
                     }
                 }
             }

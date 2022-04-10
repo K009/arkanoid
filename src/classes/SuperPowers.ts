@@ -32,14 +32,14 @@ export default class SuperPowers {
     this.color = this.randColor();
 
     this.type = this.randType();
-    this.allPossibleTypes = ["widerPlayer", "fasterPlayer"];
+    this.allPossibleTypes = ["widerPlayer", "fasterPlayer", "moreBalls"];
   }
 
   //TODO: add different superPower types (their look and functionality)
   draw() {
     const classContext = this;
     const rays: number[] = [1, 2, 3];
-    const colors: string[] = ["red", "yellow", "orange"];
+    const colors: string[] = ["red", "yellow", "black"];
     let ballRadius: number = 0;
     let color: string = "";
 
@@ -72,7 +72,7 @@ export default class SuperPowers {
   }
 
   randType() {
-    const superPowersTypes: string[] = ["widerPlayer", "fasterPlayer"];
+    const superPowersTypes: string[] = ["widerPlayer", "fasterPlayer", "moreBalls"];
 
     return superPowersTypes[
       Math.floor(Math.random() * superPowersTypes.length)

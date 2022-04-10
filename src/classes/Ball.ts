@@ -31,4 +31,9 @@ export default class Ball {
     this.ctx.fill();
     this.ctx.closePath();
   }
+
+  moreBalls() {
+    for(let i =0; i <2; i++)
+      this.draw()
+  }
 }
