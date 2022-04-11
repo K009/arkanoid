@@ -8,6 +8,9 @@ export default class Ball {
   public startPositionX: number;
   public startPositionY: number;
 
+  public dx: number;
+  public dy: number;
+
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     this.ctx = ctx;
     this.canvas = canvas;

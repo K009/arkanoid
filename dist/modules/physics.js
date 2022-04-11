@@ -1,7 +1,7 @@
 import AudioController from "../classes/AudioController.js";
 import Ball from "../classes/Ball.js";
 import SuperPowers from "../classes/SuperPowers.js";
-export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, superPowers) {
+export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, superPowers, ball) {
     for (let r = 0; r < bricks.length; r++) {
         const brick = bricks[r];
         if (brick.status == 1) {
@@ -15,7 +15,7 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
                 play.bounce();
                 //if (randomFactor % 2 === 0)
                 superPowers.push(new SuperPowers(brick, ctx));
-                dy = -dy;
+                ball.dy = -ball.dy;
                 brick.status = 0;
             }
             // left&&right collision
@@ -28,31 +28,31 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
                 play.bounce();
                 //if (randomFactor % 2 === 0)
                 superPowers.push(new SuperPowers(brick, ctx));
-                dy = dy;
-                dx = -dx;
+                ball.dy = ball.dy;
+                ball.dx = -ball.dx;
                 brick.status = 0;
             }
         }
     }
-    return [dx, dy, superPowers];
+    return [dx, dy, superPowers, ball];
 }
-export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy, isOver, superPowers) {
-    if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
-        dx = -1.05 * dx;
+export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy, isOver, superPowers, ball) {
+    if (ballX + ball.dx > canvas.width - ballRadius || ballX + ball.dx < ballRadius) {
+        ball.dx = -1.05 * ball.dx;
     }
-    if (ballY + dy < ballRadius) {
-        dy = -dy;
+    if (ballY + ball.dy < ballRadius) {
+        ball.dy = -ball.dy;
     }
-    else if (ballY + dy > canvas.height - ballRadius) {
+    else if (ballY + ball.dy > canvas.height - ballRadius) {
         if (ballX > player.xPosition && ballX < player.xPosition + player.width) {
             if ((ballY = ballY - player.height)) {
                 const play = new AudioController();
-                dy = -dy;
+                ball.dy = -ball.dy;
                 play.bounce();
                 //reverse ball x vector if player is moving in the opposite way than the ball
-                if ((player.direction === "left" && dx > 0) ||
-                    (player.direction === "right" && dx < 0)) {
-                    dx = -Math.sign(dx) * 2;
+                if ((player.direction === "left" && ball.dx > 0) ||
+                    (player.direction === "right" && ball.dx < 0)) {
+                    ball.dx = -Math.sign(ball.dx) * 2;
                 }
             }
         }
@@ -66,9 +66,9 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
             superPower.status = 0;
         }
     });
-    return [dx, dy, isOver, superPowers];
+    return [dx, dy, isOver, superPowers, ball];
 }
-export function superPowerDetection(player, ball, superPowers, canvas, ctx) {
+export function superPowerDetection(player, balls, superPowers, canvas, ctx) {
     const classContext = this;
     superPowers.forEach(function (superPower) {
         if (superPower.status === 1) {
@@ -116,10 +116,16 @@ export function superPowerDetection(player, ball, superPowers, canvas, ctx) {
                     else if (superPower.type === "moreBalls") {
                         //player.fastModeOn();
                         //ball.moreBalls();
-                        ball.push(new Ball(ctx, canvas));
+                        let newBall = new Ball(ctx, canvas);
+                        newBall.dx = balls[0].dx;
+                        newBall.dy = balls[0].dy;
+                        newBall.xPosition = balls[0].xPosition + 3;
+                        newBall.yPosition = balls[0].yPosition - 3;
+                        balls.push(newBall);
                     }
                 }
             }
         }
     });
+    return balls;
 }

@@ -22,8 +22,8 @@ export default class Level {
         const probeBrick = new Brick(this.ctx, this.canvas, 1, 0, 0);
         const superPowers = [];
         const levelData = getLevelData(this.canvas, probeBrick, this.index);
-        this.dx = levelData.dx;
-        this.dy = levelData.dy;
+        balls[0].dx = levelData.dx;
+        balls[0].dy = levelData.dy;
         player.color = levelData.playerColor;
         //TODO: fix any
         levelData.brickAttribs.forEach(function (brick, i) {
@@ -32,7 +32,7 @@ export default class Level {
         return { player, balls, bricks, removedBricks, superPowers };
     }
     //TODO: add reseting superPowers here
-    resetTheLevel(bricks, removedBricks, ball, player) {
+    resetTheLevel(bricks, removedBricks, balls, player) {
         const levelConfig = getLevelData(this.canvas, new Brick(this.ctx, this.canvas, 1, 0, 0), this.index);
         const classContext = this;
         //Vectors and win condition
@@ -40,8 +40,10 @@ export default class Level {
         this.dy = levelConfig.dy;
         this.isOver = 0;
         //Ball & Player positions
-        ball.xPosition = ball.startPositionX;
-        ball.yPosition = ball.startPositionY;
+        balls.length = 0;
+        balls[0] = new Ball(this.ctx, this.canvas);
+        // ball.xPosition = ball.startPositionX;
+        // ball.yPosition = ball.startPositionY;
         player.xPosition = player.startPositionX;
         //Bricks
         removedBricks.length = 0;
@@ -53,7 +55,7 @@ export default class Level {
         // bricks.forEach(function (brick) {
         //   brick.status = 1;
         // });
-        return [bricks, removedBricks, ball, player];
+        return [bricks, removedBricks, balls, player];
     }
     //TODO: add reseting superPowers here
     goToNextLevel(bricks, removedBricks, ball, player) {
@@ -103,16 +105,11 @@ export default class Level {
             }
         });
         //player lost
-        // if (this.isOver === 1) {
-        //   [bricks, removedBricks, ball, player] = this.resetTheLevel(
-        //     bricks,
-        //     removedBricks,
-        //     ball,
-        //     player
-        //   );
-        //   // player.drawSuperMode();
-        // }
-        // //player won
+        if (this.isOver === 1) {
+            [bricks, removedBricks, balls, player] = this.resetTheLevel(bricks, removedBricks, balls, player);
+            // player.drawSuperMode();
+        }
+        //player won
         // if (removedBricks.length === bricks.length) {
         //   //add if player wins condition with different bricks, vectors, background
         //   [bricks, removedBricks, ball, player] = this.goToNextLevel(
@@ -125,8 +122,8 @@ export default class Level {
         const classContext = this;
         //update y vector on bricksCollision
         balls.forEach(function (ball) {
-            [classContext.dx, classContext.dy, superPowers] = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, classContext.dx, classContext.dy, classContext.ctx, superPowers);
-            [classContext.dx, classContext.dy, classContext.isOver, superPowers] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, classContext.dx, classContext.dy, classContext.isOver, superPowers);
+            [classContext.dx, classContext.dy, superPowers, ball] = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, classContext.dx, classContext.dy, classContext.ctx, superPowers, ball);
+            [classContext.dx, classContext.dy, classContext.isOver, superPowers, ball] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, classContext.dx, classContext.dy, classContext.isOver, superPowers, ball);
         });
         // [this.dx, this.dy, superPowers] = brickCollisionDetection(
         //   bricks,
@@ -150,7 +147,7 @@ export default class Level {
         //   superPowers
         // );
         // superPowerDetection(player, ball, superPowers, canvas);
-        superPowerDetection(player, balls, superPowers, canvas, this.ctx);
+        balls = superPowerDetection(player, balls, superPowers, canvas, this.ctx);
         //move the player when keys are pressed
         if (keyRightPressed) {
             player.xPosition += player.velocity;
@@ -176,8 +173,8 @@ export default class Level {
         }
         //move the ball with the given vectors each 10ms
         balls.forEach(function (ball) {
-            ball.xPosition += classContext.dx;
-            ball.yPosition += classContext.dy;
+            ball.xPosition += ball.dx;
+            ball.yPosition += ball.dy;
         });
         // ball.xPosition += this.dx;
         // ball.yPosition += this.dy;
