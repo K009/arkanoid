@@ -11,6 +11,8 @@ export default class Ball {
   public dx: number;
   public dy: number;
 
+  public status: number;
+
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     this.ctx = ctx;
     this.canvas = canvas;
@@ -19,6 +21,7 @@ export default class Ball {
     this.ballRadius = canvas.width / 160;
     this.startPositionX = this.xPosition;
     this.startPositionY = this.yPosition;
+    this.status = 1;
   }
 
   draw() {
@@ -36,7 +39,6 @@ export default class Ball {
   }
 
   moreBalls() {
-    for(let i =0; i <2; i++)
-      this.draw()
+    for (let i = 0; i < 2; i++) this.draw();
   }
 }

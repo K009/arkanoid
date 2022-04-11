@@ -72,7 +72,11 @@ export default class SuperPowers {
   }
 
   randType() {
-    const superPowersTypes: string[] = ["widerPlayer", "fasterPlayer", "moreBalls"];
+    const superPowersTypes: string[] = [
+      "widerPlayer",
+      "fasterPlayer",
+      "moreBalls",
+    ];
 
     return superPowersTypes[
       Math.floor(Math.random() * superPowersTypes.length)

@@ -3,7 +3,7 @@ import Ball from "../classes/Ball.js";
 import Brick from "../classes/Brick.js";
 import Player from "../classes/Player.js";
 import SuperPowers from "../classes/SuperPowers.js";
-
+//RESTORE SOUNDS!!! BUT REMOVE THEM FROM SITE AFTER BEING PLAYED (NOW ITS LAGGING IF THERE ARE TOO MANY OF THEM)
 export function brickCollisionDetection(
   bricks: Brick[],
   ballX: number,
@@ -24,10 +24,10 @@ export function brickCollisionDetection(
         ballY > brick.yPosition &&
         ballY < brick.yPosition + brick.height
       ) {
-        const play: AudioController = new AudioController();
+        //const play: AudioController = new AudioController();
         const randomFactor = Math.floor(Math.random() * 10);
 
-        play.bounce();
+        // play.bounce();
         //if (randomFactor % 2 === 0)
         superPowers.push(new SuperPowers(brick, ctx));
 
@@ -42,10 +42,10 @@ export function brickCollisionDetection(
         ballY > brick.yPosition &&
         ballY < brick.yPosition + brick.height
       ) {
-        const play: AudioController = new AudioController();
+        //const play: AudioController = new AudioController();
         const randomFactor = Math.floor(Math.random() * 10);
 
-        play.bounce();
+        // play.bounce();
         //if (randomFactor % 2 === 0)
         superPowers.push(new SuperPowers(brick, ctx));
 
@@ -71,7 +71,10 @@ export function borderCollisionDetection(
   superPowers: SuperPowers[],
   ball: Ball
 ): [number, number, number, SuperPowers[], Ball] {
-  if (ballX + ball.dx > canvas.width - ballRadius || ballX + ball.dx < ballRadius) {
+  if (
+    ballX + ball.dx > canvas.width - ballRadius ||
+    ballX + ball.dx < ballRadius
+  ) {
     ball.dx = -1.05 * ball.dx;
   }
   if (ballY + ball.dy < ballRadius) {
@@ -79,10 +82,10 @@ export function borderCollisionDetection(
   } else if (ballY + ball.dy > canvas.height - ballRadius) {
     if (ballX > player.xPosition && ballX < player.xPosition + player.width) {
       if ((ballY = ballY - player.height)) {
-        const play: AudioController = new AudioController();
+        //const play: AudioController = new AudioController();
 
         ball.dy = -ball.dy;
-        play.bounce();
+        // play.bounce();
         //reverse ball x vector if player is moving in the opposite way than the ball
         if (
           (player.direction === "left" && ball.dx > 0) ||
@@ -92,7 +95,8 @@ export function borderCollisionDetection(
         }
       }
     } else if (ballY > canvas.height + ballRadius + 2) {
-      isOver = 1;
+      ball.status = 0;
+      //isOver = 1;
     }
   }
 
@@ -160,14 +164,17 @@ export function superPowerDetection(
               player.fastModeOn();
             }
           } else if (superPower.type === "moreBalls") {
-            //player.fastModeOn();
-            //ball.moreBalls();
             let newBall = new Ball(ctx, canvas);
-            newBall.dx = balls[0].dx;
-            newBall.dy = balls[0].dy;
-            newBall.xPosition = balls[0].xPosition + 3;
-            newBall.yPosition = balls[0].yPosition - 3;
-            balls.push(newBall)
+
+            balls.forEach(function (ball) {
+              if (ball.status === 1) {
+                newBall.dx = ball.dx;
+                newBall.dy = ball.dy;
+                newBall.xPosition = ball.xPosition + 10;
+                newBall.yPosition = ball.yPosition + 10;
+              }
+            });
+            balls.push(newBall);
           }
         }
       }

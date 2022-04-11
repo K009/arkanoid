@@ -44,12 +44,17 @@ function getLevelData(
     specialCounter = i * 3;
     for (let j = 0; j < 21; j++) {
       if (specialCounter === 0) x = undefined;
-      brickAttribs2.push({
-        x: (verticalHelper + j * brick.width) * x,
-        y: horizontalHelper * i,
-        color: colorArray[1][Math.floor(Math.random() * colorArray.length)],
-      });
 
+      //add something like that to all levels
+      //now there are no empty/useless bricks in the array
+      let xValue = (verticalHelper + j * brick.width) * x;
+      if (!isNaN(xValue)) {
+        brickAttribs2.push({
+          x: xValue,
+          y: horizontalHelper * i,
+          color: colorArray[1][Math.floor(Math.random() * colorArray.length)],
+        });
+      }
       specialCounter -= 1;
     }
     x = 1;

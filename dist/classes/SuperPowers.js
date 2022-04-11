@@ -45,7 +45,11 @@ export default class SuperPowers {
         this.ctx.closePath();
     }
     randType() {
-        const superPowersTypes = ["widerPlayer", "fasterPlayer", "moreBalls"];
+        const superPowersTypes = [
+            "widerPlayer",
+            "fasterPlayer",
+            "moreBalls",
+        ];
         return superPowersTypes[Math.floor(Math.random() * superPowersTypes.length)];
     }
     randColor() {
