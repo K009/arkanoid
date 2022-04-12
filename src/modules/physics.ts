@@ -118,6 +118,7 @@ export function superPowerDetection(
   ctx: CanvasRenderingContext2D
 ): Ball[] {
   const classContext = this;
+  
   superPowers.forEach(function (superPower) {
     if (superPower.status === 1) {
       if (

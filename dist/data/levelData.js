@@ -68,7 +68,7 @@ function getLevelData(canvas, brick, index) {
             if (!isNaN(xValue)) {
                 brickAttribs4.push({
                     x: xValue,
-                    y: ((horizontalHelper * i) / 2.1) * everySecond,
+                    y: ((horizontalHelper * i) / 2.2) * everySecond,
                     color: colorArray[3][Math.floor(Math.random() * colorArray.length)],
                 });
             }

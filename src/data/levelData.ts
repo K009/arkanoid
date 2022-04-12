@@ -82,7 +82,7 @@ function getLevelData(
       if (!isNaN(xValue)) {
         brickAttribs4.push({
           x: xValue,
-          y: ((horizontalHelper * i) / 2.1) * everySecond,
+          y: ((horizontalHelper * i) / 2.2) * everySecond, //setting it to 2.1 causes bug related to superPowers physic (yPosition condition)
           color: colorArray[3][Math.floor(Math.random() * colorArray.length)],
         });
       }
