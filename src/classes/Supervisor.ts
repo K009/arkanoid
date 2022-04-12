@@ -13,7 +13,8 @@ export default class Supervisor {
   }
 
   startGame() {
-    const levelOne: Level = new Level(this.ctx, this.canvas, 2);
+    //superPowers seems to look wrong on level 4
+    const levelOne: Level = new Level(this.ctx, this.canvas, 1);
     const { player, balls, bricks, removedBricks, superPowers, removedBalls } =
       levelOne.initialDraw();
 

@@ -53,15 +53,15 @@ export default class Level {
       brick: { x: number; y: number; color: string; isBoss: boolean },
       i: number
     ) {
-        bricks[i] = new Brick(
-          classContext.ctx,
-          classContext.canvas,
-          1,
-          brick.x,
-          brick.y,
-          brick.color,
-          brick.isBoss
-        );
+      bricks[i] = new Brick(
+        classContext.ctx,
+        classContext.canvas,
+        1,
+        brick.x,
+        brick.y,
+        brick.color,
+        brick.isBoss
+      );
     });
 
     return { player, balls, bricks, removedBricks, superPowers, removedBalls };
@@ -172,6 +172,8 @@ export default class Level {
       );
     });
 
+    this.index += 1;
+
     return [bricks, removedBricks, balls, player, removedBalls];
   }
 
@@ -218,8 +220,8 @@ export default class Level {
     });
 
     //player lost
-    console.log("LEGHIT: " + balls.length );
-    console.log("NONLEGIT: " + removedBalls.length );
+    console.log("LEGHIT: " + balls.length);
+    console.log("NONLEGIT: " + removedBalls.length);
     if (removedBalls.length === balls.length) {
       [bricks, removedBricks, balls, player, removedBalls] = this.resetTheLevel(
         bricks,

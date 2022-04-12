@@ -79,6 +79,7 @@ export default class Level {
         brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
         });
+        this.index += 1;
         return [bricks, removedBricks, balls, player, removedBalls];
     }
     drawScene(canvas, keyLeftPressed, keyRightPressed, player, balls, bricks, removedBricks, superVisor, superPowers, removedBalls) {
