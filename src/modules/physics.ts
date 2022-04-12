@@ -75,7 +75,8 @@ export function borderCollisionDetection(
     ballX + ball.dx > canvas.width - ballRadius ||
     ballX + ball.dx < ballRadius
   ) {
-    ball.dx = -1.05 * ball.dx;
+    ball.dx = -ball.dx;
+    //to make it harder we can put * 1.05
   }
   if (ballY + ball.dy < ballRadius) {
     ball.dy = -ball.dy;

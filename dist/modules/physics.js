@@ -39,7 +39,8 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
 export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy, isOver, superPowers, ball) {
     if (ballX + ball.dx > canvas.width - ballRadius ||
         ballX + ball.dx < ballRadius) {
-        ball.dx = -1.05 * ball.dx;
+        ball.dx = -ball.dx;
+        //to make it harder we can put * 1.05
     }
     if (ballY + ball.dy < ballRadius) {
         ball.dy = -ball.dy;

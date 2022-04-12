@@ -220,8 +220,8 @@ export default class Level {
     });
 
     //player lost
-    console.log("LEGHIT: " + balls.length);
-    console.log("NONLEGIT: " + removedBalls.length);
+    // console.log("LEGHIT: " + balls.length);
+    // console.log("NONLEGIT: " + removedBalls.length);
     if (removedBalls.length === balls.length) {
       [bricks, removedBricks, balls, player, removedBalls] = this.resetTheLevel(
         bricks,

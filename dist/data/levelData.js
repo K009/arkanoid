@@ -51,7 +51,7 @@ function getLevelData(canvas, brick, index) {
     //vertically 17
     for (let i = 1; i < 17; i++) {
         //horizontally 11
-        for (let j = 0; j < 21; j++) {
+        for (let j = 0; j < 11; j++) {
             brickAttribs3.push({
                 x: (verticalHelper + j * brick.width) * 2,
                 y: (horizontalHelper3 * i) / 2,
@@ -64,11 +64,14 @@ function getLevelData(canvas, brick, index) {
     for (let i = 1; i < 12; i++) {
         //horizontally 11
         for (let j = 0; j < 21; j++) {
-            brickAttribs4.push({
-                x: (verticalHelper + j * brick.width) * everySecond,
-                y: ((horizontalHelper * i) / 2.1) * everySecond,
-                color: colorArray[3][Math.floor(Math.random() * colorArray.length)],
-            });
+            let xValue = (verticalHelper + j * brick.width) * everySecond;
+            if (!isNaN(xValue)) {
+                brickAttribs4.push({
+                    x: xValue,
+                    y: ((horizontalHelper * i) / 2.1) * everySecond,
+                    color: colorArray[3][Math.floor(Math.random() * colorArray.length)],
+                });
+            }
             if (everySecond === 1)
                 everySecond = undefined;
             else if (everySecond === undefined)
