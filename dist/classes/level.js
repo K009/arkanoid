@@ -3,6 +3,7 @@ import { getLevelData } from "../data/levelData.js";
 import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
+import Bar from "./Bar.js";
 export default class Level {
     constructor(ctx, canvas, index) {
         this.isOver = 0; //change it to boolean in the future
@@ -21,6 +22,7 @@ export default class Level {
         const classContext = this;
         const probeBrick = new Brick(this.ctx, this.canvas, 1, 0, 0);
         const superPowers = [];
+        const bar = new Bar(this.ctx, this.canvas);
         const levelData = getLevelData(this.canvas, probeBrick, this.index);
         balls[0].dx = levelData.dx;
         balls[0].dy = levelData.dy;
@@ -29,7 +31,7 @@ export default class Level {
         levelData.brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color, brick.isBoss);
         });
-        return { player, balls, bricks, removedBricks, superPowers, removedBalls };
+        return { player, balls, bricks, removedBricks, superPowers, removedBalls, bar };
     }
     //TODO: add reseting superPowers here
     resetTheLevel(bricks, removedBricks, balls, player, removedBalls) {
@@ -82,10 +84,11 @@ export default class Level {
         this.index += 1;
         return [bricks, removedBricks, balls, player, removedBalls];
     }
-    drawScene(canvas, keyLeftPressed, keyRightPressed, player, balls, bricks, removedBricks, superVisor, superPowers, removedBalls) {
+    drawScene(canvas, keyLeftPressed, keyRightPressed, player, balls, bricks, removedBricks, superVisor, superPowers, removedBalls, bar) {
         const classContext = this;
         //clearing the scene
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+        bar.draw();
         player.draw();
         balls.forEach(function (ball) {
             ball.draw();

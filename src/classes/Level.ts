@@ -9,6 +9,7 @@ import Brick from "./Brick.js";
 import Player from "./Player.js";
 import Supervisor from "./Supervisor.js";
 import SuperPowers from "./SuperPowers.js";
+import Bar from "./Bar.js";
 
 export default class Level {
   public ctx: CanvasRenderingContext2D;
@@ -41,6 +42,7 @@ export default class Level {
     const classContext = this;
     const probeBrick: Brick = new Brick(this.ctx, this.canvas, 1, 0, 0);
     const superPowers: SuperPowers[] = [];
+    const bar: Bar = new Bar(this.ctx, this.canvas);
 
     const levelData = getLevelData(this.canvas, probeBrick, this.index);
 
@@ -64,7 +66,7 @@ export default class Level {
       );
     });
 
-    return { player, balls, bricks, removedBricks, superPowers, removedBalls };
+    return { player, balls, bricks, removedBricks, superPowers, removedBalls, bar };
   }
 
   //TODO: add reseting superPowers here
@@ -187,13 +189,15 @@ export default class Level {
     removedBricks: Brick[],
     superVisor: Supervisor,
     superPowers: SuperPowers[],
-    removedBalls: Ball[]
+    removedBalls: Ball[],
+    bar: Bar
   ) {
     const classContext = this;
 
     //clearing the scene
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    bar.draw();
     player.draw();
     balls.forEach(function (ball) {
       ball.draw();

@@ -15,7 +15,7 @@ export default class Supervisor {
   startGame() {
     //superPowers seems to look wrong on level 4
     const levelOne: Level = new Level(this.ctx, this.canvas, 1);
-    const { player, balls, bricks, removedBricks, superPowers, removedBalls } =
+    const { player, balls, bricks, removedBricks, superPowers, removedBalls, bar } =
       levelOne.initialDraw();
 
     //consider moving keyControl to seperate function / file
@@ -52,7 +52,8 @@ export default class Supervisor {
         removedBricks,
         this,
         superPowers,
-        removedBalls
+        removedBalls,
+        bar
       );
     }, 10);
   }
