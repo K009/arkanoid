@@ -6,7 +6,20 @@ body {
 #myCanvas {
   background-color: rgb(195, 241, 199);
   position: absolute;
-  top: 25%;
+  top: 30%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-25%);
+  -webkit-transform: translateX(-50%) translateY(-25%);
+  transform: translateX(-50%) translateY(-25%);
+  /* display: block;
+  margin-top: 5%;
+  display: block; */
+}
+
+#bar {
+  background-color: black;
+  position: absolute;
+  top: 10%;
   left: 50%;
   -moz-transform: translateX(-50%) translateY(-25%);
   -webkit-transform: translateX(-50%) translateY(-25%);

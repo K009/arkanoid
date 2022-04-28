@@ -5,11 +5,14 @@ import Brick from "./Brick.js";
 import Player from "./Player.js";
 import Bar from "./Bar.js";
 export default class Level {
-    constructor(ctx, canvas, index) {
+    constructor(ctx, canvas, barCanvas, barCtx, index) {
         this.isOver = 0; //change it to boolean in the future
         this.ctx = ctx;
         this.canvas = canvas;
+        this.barCanvas = barCanvas;
+        this.barCtx = barCtx;
         this.index = index;
+        this.score = 0;
     }
     //here define objects
     initialDraw() {
@@ -22,7 +25,7 @@ export default class Level {
         const classContext = this;
         const probeBrick = new Brick(this.ctx, this.canvas, 1, 0, 0);
         const superPowers = [];
-        const bar = new Bar(this.ctx, this.canvas);
+        const bar = new Bar(this.barCtx, this.barCanvas);
         const levelData = getLevelData(this.canvas, probeBrick, this.index);
         balls[0].dx = levelData.dx;
         balls[0].dy = levelData.dy;
@@ -31,7 +34,15 @@ export default class Level {
         levelData.brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color, brick.isBoss);
         });
-        return { player, balls, bricks, removedBricks, superPowers, removedBalls, bar };
+        return {
+            player,
+            balls,
+            bricks,
+            removedBricks,
+            superPowers,
+            removedBalls,
+            bar
+        };
     }
     //TODO: add reseting superPowers here
     resetTheLevel(bricks, removedBricks, balls, player, removedBalls) {
@@ -47,6 +58,8 @@ export default class Level {
         player.xPosition = player.startPositionX;
         //Bricks
         removedBricks.length = 0;
+        //Score reset
+        this.score = 0;
         //like that we're creating totally new objects of Bricks (so different color for example)
         levelConfig.brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color, brick.isBoss);
@@ -77,6 +90,8 @@ export default class Level {
         //Player
         player.color = levelConfig.playerColor;
         //player.xPosition = player.startPositionX;
+        //Score reset
+        this.score = 0;
         //TODO: fix any
         brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
@@ -88,7 +103,8 @@ export default class Level {
         const classContext = this;
         //clearing the scene
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-        bar.draw();
+        // console.log(score)
+        bar.draw(this.index, this.score);
         player.draw();
         balls.forEach(function (ball) {
             ball.draw();
@@ -129,8 +145,8 @@ export default class Level {
         }
         //update y vector on bricksCollision
         balls.forEach(function (ball) {
-            [classContext.dx, classContext.dy, superPowers, ball] =
-                brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, classContext.dx, classContext.dy, classContext.ctx, superPowers, ball);
+            [classContext.dx, classContext.dy, superPowers, ball, classContext.score] =
+                brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, classContext.dx, classContext.dy, classContext.ctx, superPowers, ball, classContext.score);
             [
                 classContext.dx,
                 classContext.dy,

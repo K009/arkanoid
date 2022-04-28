@@ -14,21 +14,29 @@ import Bar from "./Bar.js";
 export default class Level {
   public ctx: CanvasRenderingContext2D;
   public canvas: HTMLCanvasElement;
+  public barCtx: CanvasRenderingContext2D;
+  public barCanvas: HTMLCanvasElement;
   public dx: number; //x vector of ball movement
   public dy: number; //y vector of ball movement
   public isOver: number = 0; //change it to boolean in the future
   public index: number; //which level
+  public score: number;
 
   protected color: string;
 
   constructor(
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
+    barCanvas: HTMLCanvasElement,
+    barCtx: CanvasRenderingContext2D,
     index: number
   ) {
     this.ctx = ctx;
     this.canvas = canvas;
+    this.barCanvas = barCanvas;
+    this.barCtx = barCtx;
     this.index = index;
+    this.score = 0;
   }
 
   //here define objects
@@ -42,7 +50,7 @@ export default class Level {
     const classContext = this;
     const probeBrick: Brick = new Brick(this.ctx, this.canvas, 1, 0, 0);
     const superPowers: SuperPowers[] = [];
-    const bar: Bar = new Bar(this.ctx, this.canvas);
+    const bar: Bar = new Bar(this.barCtx, this.barCanvas);
 
     const levelData = getLevelData(this.canvas, probeBrick, this.index);
 
@@ -66,7 +74,15 @@ export default class Level {
       );
     });
 
-    return { player, balls, bricks, removedBricks, superPowers, removedBalls, bar };
+    return {
+      player,
+      balls,
+      bricks,
+      removedBricks,
+      superPowers,
+      removedBalls,
+      bar
+    };
   }
 
   //TODO: add reseting superPowers here
@@ -97,6 +113,9 @@ export default class Level {
 
     //Bricks
     removedBricks.length = 0;
+
+    //Score reset
+    this.score = 0;
 
     //like that we're creating totally new objects of Bricks (so different color for example)
     (levelConfig.brickAttribs as any).forEach(function (
@@ -159,6 +178,9 @@ export default class Level {
     player.color = levelConfig.playerColor;
     //player.xPosition = player.startPositionX;
 
+    //Score reset
+    this.score = 0;
+
     //TODO: fix any
     (brickAttribs as any).forEach(function (
       brick: { x: number; y: number; color: string },
@@ -196,8 +218,8 @@ export default class Level {
 
     //clearing the scene
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    bar.draw();
+    // console.log(score)
+    bar.draw(this.index, this.score);
     player.draw();
     balls.forEach(function (ball) {
       ball.draw();
@@ -253,7 +275,7 @@ export default class Level {
 
     //update y vector on bricksCollision
     balls.forEach(function (ball) {
-      [classContext.dx, classContext.dy, superPowers, ball] =
+      [classContext.dx, classContext.dy, superPowers, ball, classContext.score] =
         brickCollisionDetection(
           bricks,
           ball.xPosition,
@@ -262,7 +284,8 @@ export default class Level {
           classContext.dy,
           classContext.ctx,
           superPowers,
-          ball
+          ball,
+          classContext.score
         );
 
       [

@@ -12,8 +12,9 @@ export function brickCollisionDetection(
   dy: number,
   ctx: CanvasRenderingContext2D,
   superPowers: SuperPowers[],
-  ball: Ball
-): [number, number, SuperPowers[], Ball] {
+  ball: Ball,
+  score: number
+): [number, number, SuperPowers[], Ball, number] {
 
   for (let r = 0; r < bricks.length; r++) {
     const brick = bricks[r];
@@ -35,6 +36,7 @@ export function brickCollisionDetection(
         ball.dy = -ball.dy;
 
         brick.status = 0;
+        score += Math.floor(Math.random() * 10);
       }
       // left&&right collision
       else if (
@@ -53,11 +55,12 @@ export function brickCollisionDetection(
         ball.dy = ball.dy;
         ball.dx = -ball.dx;
         brick.status = 0;
+        score += Math.floor(Math.random() * 10);
       }
     }
   }
-
-  return [dx, dy, superPowers, ball];
+  
+  return [dx, dy, superPowers, ball, score];
 }
 
 export function borderCollisionDetection(

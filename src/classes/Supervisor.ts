@@ -6,17 +6,39 @@ import Player from "./Player.js";
 export default class Supervisor {
   public ctx: CanvasRenderingContext2D;
   public canvas: HTMLCanvasElement;
+  public barCtx: CanvasRenderingContext2D;
+  public barCanvas: HTMLCanvasElement;
 
-  constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D,
+    barCanvas: HTMLCanvasElement,
+    barCtx: CanvasRenderingContext2D
+  ) {
     this.canvas = canvas;
     this.ctx = ctx;
+    this.barCanvas = barCanvas;
+    this.barCtx = barCtx;
   }
 
   startGame() {
     //superPowers seems to look wrong on level 4
-    const levelOne: Level = new Level(this.ctx, this.canvas, 1);
-    const { player, balls, bricks, removedBricks, superPowers, removedBalls, bar } =
-      levelOne.initialDraw();
+    const levelOne: Level = new Level(
+      this.ctx,
+      this.canvas,
+      this.barCanvas,
+      this.barCtx,
+      3
+    );
+    const {
+      player,
+      balls,
+      bricks,
+      removedBricks,
+      superPowers,
+      removedBalls,
+      bar
+    } = levelOne.initialDraw();
 
     //consider moving keyControl to seperate function / file
     let keyLeftPressed: boolean = false;

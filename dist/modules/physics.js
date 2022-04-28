@@ -1,7 +1,7 @@
 import Ball from "../classes/Ball.js";
 import SuperPowers from "../classes/SuperPowers.js";
 //RESTORE SOUNDS!!! BUT REMOVE THEM FROM SITE AFTER BEING PLAYED (NOW ITS LAGGING IF THERE ARE TOO MANY OF THEM)
-export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, superPowers, ball) {
+export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, superPowers, ball, score) {
     for (let r = 0; r < bricks.length; r++) {
         const brick = bricks[r];
         if (brick.status == 1) {
@@ -17,6 +17,7 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
                     superPowers.push(new SuperPowers(brick, ctx));
                 ball.dy = -ball.dy;
                 brick.status = 0;
+                score += Math.floor(Math.random() * 10);
             }
             // left&&right collision
             else if (ballX > brick.xPosition - 3 &&
@@ -31,10 +32,11 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
                 ball.dy = ball.dy;
                 ball.dx = -ball.dx;
                 brick.status = 0;
+                score += Math.floor(Math.random() * 10);
             }
         }
     }
-    return [dx, dy, superPowers, ball];
+    return [dx, dy, superPowers, ball, score];
 }
 export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy, isOver, superPowers, ball) {
     if (ballX + ball.dx > canvas.width - ballRadius ||
