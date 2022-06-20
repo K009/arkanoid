@@ -28,7 +28,7 @@ export default class Supervisor {
       this.canvas,
       this.barCanvas,
       this.barCtx,
-      3
+      1
     );
     const {
       player,
