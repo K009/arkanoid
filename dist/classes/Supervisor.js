@@ -1,4 +1,4 @@
-import Level from "./Level.js";
+import Level from "./level.js";
 export default class Supervisor {
     constructor(canvas, ctx, barCanvas, barCtx) {
         this.canvas = canvas;

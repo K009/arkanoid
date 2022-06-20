@@ -4,7 +4,7 @@ import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
 import Bar from "./Bar.js";
-export default class Level {
+export default class level {
     constructor(ctx, canvas, barCanvas, barCtx, index) {
         this.isOver = 0; //change it to boolean in the future
         this.ctx = ctx;
