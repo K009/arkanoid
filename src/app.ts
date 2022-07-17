@@ -1,4 +1,3 @@
-import Level from "./classes/Level.js";
 import Supervisor from "./classes/Supervisor.js";
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>(

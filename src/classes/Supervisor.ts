@@ -1,7 +1,4 @@
-import Ball from "./Ball.js";
-import Brick from "./Brick.js";
 import Level from "./Level.js";
-import Player from "./Player.js";
 
 export default class Supervisor {
   public ctx: CanvasRenderingContext2D;

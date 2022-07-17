@@ -1,4 +1,4 @@
-import Brick from "./Brick";
+import Brick from "./Brick.js";
 
 export default class SuperPowers {
   public ctx: CanvasRenderingContext2D;

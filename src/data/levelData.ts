@@ -1,4 +1,4 @@
-import Brick from "../classes/Brick";
+import Brick from "../classes/Brick.js";
 import {
   bricksInterface,
   levelConfigInterface,
