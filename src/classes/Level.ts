@@ -10,6 +10,7 @@ import Player from "./Player.js";
 import Supervisor from "./Supervisor.js";
 import SuperPowers from "./SuperPowers.js";
 import Bar from "./Bar.js";
+import { levelConfigInterface } from "../interfaces/dataInterfaces.js";
 
 export default class Level {
   public ctx: CanvasRenderingContext2D;
@@ -87,7 +88,34 @@ export default class Level {
     };
   }
 
-  //TODO: add reseting superPowers here and refactor this function, move common part to another function
+  resetCommonPart(
+    balls: Ball[],
+    player: Player,
+    removedBalls: Ball[],
+    levelIndex: number
+  ): [levelConfigInterface, Ball[], Player, Ball[]] {
+
+    const levelConfig = getLevelData(
+      this.canvas,
+      new Brick(this.ctx, this.canvas, 1, 0, 0),
+      levelIndex
+    );
+
+    //Balls reseet and initializing new ball
+    balls.length = 0;
+    removedBalls.length = 0;
+
+    balls[0] = new Ball(this.ctx, this.canvas);
+    balls[0].dx = levelConfig.dx;
+    balls[0].dy = levelConfig.dy;
+
+    //Player positions
+    player.xPosition = player.startPositionX; 
+
+    return [levelConfig, balls, player, removedBalls];
+  }
+
+  //TODO: add reseting superPowers here
   resetTheLevel(
     bricks: Brick[],
     removedBricks: Brick[],
@@ -98,30 +126,17 @@ export default class Level {
     const classContext = this;
 
     if(this.lives === 1){
-      const levelConfig = getLevelData(
-        this.canvas,
-        new Brick(this.ctx, this.canvas, 1, 0, 0),
-        1
-      );
+      let levelConfig: levelConfigInterface;
 
-      //Balls and bricks reset and initializing new ball
-      balls.length = 0;
-      removedBalls.length = 0;
+      [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, 1);
+
+      //Bricks and score reset
       bricks.length = 0;
-
-      balls[0] = new Ball(this.ctx, this.canvas);
-      balls[0].dx = levelConfig.dx;
-      balls[0].dy = levelConfig.dy;
-
-      //Player position and color
-      player.xPosition = player.startPositionX;
-      player.color = player.randColor();
-
-      //Bricks
       removedBricks.length = 0;
-
-      //Score reset
       this.score = 0;
+
+      //Player color
+      player.color = player.randColor();
 
       //like that we're creating totally new objects of Bricks (so different color for example)
       (levelConfig.brickAttribs as any).forEach(function (
@@ -142,22 +157,8 @@ export default class Level {
       this.lives = 3;
       this.index = 1;
     } else {
-      const levelConfig = getLevelData(
-        this.canvas,
-        new Brick(this.ctx, this.canvas, 1, 0, 0),
-        this.index
-      );
-  
-      //Balls reseet and initializing new ball
-      balls.length = 0;
-      removedBalls.length = 0;
-  
-      balls[0] = new Ball(this.ctx, this.canvas);
-      balls[0].dx = levelConfig.dx;
-      balls[0].dy = levelConfig.dy;
-  
-      //Player positions
-      player.xPosition = player.startPositionX; 
+      this.resetCommonPart(balls, player, removedBalls, this.index);
+
       this.lives = this.lives -1;
     }
 
