@@ -124,9 +124,9 @@ export default class Level {
     removedBalls: Ball[]
   ): [Brick[], Brick[], Ball[], Player, Ball[]] {
     const classContext = this;
+    let levelConfig: levelConfigInterface;
 
     if(this.lives === 1){
-      let levelConfig: levelConfigInterface;
 
       [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, 1);
 
@@ -157,7 +157,7 @@ export default class Level {
       this.lives = 3;
       this.index = 1;
     } else {
-      this.resetCommonPart(balls, player, removedBalls, this.index);
+      [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, this.index);
 
       this.lives = this.lives -1;
     }
@@ -174,39 +174,22 @@ export default class Level {
     removedBalls: Ball[]
   ): [Brick[], Brick[], Ball[], Player, Ball[]] {
     const classContext = this;
-    let brickAttribs = [];
+    let levelConfig: levelConfigInterface;
 
-    const levelConfig = getLevelData(
-      this.canvas,
-      new Brick(this.ctx, this.canvas, 1, 0, 0),
-      this.index + 1
-    );
-
-    //Balls reseet and initializing new ball
-    balls.length = 0;
-    removedBalls.length = 0;
-
-    balls[0] = new Ball(this.ctx, this.canvas);
-    balls[0].dx = levelConfig.dx;
-    balls[0].dy = levelConfig.dy;
-
-    // //Player positions
-    // player.xPosition = player.startPositionX;
+    [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, this.index + 1);
 
     //Bricks
-    brickAttribs = levelConfig.brickAttribs;
     removedBricks.length = 0;
     bricks.length = 0;
 
     //Player
     player.color = levelConfig.playerColor;
-    //player.xPosition = player.startPositionX;
 
     //Score reset
     this.score = 0;
 
     //TODO: fix any
-    (brickAttribs as any).forEach(function (
+    (levelConfig.brickAttribs as any).forEach(function (
       brick: { x: number; y: number; color: string },
       i: number
     ) {

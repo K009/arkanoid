@@ -60,8 +60,8 @@ export default class Level {
     //TODO: add reseting superPowers here
     resetTheLevel(bricks, removedBricks, balls, player, removedBalls) {
         const classContext = this;
+        let levelConfig;
         if (this.lives === 1) {
-            let levelConfig;
             [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, 1);
             //Bricks and score reset
             bricks.length = 0;
@@ -77,7 +77,7 @@ export default class Level {
             this.index = 1;
         }
         else {
-            this.resetCommonPart(balls, player, removedBalls, this.index);
+            [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, this.index);
             this.lives = this.lives - 1;
         }
         return [bricks, removedBricks, balls, player, removedBalls];
@@ -85,27 +85,17 @@ export default class Level {
     //TODO: add reseting superPowers here
     goToNextLevel(bricks, removedBricks, balls, player, removedBalls) {
         const classContext = this;
-        let brickAttribs = [];
-        const levelConfig = getLevelData(this.canvas, new Brick(this.ctx, this.canvas, 1, 0, 0), this.index + 1);
-        //Balls reseet and initializing new ball
-        balls.length = 0;
-        removedBalls.length = 0;
-        balls[0] = new Ball(this.ctx, this.canvas);
-        balls[0].dx = levelConfig.dx;
-        balls[0].dy = levelConfig.dy;
-        // //Player positions
-        // player.xPosition = player.startPositionX;
+        let levelConfig;
+        [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, this.index + 1);
         //Bricks
-        brickAttribs = levelConfig.brickAttribs;
         removedBricks.length = 0;
         bricks.length = 0;
         //Player
         player.color = levelConfig.playerColor;
-        //player.xPosition = player.startPositionX;
         //Score reset
         this.score = 0;
         //TODO: fix any
-        brickAttribs.forEach(function (brick, i) {
+        levelConfig.brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
         });
         this.index += 1;
