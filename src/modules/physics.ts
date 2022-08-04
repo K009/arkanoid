@@ -34,6 +34,7 @@ export function brickCollisionDetection(
           superPowers.push(new SuperPowers(brick, ctx));
 
         ball.dy = -ball.dy;
+        ball.dx = ball.dx + Math.random()*0.5 - 0.5; 
 
         brick.status = 0;
         score += Math.floor(Math.random() * 10);
