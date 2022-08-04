@@ -21,6 +21,7 @@ export default class Level {
   public isOver: number = 0; //change it to boolean in the future
   public index: number; //which level
   public score: number;
+  public lives: number;
 
   protected color: string;
 
@@ -37,6 +38,7 @@ export default class Level {
     this.barCtx = barCtx;
     this.index = index;
     this.score = 0;
+    this.lives = 3;
   }
 
   //here define objects
@@ -85,7 +87,7 @@ export default class Level {
     };
   }
 
-  //TODO: add reseting superPowers here
+  //TODO: add reseting superPowers here and refactor this function, move common part to another function
   resetTheLevel(
     bricks: Brick[],
     removedBricks: Brick[],
@@ -94,49 +96,70 @@ export default class Level {
     removedBalls: Ball[]
   ): [Brick[], Brick[], Ball[], Player, Ball[]] {
     const classContext = this;
-    const levelConfig = getLevelData(
-      this.canvas,
-      new Brick(this.ctx, this.canvas, 1, 0, 0),
-      this.index
-    );
 
-    //Balls reseet and initializing new ball
-    balls.length = 0;
-    removedBalls.length = 0;
-
-    balls[0] = new Ball(this.ctx, this.canvas);
-    balls[0].dx = levelConfig.dx;
-    balls[0].dy = levelConfig.dy;
-
-    //Player positions
-    player.xPosition = player.startPositionX;
-
-    //Bricks
-    removedBricks.length = 0;
-
-    //Score reset
-    this.score = 0;
-
-    //like that we're creating totally new objects of Bricks (so different color for example)
-    (levelConfig.brickAttribs as any).forEach(function (
-      brick: { x: number; y: number; color: string; isBoss: boolean },
-      i: number
-    ) {
-      bricks[i] = new Brick(
-        classContext.ctx,
-        classContext.canvas,
-        1,
-        brick.x,
-        brick.y,
-        brick.color,
-        brick.isBoss
+    if(this.lives === 1){
+      const levelConfig = getLevelData(
+        this.canvas,
+        new Brick(this.ctx, this.canvas, 1, 0, 0),
+        1
       );
-    });
 
-    //like that we're just reseting their states, so the position will remain the same as when they were destroyed
-    // bricks.forEach(function (brick) {
-    //   brick.status = 1;
-    // });
+      //Balls and bricks reset and initializing new ball
+      balls.length = 0;
+      removedBalls.length = 0;
+      bricks.length = 0;
+
+      balls[0] = new Ball(this.ctx, this.canvas);
+      balls[0].dx = levelConfig.dx;
+      balls[0].dy = levelConfig.dy;
+
+      //Player position and color
+      player.xPosition = player.startPositionX;
+      player.color = player.randColor();
+
+      //Bricks
+      removedBricks.length = 0;
+
+      //Score reset
+      this.score = 0;
+
+      //like that we're creating totally new objects of Bricks (so different color for example)
+      (levelConfig.brickAttribs as any).forEach(function (
+        brick: { x: number; y: number; color: string; isBoss: boolean },
+        i: number
+      ) {
+        bricks[i] = new Brick(
+          classContext.ctx,
+          classContext.canvas,
+          1,
+          brick.x,
+          brick.y,
+          brick.color,
+          brick.isBoss
+        );
+      });
+
+      this.lives = 3;
+      this.index = 1;
+    } else {
+      const levelConfig = getLevelData(
+        this.canvas,
+        new Brick(this.ctx, this.canvas, 1, 0, 0),
+        this.index
+      );
+  
+      //Balls reseet and initializing new ball
+      balls.length = 0;
+      removedBalls.length = 0;
+  
+      balls[0] = new Ball(this.ctx, this.canvas);
+      balls[0].dx = levelConfig.dx;
+      balls[0].dy = levelConfig.dy;
+  
+      //Player positions
+      player.xPosition = player.startPositionX; 
+      this.lives = this.lives -1;
+    }
 
     return [bricks, removedBricks, balls, player, removedBalls];
   }
@@ -218,13 +241,12 @@ export default class Level {
 
     //clearing the scene
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // console.log(score)
-    bar.draw(this.index, this.score);
+    bar.draw(this.index, this.score, this.lives);
     player.draw();
     balls.forEach(function (ball) {
       ball.draw();
     });
-    //ball.draw();
+
     superPowers.forEach(function (superPower) {
       if (superPower.status === 1) {
         superPower.draw();

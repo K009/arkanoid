@@ -7,10 +7,10 @@ export default class Bar {
         this.width = canvas.width;
         this.height = 20;
     }
-    draw(levelIndex, score) {
+    draw(levelIndex, score, lives) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.font = "30px Arial";
         this.ctx.fillStyle = "white";
-        this.ctx.fillText("Level 1-" + levelIndex + " | Score: " + score, this.xPosition, 30);
+        this.ctx.fillText("Level 1-" + levelIndex + " | Score: " + score + " | Lives: " + lives, this.xPosition, 30);
     }
 }

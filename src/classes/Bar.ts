@@ -15,12 +15,12 @@ export default class Bar {
     this.height = 20;
   }
 
-  draw(levelIndex: number, score: number) {
+  draw(levelIndex: number, score: number, lives: number) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.font = "30px Arial";
     this.ctx.fillStyle = "white";
     this.ctx.fillText(
-      "Level 1-" + levelIndex + " | Score: " + score,
+      "Level 1-" + levelIndex + " | Score: " + score + " | Lives: " + lives,
       this.xPosition,
       30
     );
