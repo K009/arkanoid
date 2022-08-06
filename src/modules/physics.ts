@@ -31,8 +31,16 @@ export function brickCollisionDetection(
        // play.bounce();
         if (randomFactor % 2 === 0)
           superPowers.push(new SuperPowers(brick, ctx));
-            ball.dy = -ball.dy;
-            ball.dx = ball.dx + Math.random() * 0.25 - 0.25;  //ad if to check if the value is not getting too big or too low
+
+          let randomValue: number = Math.random() * 0.25 - 0.25;
+          if(ball.dx > 3.1)
+            randomValue = -Math.abs(randomValue)
+          else 
+            randomValue = Math.abs(randomValue)
+          
+          ball.dy = -ball.dy;
+          ball.dx = ball.dx + randomValue;
+
           brick.status = 0;
           score += Math.floor(Math.random() * 10);
       }
