@@ -16,13 +16,24 @@ export default class Bar {
   }
 
   draw(levelIndex: number, score: number, lives: number) {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.font = "30px Arial";
-    this.ctx.fillStyle = "white";
-    this.ctx.fillText(
-      "Level 1-" + levelIndex + " | Score: " + score + " | Lives: " + lives,
-      this.xPosition,
-      30
-    );
+    if(levelIndex !== 6){
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.font = "30px Arial";
+      this.ctx.fillStyle = "white";
+      this.ctx.fillText(
+        "Level 1-" + levelIndex + " | Score: " + score + " | Lives: " + lives,
+        this.xPosition,
+        30
+      );
+    } else {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.font = "30px Arial";
+      this.ctx.fillStyle = "white";
+      this.ctx.fillText(
+        "Congrats, you finished the game. Your score is: " + score + "!",
+        this.xPosition,
+        30
+      );
+    }
   }
 }

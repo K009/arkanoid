@@ -138,6 +138,9 @@ export default class Level {
         // console.log("ACTIVE: " + bricks.length);
         //player won
         if (removedBricks.length === bricks.length) {
+            if (this.index === 5) {
+                bar.draw(6, this.score, this.lives);
+            }
             //add if player wins condition with different bricks, vectors, background
             [bricks, removedBricks, balls, player, removedBalls] = this.goToNextLevel(bricks, removedBricks, balls, player, removedBalls);
         }
