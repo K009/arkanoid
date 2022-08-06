@@ -39,7 +39,7 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
     }
     return [dx, dy, superPowers, ball, score];
 }
-export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy, isOver, superPowers, ball) {
+export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, player, dx, dy, isOver, superPowers, ball, removedBricks, bricks) {
     if (ballX + ball.dx > canvas.width - ballRadius ||
         ballX + ball.dx < ballRadius) {
         ball.dx = -ball.dx;
@@ -52,14 +52,28 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
         if (ballX > player.xPosition && ballX < player.xPosition + player.width) {
             // if ((ballY = ballY - player.height)) {
             // const play: AudioController = new AudioController();
-            ball.dy = -ball.dy;
-            // play.bounce();
-            //reverse ball x vector if player is moving in the opposite way than the ball
-            if ((player.direction === "left" && ball.dx > 0) ||
-                (player.direction === "right" && ball.dx < 0)) {
-                ball.dx = -Math.sign(ball.dx) * 2;
+            // AUTO_AIM MODE
+            if (removedBricks.length > (bricks.length - 0.15 * bricks.length)) { //replace with 0.15
+                const validBrick = bricks.filter((brick) => brick.status === 1)[0];
+                let xVectorValue = (((validBrick.xPosition + validBrick.width / 2) - ball.xPosition) / 100), yVectorValue = (validBrick.yPosition - ball.yPosition) / 100;
+                if ((xVectorValue < 4 && xVectorValue > -4) && (yVectorValue < 3.5 && yVectorValue > -3.5)) {
+                    ball.dx = xVectorValue;
+                    ball.dy = yVectorValue;
+                }
+                else {
+                    ball.dx = xVectorValue / 1.75;
+                    ball.dy = yVectorValue / 1.75;
+                }
             }
-            // }
+            else {
+                ball.dy = -ball.dy;
+                // play.bounce();
+                //reverse ball x vector if player is moving in the opposite way than the ball
+                if ((player.direction === "left" && ball.dx > 0) ||
+                    (player.direction === "right" && ball.dx < 0)) {
+                    ball.dx = -Math.sign(ball.dx) * 2;
+                }
+            }
         }
         else if (ballY > canvas.height + ballRadius + 2) {
             ball.status = 0;
@@ -72,7 +86,7 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
             superPower.status = 0;
         }
     });
-    return [dx, dy, isOver, superPowers, ball];
+    return [dx, dy, isOver, superPowers, ball, removedBricks, bricks];
 }
 export function superPowerDetection(player, balls, superPowers, canvas, ctx) {
     const classContext = this;

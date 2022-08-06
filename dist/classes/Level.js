@@ -92,8 +92,6 @@ export default class Level {
         bricks.length = 0;
         //Player
         player.color = levelConfig.playerColor;
-        //Score reset
-        this.score = 0;
         //TODO: fix any
         levelConfig.brickAttribs.forEach(function (brick, i) {
             bricks[i] = new Brick(classContext.ctx, classContext.canvas, 1, brick.x, brick.y, brick.color);
@@ -153,7 +151,9 @@ export default class Level {
                 classContext.isOver,
                 superPowers,
                 ball,
-            ] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, classContext.dx, classContext.dy, classContext.isOver, superPowers, ball);
+                removedBricks,
+                bricks
+            ] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, classContext.dx, classContext.dy, classContext.isOver, superPowers, ball, removedBricks, bricks);
         });
         superPowerDetection(player, balls, superPowers, canvas, this.ctx);
         //move the player when keys are pressed

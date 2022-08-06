@@ -185,9 +185,6 @@ export default class Level {
     //Player
     player.color = levelConfig.playerColor;
 
-    //Score reset
-    this.score = 0;
-
     //TODO: fix any
     (levelConfig.brickAttribs as any).forEach(function (
       brick: { x: number; y: number; color: string },
@@ -300,6 +297,8 @@ export default class Level {
         classContext.isOver,
         superPowers,
         ball,
+        removedBricks,
+        bricks
       ] = borderCollisionDetection(
         canvas,
         ball.ballRadius,
@@ -310,7 +309,9 @@ export default class Level {
         classContext.dy,
         classContext.isOver,
         superPowers,
-        ball
+        ball,
+        removedBricks,
+        bricks
       );
     });
 
