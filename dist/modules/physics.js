@@ -16,7 +16,7 @@ export function brickCollisionDetection(bricks, ballX, ballY, dx, dy, ctx, super
                 if (randomFactor % 2 === 0)
                     superPowers.push(new SuperPowers(brick, ctx));
                 ball.dy = -ball.dy;
-                ball.dx = ball.dx + Math.random() * 0.5 - 0.5;
+                ball.dx = ball.dx + Math.random() * 0.25 - 0.25; //ad if to check if the value is not getting too big or too low
                 brick.status = 0;
                 score += Math.floor(Math.random() * 10);
             }
@@ -48,8 +48,8 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
     if (ballY + ball.dy < ballRadius) {
         ball.dy = -ball.dy;
     }
-    else if (ballY + ball.dy > canvas.height - ballRadius * 3) {
-        if (ballX > player.xPosition && ballX < player.xPosition + player.width) {
+    else if (ballY + ball.dy > canvas.height - player.height - 2) { //ballRadius * 3
+        if (ballX > player.xPosition - 2 && ballX < player.xPosition + player.width + 2) { //little margin
             // if ((ballY = ballY - player.height)) {
             // const play: AudioController = new AudioController();
             // AUTO_AIM MODE
@@ -79,6 +79,14 @@ export function borderCollisionDetection(canvas, ballRadius, ballX, ballY, playe
             ball.status = 0;
             //isOver = 1;
         }
+    }
+    //fix regarding ball getting into the player
+    if (ballX > player.xPosition - 3 &&
+        ballX < player.xPosition + player.width + 3 &&
+        ballY > canvas.height - player.height &&
+        ballY < canvas.height) {
+        ball.dy = -ball.dy;
+        ball.dx = -ball.dx;
     }
     //stop drawing superPowers if they touch the ground
     superPowers.forEach(function (superPower) {
