@@ -10,7 +10,7 @@ import Player from "./Player.js";
 import Supervisor from "./Supervisor.js";
 import SuperPowers from "./SuperPowers.js";
 import Bar from "./Bar.js";
-import { levelConfigInterface } from "../interfaces/dataInterfaces.js";
+import { BrickInterface, LevelConfigInterface } from "../types/utils.types.js";
 
 export default class Level {
   public ctx: CanvasRenderingContext2D;
@@ -63,7 +63,7 @@ export default class Level {
 
     //TODO: fix any
     (levelData.brickAttribs as any).forEach(function (
-      brick: { x: number; y: number; color: string; isBoss: boolean },
+      brick: BrickInterface,
       i: number
     ) {
       bricks[i] = new Brick(
@@ -84,7 +84,7 @@ export default class Level {
       removedBricks,
       superPowers,
       removedBalls,
-      bar
+      bar,
     };
   }
 
@@ -93,8 +93,7 @@ export default class Level {
     player: Player,
     removedBalls: Ball[],
     levelIndex: number
-  ): [levelConfigInterface, Ball[], Player, Ball[]] {
-
+  ): [LevelConfigInterface, Ball[], Player, Ball[]] {
     const levelConfig = getLevelData(
       this.canvas,
       new Brick(this.ctx, this.canvas, 1, 0, 0),
@@ -110,7 +109,7 @@ export default class Level {
     balls[0].dy = levelConfig.dy;
 
     //Player positions
-    player.xPosition = player.startPositionX; 
+    player.xPosition = player.startPositionX;
 
     return [levelConfig, balls, player, removedBalls];
   }
@@ -124,11 +123,15 @@ export default class Level {
     removedBalls: Ball[]
   ): [Brick[], Brick[], Ball[], Player, Ball[]] {
     const classContext = this;
-    let levelConfig: levelConfigInterface;
+    let levelConfig: LevelConfigInterface;
 
-    if(this.lives === 1){
-
-      [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, 1);
+    if (this.lives === 1) {
+      [levelConfig, balls, player, removedBalls] = this.resetCommonPart(
+        balls,
+        player,
+        removedBalls,
+        1
+      );
 
       //Bricks and score reset
       bricks.length = 0;
@@ -157,9 +160,14 @@ export default class Level {
       this.lives = 3;
       this.index = 1;
     } else {
-      [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, this.index);
+      [levelConfig, balls, player, removedBalls] = this.resetCommonPart(
+        balls,
+        player,
+        removedBalls,
+        this.index
+      );
 
-      this.lives = this.lives -1;
+      this.lives = this.lives - 1;
     }
 
     return [bricks, removedBricks, balls, player, removedBalls];
@@ -174,9 +182,14 @@ export default class Level {
     removedBalls: Ball[]
   ): [Brick[], Brick[], Ball[], Player, Ball[]] {
     const classContext = this;
-    let levelConfig: levelConfigInterface;
+    let levelConfig: LevelConfigInterface;
 
-    [levelConfig, balls, player, removedBalls] = this.resetCommonPart(balls, player, removedBalls, this.index + 1);
+    [levelConfig, balls, player, removedBalls] = this.resetCommonPart(
+      balls,
+      player,
+      removedBalls,
+      this.index + 1
+    );
 
     //Bricks
     removedBricks.length = 0;
@@ -266,7 +279,7 @@ export default class Level {
     // console.log("ACTIVE: " + bricks.length);
     //player won
     if (removedBricks.length === bricks.length) {
-      if(this.index === 5){
+      if (this.index === 5) {
         bar.draw(6, this.score, this.lives);
       }
       //add if player wins condition with different bricks, vectors, background
@@ -281,18 +294,23 @@ export default class Level {
 
     //update y vector on bricksCollision
     balls.forEach(function (ball) {
-      [classContext.dx, classContext.dy, superPowers, ball, classContext.score] =
-        brickCollisionDetection(
-          bricks,
-          ball.xPosition,
-          ball.yPosition,
-          classContext.dx,
-          classContext.dy,
-          classContext.ctx,
-          superPowers,
-          ball,
-          classContext.score
-        );
+      [
+        classContext.dx,
+        classContext.dy,
+        superPowers,
+        ball,
+        classContext.score,
+      ] = brickCollisionDetection(
+        bricks,
+        ball.xPosition,
+        ball.yPosition,
+        classContext.dx,
+        classContext.dy,
+        classContext.ctx,
+        superPowers,
+        ball,
+        classContext.score
+      );
 
       [
         classContext.dx,
@@ -301,7 +319,7 @@ export default class Level {
         superPowers,
         ball,
         removedBricks,
-        bricks
+        bricks,
       ] = borderCollisionDetection(
         canvas,
         ball.ballRadius,

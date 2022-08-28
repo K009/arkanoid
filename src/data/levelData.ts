@@ -1,19 +1,19 @@
 import Brick from "../classes/Brick.js";
 import {
-  bricksInterface,
-  levelConfigInterface,
-} from "../interfaces/dataInterfaces";
+  BrickInterface,
+  LevelConfigInterface,
+} from "../types/utils.types";
 
 function getLevelData(
   canvas: HTMLCanvasElement,
   brick: Brick,
   index: number
-): levelConfigInterface {
-  const brickAttribs1: bricksInterface[] = [];
-  const brickAttribs2: bricksInterface[] = [];
-  const brickAttribs3: bricksInterface[] = [];
-  const brickAttribs4: bricksInterface[] = [];
-  const brickAttribs5: bricksInterface[] = [];
+): LevelConfigInterface {
+  const brickAttribs1: BrickInterface[] = [];
+  const brickAttribs2: BrickInterface[] = [];
+  const brickAttribs3: BrickInterface[] = [];
+  const brickAttribs4: BrickInterface[] = [];
+  const brickAttribs5: BrickInterface[] = [];
   const verticalHelper = canvas.width / 60;
   const horizontalHelper = canvas.height / 12;
   const colorArray = [
@@ -107,11 +107,11 @@ function getLevelData(
   }
 
   //instead of ifs everywhere here, try to create an array and itarate through it like
-  let levelConfig: levelConfigInterface;
+  let levelConfig: LevelConfigInterface;
   let vectorX = [2, 3, -2, 3, 3];
   let vectorY = [-2, -1.75, -2.75, -1.75, -2];
   // let levelColors = ["yellow", "black", "blue"];
-  let brickAttribs: bricksInterface[][] = [
+  let brickAttribs: BrickInterface[][] = [
     brickAttribs1,
     brickAttribs2,
     brickAttribs3,

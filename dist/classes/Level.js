@@ -42,7 +42,7 @@ export default class Level {
             removedBricks,
             superPowers,
             removedBalls,
-            bar
+            bar,
         };
     }
     resetCommonPart(balls, player, removedBalls, levelIndex) {
@@ -146,8 +146,13 @@ export default class Level {
         }
         //update y vector on bricksCollision
         balls.forEach(function (ball) {
-            [classContext.dx, classContext.dy, superPowers, ball, classContext.score] =
-                brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, classContext.dx, classContext.dy, classContext.ctx, superPowers, ball, classContext.score);
+            [
+                classContext.dx,
+                classContext.dy,
+                superPowers,
+                ball,
+                classContext.score,
+            ] = brickCollisionDetection(bricks, ball.xPosition, ball.yPosition, classContext.dx, classContext.dy, classContext.ctx, superPowers, ball, classContext.score);
             [
                 classContext.dx,
                 classContext.dy,
@@ -155,7 +160,7 @@ export default class Level {
                 superPowers,
                 ball,
                 removedBricks,
-                bricks
+                bricks,
             ] = borderCollisionDetection(canvas, ball.ballRadius, ball.xPosition, ball.yPosition, player, classContext.dx, classContext.dy, classContext.isOver, superPowers, ball, removedBricks, bricks);
         });
         superPowerDetection(player, balls, superPowers, canvas, this.ctx);
