@@ -3,7 +3,6 @@ import Bar from "../classes/Bar";
 import Brick from "../classes/Brick";
 import Player from "../classes/Player";
 import SuperPowers from "../classes/SuperPowers";
-import Supervisor from "../classes/Supervisor";
 
 export enum BallType {
   PAP = 1,
@@ -40,24 +39,42 @@ export interface LevelController {
     keyRightPressed: boolean
 }
 
-export interface BrickCollisionElements {
-    bricks: Brick[],
-    ball: Ball
+export interface AllLevelElements {
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D,
+    keyLeftPressed: boolean,
+    keyRightPressed: boolean,
     dx: number,
     dy: number,
-    ctx: CanvasRenderingContext2D,
-    superPowers: SuperPowers,
+    bar: Bar,
+    player: Player,
+    balls: Ball[],
+    ball?: Ball,
+    removedBalls: Ball[],
+    bricks: Brick[],
+    removedBricks: Brick[],
+    superPowers: SuperPowers[],
     score: number
 }
 
-export interface BorderCollisionElements {
-    canvas: HTMLCanvasElement,
-    ball: Ball,
-    player: Player,
-    superPowers: SuperPowers[],
-    removedBricks: Brick[],
-    bricks: Brick[],
-    dx: number,
-    dy: number,
-    isOver: number
-}
+// export interface BrickCollisionElements {
+//     bricks: Brick[],
+//     ball: Ball
+//     dx: number,
+//     dy: number,
+//     ctx: CanvasRenderingContext2D,
+//     superPowers: SuperPowers,
+//     score: number
+// }
+
+// export interface BorderCollisionElements {
+//     canvas: HTMLCanvasElement,
+//     ball: Ball,
+//     player: Player,
+//     superPowers: SuperPowers[],
+//     removedBricks: Brick[],
+//     bricks: Brick[],
+//     dx: number,
+//     dy: number,
+//     isOver: number
+// }

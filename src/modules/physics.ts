@@ -1,29 +1,28 @@
 import AudioController from "../classes/AudioController.js";
 import Ball from "../classes/Ball.js";
-import Brick from "../classes/Brick.js";
-import Player from "../classes/Player.js";
 import SuperPowers from "../classes/SuperPowers.js";
+import { AllLevelElements } from "../types/utils.types.js";
 //RESTORE SOUNDS!!! BUT REMOVE THEM FROM SITE AFTER BEING PLAYED (NOW ITS LAGGING IF THERE ARE TOO MANY OF THEM)
 export function brickCollisionDetection(
-  bricks: Brick[],
-  ballX: number,
-  ballY: number,
-  dx: number,
-  dy: number,
-  ctx: CanvasRenderingContext2D,
-  superPowers: SuperPowers[],
-  ball: Ball,
-  score: number
-): [number, number, SuperPowers[], Ball, number] {
+  allLevelElements: AllLevelElements
+): AllLevelElements {
+  let {
+    bricks,
+    superPowers,
+    ball,
+    ctx,
+    score
+  }: AllLevelElements = allLevelElements;
+
   for (let r = 0; r < bricks.length; r++) {
     const brick = bricks[r];
     if (brick.status == 1) {
       // up&&down collision
       if (
-        ballX > brick.xPosition &&
-        ballX < brick.xPosition + brick.width &&
-        ballY > brick.yPosition &&
-        ballY < brick.yPosition + brick.height
+        ball.xPosition > brick.xPosition &&
+        ball.xPosition < brick.xPosition + brick.width &&
+        ball.yPosition > brick.yPosition &&
+        ball.yPosition < brick.yPosition + brick.height
       ) {
        // const play: AudioController = new AudioController();
         const randomFactor = Math.floor(Math.random() * 10);
@@ -46,10 +45,10 @@ export function brickCollisionDetection(
       }
       // left&&right collision
       else if (
-        ballX > brick.xPosition - 3 &&
-        ballX < brick.xPosition + brick.width + 3 &&
-        ballY > brick.yPosition &&
-        ballY < brick.yPosition + brick.height
+        ball.xPosition > brick.xPosition - 3 &&
+        ball.xPosition < brick.xPosition + brick.width + 3 &&
+        ball.yPosition > brick.yPosition &&
+        ball.yPosition < brick.yPosition + brick.height
       ) {
        // const play: AudioController = new AudioController();
         const randomFactor = Math.floor(Math.random() * 10);
@@ -66,35 +65,33 @@ export function brickCollisionDetection(
     }
   }
 
-  
-  return [dx, dy, superPowers, ball, score];
+  allLevelElements["score"] = score;
+  return allLevelElements;
 }
 
 export function borderCollisionDetection(
-  canvas: HTMLCanvasElement,
-  ballRadius: number,
-  ballX: number,
-  ballY: number,
-  player: Player,
-  dx: number,
-  dy: number,
-  isOver: number,
-  superPowers: SuperPowers[],
-  ball: Ball,
-  removedBricks: Brick[],
-  bricks: Brick[]
-): [number, number, number, SuperPowers[], Ball, Brick[], Brick[]] {
+  allLevelElements: AllLevelElements
+): AllLevelElements {
+  let {
+    bricks,
+    superPowers,
+    ball,
+    canvas,
+    removedBricks,
+    player
+  }: AllLevelElements = allLevelElements;
+
   if (
-    ballX + ball.dx > canvas.width - ballRadius ||
-    ballX + ball.dx < ballRadius
+    ball.xPosition + ball.dx > canvas.width - ball.ballRadius ||
+    ball.xPosition + ball.dx < ball.ballRadius
   ) {
     ball.dx = -ball.dx;
     //to make it harder we can put * 1.05
   }
-  if (ballY + ball.dy < ballRadius) {
+  if (ball.yPosition + ball.dy < ball.ballRadius) {
     ball.dy = -ball.dy;
-  } else if (ballY + ball.dy > canvas.height - player.height - 2) { //ballRadius * 3
-    if (ballX > player.xPosition - 2 && ballX < player.xPosition + player.width + 2) { //little margin
+  } else if (ball.yPosition + ball.dy > canvas.height - player.height - 2) { //ballRadius * 3
+    if (ball.xPosition > player.xPosition - 2 && ball.xPosition < player.xPosition + player.width + 2) { //little margin
      // if ((ballY = ballY - player.height)) {
        // const play: AudioController = new AudioController();
           // AUTO_AIM MODE
@@ -124,17 +121,17 @@ export function borderCollisionDetection(
               ball.dx = -Math.sign(ball.dx) * 2;
             }
       }
-    } else if (ballY > canvas.height + ballRadius + 2) {
+    } else if (ball.yPosition > canvas.height + ball.ballRadius + 2) {
       ball.status = 0;
       //isOver = 1;
     }
   }
   //fix regarding ball getting into the player
    if (
-    ballX > player.xPosition - 3 &&
-    ballX < player.xPosition + player.width + 3 &&
-    ballY > canvas.height - player.height &&
-    ballY < canvas.height
+    ball.xPosition > player.xPosition - 3 &&
+    ball.xPosition < player.xPosition + player.width + 3 &&
+    ball.yPosition > canvas.height - player.height &&
+    ball.yPosition < canvas.height
   ) {
     ball.dy = -ball.dy;
     ball.dx = -ball.dx;
@@ -145,17 +142,20 @@ export function borderCollisionDetection(
       superPower.status = 0;
     }
   });
-  return [dx, dy, isOver, superPowers, ball, removedBricks, bricks];
+
+  return allLevelElements;
 }
 
 export function superPowerDetection(
-  player: Player,
-  balls: Ball[],
-  superPowers: SuperPowers[],
-  canvas: HTMLCanvasElement,
-  ctx: CanvasRenderingContext2D
-): Ball[] {
-  const classContext = this;
+  allLevelElements: AllLevelElements
+): AllLevelElements {
+  let {
+    balls,
+    superPowers,
+    canvas,
+    player,
+    ctx
+  }: AllLevelElements = allLevelElements;
   
   superPowers.forEach(function (superPower) {
     if (superPower.status === 1) {
@@ -220,5 +220,5 @@ export function superPowerDetection(
       }
     }
   });
-  return balls;
+  return allLevelElements;
 }
