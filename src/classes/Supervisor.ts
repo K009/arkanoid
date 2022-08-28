@@ -1,3 +1,4 @@
+import { LevelController, LevelElements } from "../types/utils.types.js";
 import Level from "./Level.js";
 
 export default class Supervisor {
@@ -27,15 +28,11 @@ export default class Supervisor {
       this.barCtx,
       1
     );
-    const {
-      player,
-      balls,
-      bricks,
-      removedBricks,
-      superPowers,
-      removedBalls,
-      bar
-    } = levelOne.initialDraw();
+    let levelController: LevelController;
+    let levelElements: LevelElements;
+    let canvas = this.canvas;
+
+    levelElements= levelOne.initialDraw();
 
     //consider moving keyControl to seperate function / file
     let keyLeftPressed: boolean = false;
@@ -59,20 +56,16 @@ export default class Supervisor {
         keyLeftPressed = false;
       }
     }
-
     setInterval(() => {
-      levelOne.drawScene(
-        this.canvas,
+      levelController = {
+        canvas,
         keyLeftPressed,
-        keyRightPressed,
-        player,
-        balls,
-        bricks,
-        removedBricks,
-        this,
-        superPowers,
-        removedBalls,
-        bar
+        keyRightPressed
+      }
+
+      levelOne.drawScene(
+        levelElements,
+        levelController
       );
     }, 10);
   }

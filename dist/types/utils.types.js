@@ -1,5 +1,5 @@
 export var BallType;
 (function (BallType) {
-    BallType[BallType["SMS"] = 1] = "SMS";
-    BallType[BallType["EMAIL"] = 2] = "EMAIL";
+    BallType[BallType["PAP"] = 1] = "PAP";
+    BallType[BallType["RAP"] = 2] = "RAP";
 })(BallType || (BallType = {}));

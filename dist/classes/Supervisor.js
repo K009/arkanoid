@@ -9,7 +9,10 @@ export default class Supervisor {
     startGame() {
         //superPowers seems to look wrong on level 4
         const levelOne = new Level(this.ctx, this.canvas, this.barCanvas, this.barCtx, 1);
-        const { player, balls, bricks, removedBricks, superPowers, removedBalls, bar } = levelOne.initialDraw();
+        let levelController;
+        let levelElements;
+        let canvas = this.canvas;
+        levelElements = levelOne.initialDraw();
         //consider moving keyControl to seperate function / file
         let keyLeftPressed = false;
         let keyRightPressed = false;
@@ -32,7 +35,12 @@ export default class Supervisor {
             }
         }
         setInterval(() => {
-            levelOne.drawScene(this.canvas, keyLeftPressed, keyRightPressed, player, balls, bricks, removedBricks, this, superPowers, removedBalls, bar);
+            levelController = {
+                canvas,
+                keyLeftPressed,
+                keyRightPressed
+            };
+            levelOne.drawScene(levelElements, levelController);
         }, 10);
     }
 }
