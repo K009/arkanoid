@@ -1,9 +1,10 @@
+import Graphic from "./classes/Graphic.js";
 import Supervisor from "./classes/Supervisor.js";
 
-const canvas: HTMLCanvasElement = <HTMLCanvasElement>(
+const gameCanvas: HTMLCanvasElement = <HTMLCanvasElement>(
   document.getElementById("myCanvas")
 );
-const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+const gameCtx: CanvasRenderingContext2D = gameCanvas.getContext("2d");
 
 const barCanvas: HTMLCanvasElement = <HTMLCanvasElement>(
   document.getElementById("bar")
@@ -11,11 +12,21 @@ const barCanvas: HTMLCanvasElement = <HTMLCanvasElement>(
 const barCtx: CanvasRenderingContext2D = barCanvas.getContext("2d");
 
 //positions' of all game elements are calculated based on below variables
-canvas.width = window.innerWidth / 1.5;
-canvas.height = canvas.width / 2;
+gameCanvas.width = window.innerWidth / 1.5;
+gameCanvas.height = gameCanvas.width / 2;
 
 barCanvas.width = window.innerWidth / 1.5;
 barCanvas.height = barCanvas.width / 10;
 
-const superVisor: Supervisor = new Supervisor(canvas, ctx, barCanvas, barCtx);
+const gameScreen: Graphic = new Graphic();
+const barGraphic: Graphic = new Graphic();
+
+gameScreen.setCanvas(gameCanvas);
+gameScreen.setCtx(gameCtx);
+
+barGraphic.setCanvas(barCanvas);
+barGraphic.setCtx(barCtx);
+
+const superVisor: Supervisor = new Supervisor(gameScreen, barGraphic);
+
 superVisor.startGame();

@@ -1,6 +1,7 @@
 import Ball from "../classes/Ball";
 import Bar from "../classes/Bar";
 import Brick from "../classes/Brick";
+import Graphic from "../classes/Graphic";
 import Player from "../classes/Player";
 import SuperPowers from "../classes/SuperPowers";
 
@@ -34,13 +35,13 @@ export interface LevelElements {
 }
 
 export interface LevelController {
-    canvas: HTMLCanvasElement,
+    gameScreen: Graphic,
     keyLeftPressed: boolean,
     keyRightPressed: boolean
 }
 
 export interface AllLevelElements {
-    canvas: HTMLCanvasElement,
+    gameScreen: Graphic,
     ctx: CanvasRenderingContext2D,
     keyLeftPressed: boolean,
     keyRightPressed: boolean,

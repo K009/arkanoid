@@ -1,17 +1,15 @@
 import Level from "./Level.js";
 export default class Supervisor {
-    constructor(canvas, ctx, barCanvas, barCtx) {
-        this.canvas = canvas;
-        this.ctx = ctx;
-        this.barCanvas = barCanvas;
-        this.barCtx = barCtx;
+    constructor(gameScreen, barGraphic) {
+        this.gameScreen = gameScreen;
+        this.barGraphic = barGraphic;
     }
     startGame() {
         //superPowers seems to look wrong on level 4
-        const levelOne = new Level(this.ctx, this.canvas, this.barCanvas, this.barCtx, 1);
+        const levelOne = new Level(this.gameScreen, this.barGraphic, 2);
         let levelController;
         let levelElements;
-        let canvas = this.canvas;
+        let gameScreen = this.gameScreen;
         levelElements = levelOne.initialDraw();
         //consider moving keyControl to seperate function / file
         let keyLeftPressed = false;
@@ -36,7 +34,7 @@ export default class Supervisor {
         }
         setInterval(() => {
             levelController = {
-                canvas,
+                gameScreen,
                 keyLeftPressed,
                 keyRightPressed
             };

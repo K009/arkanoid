@@ -47,7 +47,8 @@ export function brickCollisionDetection(allLevelElements) {
     return allLevelElements;
 }
 export function borderCollisionDetection(allLevelElements) {
-    let { bricks, superPowers, ball, canvas, removedBricks, player } = allLevelElements;
+    let { bricks, superPowers, ball, gameScreen, removedBricks, player } = allLevelElements;
+    let canvas = gameScreen.getCanvas();
     if (ball.xPosition + ball.dx > canvas.width - ball.ballRadius ||
         ball.xPosition + ball.dx < ball.ballRadius) {
         ball.dx = -ball.dx;
@@ -105,7 +106,8 @@ export function borderCollisionDetection(allLevelElements) {
     return allLevelElements;
 }
 export function superPowerDetection(allLevelElements) {
-    let { balls, superPowers, canvas, player, ctx } = allLevelElements;
+    let { balls, superPowers, gameScreen, player, ctx } = allLevelElements;
+    let canvas = gameScreen.getCanvas();
     superPowers.forEach(function (superPower) {
         if (superPower.status === 1) {
             if ((superPower.xPosition > player.xPosition &&

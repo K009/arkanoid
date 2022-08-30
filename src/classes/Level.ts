@@ -16,12 +16,11 @@ import {
   LevelController,
   LevelElements,
 } from "../types/utils.types.js";
+import Graphic from "./Graphic.js";
 
 export default class Level {
-  public ctx: CanvasRenderingContext2D;
-  public canvas: HTMLCanvasElement;
-  public barCtx: CanvasRenderingContext2D;
-  public barCanvas: HTMLCanvasElement;
+  public gameScreen: Graphic;
+  public barGraphic: Graphic;
   public dx: number; //x vector of ball movement
   public dy: number; //y vector of ball movement
   public isOver: number = 0; //change it to boolean in the future
@@ -31,17 +30,9 @@ export default class Level {
 
   protected color: string;
 
-  constructor(
-    ctx: CanvasRenderingContext2D,
-    canvas: HTMLCanvasElement,
-    barCanvas: HTMLCanvasElement,
-    barCtx: CanvasRenderingContext2D,
-    index: number
-  ) {
-    this.ctx = ctx;
-    this.canvas = canvas;
-    this.barCanvas = barCanvas;
-    this.barCtx = barCtx;
+  constructor(gameScreen: Graphic, barGraphic: Graphic, index: number) {
+    this.gameScreen = gameScreen;
+    this.barGraphic = barGraphic;
     this.index = index;
     this.score = 0;
     this.lives = 3;
@@ -50,19 +41,35 @@ export default class Level {
   //here define objects
   initialDraw() {
     const classContext = this;
-    const player: Player = new Player(this.ctx, this.canvas);
+    const player: Player = new Player(
+      this.gameScreen.getCtx(),
+      this.gameScreen.getCanvas()
+    );
     const balls: Ball[] = [];
     const removedBalls: Ball[] = [];
-    balls[0] = new Ball(this.ctx, this.canvas);
+    balls[0] = new Ball(this.gameScreen.getCtx(), this.gameScreen.getCanvas());
 
     const bricks: Brick[] = [];
     const removedBricks: Brick[] = [];
-    const probeBrick: Brick = new Brick(this.ctx, this.canvas, 1, 0, 0);
+    const probeBrick: Brick = new Brick(
+      this.gameScreen.getCtx(),
+      this.gameScreen.getCanvas(),
+      1,
+      0,
+      0
+    );
 
-    const bar: Bar = new Bar(this.barCtx, this.barCanvas);
+    const bar: Bar = new Bar(
+      this.barGraphic.getCtx(),
+      this.barGraphic.getCanvas()
+    );
     const superPowers: SuperPowers[] = [];
 
-    const levelData = getLevelData(this.canvas, probeBrick, this.index);
+    const levelData = getLevelData(
+      this.gameScreen.getCanvas(),
+      probeBrick,
+      this.index
+    );
 
     balls[0].dx = levelData.dx;
     balls[0].dy = levelData.dy;
@@ -70,8 +77,8 @@ export default class Level {
 
     levelData.brickAttribs.forEach(function (brick: BrickInterface, i: number) {
       bricks[i] = new Brick(
-        classContext.ctx,
-        classContext.canvas,
+        classContext.gameScreen.getCtx(),
+        classContext.gameScreen.getCanvas(),
         1,
         brick.x,
         brick.y,
@@ -87,7 +94,7 @@ export default class Level {
       removedBricks,
       superPowers,
       removedBalls,
-      bar
+      bar,
     };
 
     return levelElements;
@@ -100,8 +107,8 @@ export default class Level {
     levelIndex: number
   ): [LevelConfigInterface, Ball[], Player, Ball[]] {
     const levelConfig = getLevelData(
-      this.canvas,
-      new Brick(this.ctx, this.canvas, 1, 0, 0),
+      this.gameScreen.getCanvas(),
+      new Brick(this.gameScreen.getCtx(), this.gameScreen.getCanvas(), 1, 0, 0),
       levelIndex
     );
 
@@ -109,7 +116,7 @@ export default class Level {
     balls.length = 0;
     removedBalls.length = 0;
 
-    balls[0] = new Ball(this.ctx, this.canvas);
+    balls[0] = new Ball(this.gameScreen.getCtx(), this.gameScreen.getCanvas());
     balls[0].dx = levelConfig.dx;
     balls[0].dy = levelConfig.dy;
 
@@ -124,13 +131,8 @@ export default class Level {
     const classContext = this;
     let levelConfig: LevelConfigInterface;
 
-    let {
-      player,
-      balls,
-      removedBalls,
-      bricks,
-      removedBricks
-    }: LevelElements = levelElements;
+    let { player, balls, removedBalls, bricks, removedBricks }: LevelElements =
+      levelElements;
 
     if (this.lives === 1) {
       [levelConfig, balls, player, removedBalls] = this.resetCommonPart(
@@ -154,8 +156,8 @@ export default class Level {
         i: number
       ) {
         bricks[i] = new Brick(
-          classContext.ctx,
-          classContext.canvas,
+          classContext.gameScreen.getCtx(),
+          classContext.gameScreen.getCanvas(),
           1,
           brick.x,
           brick.y,
@@ -185,13 +187,8 @@ export default class Level {
     const classContext = this;
     let levelConfig: LevelConfigInterface;
 
-    let {
-      player,
-      balls,
-      removedBalls,
-      bricks,
-      removedBricks
-    }: LevelElements = levelElements;
+    let { player, balls, removedBalls, bricks, removedBricks }: LevelElements =
+      levelElements;
 
     [levelConfig, balls, player, removedBalls] = this.resetCommonPart(
       balls,
@@ -213,8 +210,7 @@ export default class Level {
       i: number
     ) {
       bricks[i] = new Brick(
-        classContext.ctx,
-        classContext.canvas,
+        classContext.gameScreen.getCtx(), classContext.gameScreen.getCanvas(),
         1,
         brick.x,
         brick.y,
@@ -240,13 +236,13 @@ export default class Level {
       bar,
     }: LevelElements = levelElements;
 
-    let { canvas, keyLeftPressed, keyRightPressed }: LevelController =
+    let { gameScreen, keyLeftPressed, keyRightPressed }: LevelController =
       levelController;
 
     let dx = this.dx;
     let dy = this.dy;
     let score = this.score;
-    let ctx = this.ctx;
+    let ctx = this.gameScreen.getCtx()
 
     let allLevelElements: AllLevelElements = {
       ...levelElements,
@@ -254,11 +250,11 @@ export default class Level {
       dx,
       dy,
       score,
-      ctx
+      ctx,
     };
 
     //clearing the scene
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.gameScreen.getCtx().clearRect(0, 0, this.gameScreen.getCanvas().width, this.gameScreen.getCanvas().height);
     bar.draw(this.index, this.score, this.lives);
     player.draw();
     balls.forEach(function (ball) {
@@ -322,8 +318,8 @@ export default class Level {
         player.direction = "none";
       }, 1000);
 
-      if (player.xPosition + player.width > canvas.width) {
-        player.xPosition = canvas.width - player.width;
+      if (player.xPosition + player.width > this.gameScreen.getCanvas().width) {
+        player.xPosition = this.gameScreen.getCanvas().width - player.width;
       }
     } else if (keyLeftPressed) {
       player.xPosition -= player.velocity;

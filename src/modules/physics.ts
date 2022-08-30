@@ -76,10 +76,12 @@ export function borderCollisionDetection(
     bricks,
     superPowers,
     ball,
-    canvas,
+    gameScreen,
     removedBricks,
     player
   }: AllLevelElements = allLevelElements;
+
+  let canvas = gameScreen.getCanvas();
 
   if (
     ball.xPosition + ball.dx > canvas.width - ball.ballRadius ||
@@ -152,11 +154,13 @@ export function superPowerDetection(
   let {
     balls,
     superPowers,
-    canvas,
+    gameScreen,
     player,
     ctx
   }: AllLevelElements = allLevelElements;
   
+  let canvas = gameScreen.getCanvas();
+
   superPowers.forEach(function (superPower) {
     if (superPower.status === 1) {
       if (
