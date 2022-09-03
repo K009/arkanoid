@@ -1,29 +1,14 @@
-import { LevelController, LevelElements } from "../types/utils.types.js";
-import Graphic from "./Graphic.js";
+import { PlayerController, LevelElements } from "../types/utils.types.js";
 import Level from "./Level.js";
 
 export default class Supervisor {
-  public gameScreen: Graphic;
-  public barGraphic: Graphic;
-
-  constructor(
-    gameScreen: Graphic,
-    barGraphic: Graphic
-  ) {
-    this.gameScreen = gameScreen;
-    this.barGraphic = barGraphic;
-  }
+  constructor() { }
 
   startGame() {
     //superPowers seems to look wrong on level 4
-    const levelOne: Level = new Level(
-      this.gameScreen,
-      this.barGraphic,
-      2
-    );
-    let levelController: LevelController;
+    const levelOne: Level = new Level(2);
+    let playerController: PlayerController;
     let levelElements: LevelElements;
-    let gameScreen = this.gameScreen;
 
     levelElements= levelOne.initialDraw();
 
@@ -49,16 +34,15 @@ export default class Supervisor {
         keyLeftPressed = false;
       }
     }
+
     setInterval(() => {
-      levelController = {
-        gameScreen,
+      playerController = {
         keyLeftPressed,
         keyRightPressed
       }
-
       levelOne.drawScene(
         levelElements,
-        levelController
+        playerController
       );
     }, 10);
   }

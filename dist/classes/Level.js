@@ -4,33 +4,58 @@ import Ball from "./Ball.js";
 import Brick from "./Brick.js";
 import Player from "./Player.js";
 import Bar from "./Bar.js";
+import Graphic from "./Graphic.js";
+// Basically what this class should do?
+// For now it:
+// Draws the level, redraw it, move the game to the next level
+// Calls other functions such as physics ones 
+// Store score, lives, balls vectors
+// Maybe leaving canvas and ctx (of the game!) as a class attributes is a good idea here
 export default class Level {
-    constructor(gameScreen, barGraphic, index) {
+    constructor(index) {
+        // public dx: number; //x vector of ball movement
+        // public dy: number; //y vector of ball movement
         this.isOver = 0; //change it to boolean in the future
-        this.gameScreen = gameScreen;
-        this.barGraphic = barGraphic;
         this.index = index;
         this.score = 0;
         this.lives = 3;
     }
-    //here define objects
+    // here define objects
+    // and distribute canvas elements everywhere
     initialDraw() {
-        const classContext = this;
-        const player = new Player(this.gameScreen.getCtx(), this.gameScreen.getCanvas());
+        // New part
+        const gameCanvas = (document.getElementById("myCanvas"));
+        const gameCtx = gameCanvas.getContext("2d");
+        const barCanvas = (document.getElementById("bar"));
+        const barCtx = barCanvas.getContext("2d");
+        //positions' of all game elements are calculated based on below variables
+        gameCanvas.width = window.innerWidth / 1.5;
+        gameCanvas.height = gameCanvas.width / 2;
+        barCanvas.width = window.innerWidth / 1.5;
+        barCanvas.height = barCanvas.width / 10;
+        const gameScreen = new Graphic();
+        const barGraphic = new Graphic();
+        gameScreen.setCanvas(gameCanvas);
+        gameScreen.setCtx(gameCtx);
+        barGraphic.setCanvas(barCanvas);
+        barGraphic.setCtx(barCtx);
+        this.gameScreen = gameScreen;
+        // Old part
+        const player = new Player(gameScreen.getCtx(), gameScreen.getCanvas());
         const balls = [];
         const removedBalls = [];
-        balls[0] = new Ball(this.gameScreen.getCtx(), this.gameScreen.getCanvas());
+        balls[0] = new Ball(gameScreen.getCtx(), gameScreen.getCanvas());
         const bricks = [];
         const removedBricks = [];
-        const probeBrick = new Brick(this.gameScreen.getCtx(), this.gameScreen.getCanvas(), 1, 0, 0);
-        const bar = new Bar(this.barGraphic.getCtx(), this.barGraphic.getCanvas());
+        const probeBrick = new Brick(gameScreen.getCtx(), gameScreen.getCanvas(), 1, 0, 0);
+        const bar = new Bar(barGraphic.getCtx(), barGraphic.getCanvas());
         const superPowers = [];
-        const levelData = getLevelData(this.gameScreen.getCanvas(), probeBrick, this.index);
+        const levelData = getLevelData(gameScreen.getCanvas(), probeBrick, this.index);
         balls[0].dx = levelData.dx;
         balls[0].dy = levelData.dy;
         player.color = levelData.playerColor;
         levelData.brickAttribs.forEach(function (brick, i) {
-            bricks[i] = new Brick(classContext.gameScreen.getCtx(), classContext.gameScreen.getCanvas(), 1, brick.x, brick.y, brick.color, brick.isBoss);
+            bricks[i] = new Brick(gameScreen.getCtx(), gameScreen.getCanvas(), 1, brick.x, brick.y, brick.color, brick.isBoss);
         });
         let levelElements = {
             player,
@@ -42,6 +67,8 @@ export default class Level {
             bar,
         };
         return levelElements;
+        // maybe this approach is better
+        // this.drawScene(levelElements);
     }
     resetCommonPart(balls, player, removedBalls, levelIndex) {
         const levelConfig = getLevelData(this.gameScreen.getCanvas(), new Brick(this.gameScreen.getCtx(), this.gameScreen.getCanvas(), 1, 0, 0), levelIndex);
@@ -99,16 +126,14 @@ export default class Level {
         this.index += 1;
         return levelElements;
     }
-    drawScene(levelElements, levelController) {
+    drawScene(levelElements, playerController) {
         const classContext = this;
         let { player, balls, removedBalls, bricks, removedBricks, superPowers, bar, } = levelElements;
-        let { gameScreen, keyLeftPressed, keyRightPressed } = levelController;
-        let dx = this.dx;
-        let dy = this.dy;
+        let { keyLeftPressed, keyRightPressed } = playerController;
         let score = this.score;
         let ctx = this.gameScreen.getCtx();
-        let allLevelElements = Object.assign(Object.assign(Object.assign({}, levelElements), levelController), { dx,
-            dy,
+        let gameScreen = this.gameScreen;
+        let allLevelElements = Object.assign(Object.assign(Object.assign({}, levelElements), playerController), { gameScreen,
             score,
             ctx });
         //clearing the scene

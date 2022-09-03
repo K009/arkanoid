@@ -13,60 +13,96 @@ import {
   AllLevelElements,
   BrickInterface,
   LevelConfigInterface,
-  LevelController,
   LevelElements,
+  PlayerController,
 } from "../types/utils.types.js";
 import Graphic from "./Graphic.js";
 
+// Basically what this class should do?
+// For now it:
+// Draws the level, redraw it, move the game to the next level
+// Calls other functions such as physics ones 
+// Store score, lives, balls vectors
+
+// Maybe leaving canvas and ctx (of the game!) as a class attributes is a good idea here
+
 export default class Level {
-  public gameScreen: Graphic;
-  public barGraphic: Graphic;
-  public dx: number; //x vector of ball movement
-  public dy: number; //y vector of ball movement
+  // public dx: number; //x vector of ball movement
+  // public dy: number; //y vector of ball movement
   public isOver: number = 0; //change it to boolean in the future
   public index: number; //which level
   public score: number;
   public lives: number;
+  public gameScreen: Graphic;
 
   protected color: string;
 
-  constructor(gameScreen: Graphic, barGraphic: Graphic, index: number) {
-    this.gameScreen = gameScreen;
-    this.barGraphic = barGraphic;
+  constructor(index: number) {
     this.index = index;
     this.score = 0;
     this.lives = 3;
   }
 
-  //here define objects
+  // here define objects
+  // and distribute canvas elements everywhere
   initialDraw() {
-    const classContext = this;
+    // New part
+    const gameCanvas: HTMLCanvasElement = <HTMLCanvasElement>(
+      document.getElementById("myCanvas")
+    );
+    const gameCtx: CanvasRenderingContext2D = gameCanvas.getContext("2d");
+    
+    const barCanvas: HTMLCanvasElement = <HTMLCanvasElement>(
+      document.getElementById("bar")
+    );
+    const barCtx: CanvasRenderingContext2D = barCanvas.getContext("2d");
+    
+    //positions' of all game elements are calculated based on below variables
+    gameCanvas.width = window.innerWidth / 1.5;
+    gameCanvas.height = gameCanvas.width / 2;
+    
+    barCanvas.width = window.innerWidth / 1.5;
+    barCanvas.height = barCanvas.width / 10;
+    
+    const gameScreen: Graphic = new Graphic();
+    const barGraphic: Graphic = new Graphic();
+    
+    gameScreen.setCanvas(gameCanvas);
+    gameScreen.setCtx(gameCtx);
+    
+    barGraphic.setCanvas(barCanvas);
+    barGraphic.setCtx(barCtx);
+
+    this.gameScreen = gameScreen;
+
+
+    // Old part
     const player: Player = new Player(
-      this.gameScreen.getCtx(),
-      this.gameScreen.getCanvas()
+      gameScreen.getCtx(),
+      gameScreen.getCanvas()
     );
     const balls: Ball[] = [];
     const removedBalls: Ball[] = [];
-    balls[0] = new Ball(this.gameScreen.getCtx(), this.gameScreen.getCanvas());
+    balls[0] = new Ball(gameScreen.getCtx(), gameScreen.getCanvas());
 
     const bricks: Brick[] = [];
     const removedBricks: Brick[] = [];
     const probeBrick: Brick = new Brick(
-      this.gameScreen.getCtx(),
-      this.gameScreen.getCanvas(),
+      gameScreen.getCtx(),
+      gameScreen.getCanvas(),
       1,
       0,
       0
     );
 
     const bar: Bar = new Bar(
-      this.barGraphic.getCtx(),
-      this.barGraphic.getCanvas()
+      barGraphic.getCtx(),
+      barGraphic.getCanvas()
     );
     const superPowers: SuperPowers[] = [];
 
     const levelData = getLevelData(
-      this.gameScreen.getCanvas(),
+      gameScreen.getCanvas(),
       probeBrick,
       this.index
     );
@@ -77,8 +113,8 @@ export default class Level {
 
     levelData.brickAttribs.forEach(function (brick: BrickInterface, i: number) {
       bricks[i] = new Brick(
-        classContext.gameScreen.getCtx(),
-        classContext.gameScreen.getCanvas(),
+        gameScreen.getCtx(),
+        gameScreen.getCanvas(),
         1,
         brick.x,
         brick.y,
@@ -98,6 +134,9 @@ export default class Level {
     };
 
     return levelElements;
+
+    // maybe this approach is better
+    // this.drawScene(levelElements);
   }
 
   resetCommonPart(
@@ -210,7 +249,8 @@ export default class Level {
       i: number
     ) {
       bricks[i] = new Brick(
-        classContext.gameScreen.getCtx(), classContext.gameScreen.getCanvas(),
+        classContext.gameScreen.getCtx(),
+        classContext.gameScreen.getCanvas(),
         1,
         brick.x,
         brick.y,
@@ -223,7 +263,7 @@ export default class Level {
     return levelElements;
   }
 
-  drawScene(levelElements: LevelElements, levelController: LevelController) {
+  drawScene(levelElements: LevelElements, playerController: PlayerController) {
     const classContext = this;
 
     let {
@@ -236,19 +276,16 @@ export default class Level {
       bar,
     }: LevelElements = levelElements;
 
-    let { gameScreen, keyLeftPressed, keyRightPressed }: LevelController =
-      levelController;
-
-    let dx = this.dx;
-    let dy = this.dy;
+    let { keyLeftPressed, keyRightPressed }: PlayerController =
+    playerController;
     let score = this.score;
     let ctx = this.gameScreen.getCtx()
+    let gameScreen = this.gameScreen;
 
     let allLevelElements: AllLevelElements = {
       ...levelElements,
-      ...levelController,
-      dx,
-      dy,
+      ...playerController,
+      gameScreen,
       score,
       ctx,
     };

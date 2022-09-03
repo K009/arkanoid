@@ -34,8 +34,7 @@ export interface LevelElements {
     bar: Bar
 }
 
-export interface LevelController {
-    gameScreen: Graphic,
+export interface PlayerController {
     keyLeftPressed: boolean,
     keyRightPressed: boolean
 }
@@ -45,8 +44,6 @@ export interface AllLevelElements {
     ctx: CanvasRenderingContext2D,
     keyLeftPressed: boolean,
     keyRightPressed: boolean,
-    dx: number,
-    dy: number,
     bar: Bar,
     player: Player,
     balls: Ball[],
